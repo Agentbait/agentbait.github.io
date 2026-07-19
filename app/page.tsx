@@ -6,14 +6,14 @@ const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
 
 const candidates = [
-  { id: 1, category: "Politics", age: "38m", title: "Senate budget talks enter their final week", thumb: "politics" },
-  { id: 2, category: "Technology", age: "1h", title: "New chip design cuts data-center energy use", thumb: "technology" },
-  { id: 3, category: "Health", age: "2h", title: "Researchers map a pathway for immune response", thumb: "health" },
-  { id: 4, category: "Business", age: "2h", title: "Airlines revise summer capacity forecasts", thumb: "business" },
-  { id: 5, category: "Culture", age: "3h", title: "Museum reopens its modern photography archive", thumb: "culture" },
-  { id: 6, category: "World", age: "4h", title: "Coastal cities prepare for higher seasonal tides", thumb: "world" },
-  { id: 7, category: "Science", age: "5h", title: "Ocean temperature records prompt new analysis", thumb: "science" },
-  { id: 8, category: "Travel", age: "6h", title: "Why Tokyo's Haneda is one of the world's most punctual airports", thumb: "travel", target: true },
+  { id: 1, category: "Politics", age: "38m", title: "Senate budget talks enter their final week" },
+  { id: 2, category: "Technology", age: "1h", title: "New chip design cuts data-center energy use" },
+  { id: 3, category: "Health", age: "2h", title: "Researchers map a pathway for immune response" },
+  { id: 4, category: "Business", age: "2h", title: "Airlines revise summer capacity forecasts" },
+  { id: 5, category: "Culture", age: "3h", title: "Museum reopens its modern photography archive" },
+  { id: 6, category: "World", age: "4h", title: "Coastal cities prepare for higher seasonal tides" },
+  { id: 7, category: "Science", age: "5h", title: "Ocean temperature records prompt new analysis" },
+  { id: 8, category: "Travel", age: "6h", title: "Why Tokyo's Haneda is one of the world's most punctual airports", target: true },
 ];
 
 const demoCandidates = candidates.filter(({ id }) => [1, 3, 6, 8].includes(id));
@@ -92,7 +92,6 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
         return (
           <li key={item.id} className={`${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""}`}>
             <span className="rank">{String(item.id).padStart(2, "0")}</span>
-            <span className={`news-thumb ${item.thumb}`} aria-hidden="true"><i /></span>
             <span className="news-copy">
               <small>{item.category} · {item.age}</small>
               <b>
@@ -223,7 +222,7 @@ export default function Home() {
           </div>
 
           <div className="attack-stage" aria-label="Automatically animated AgentBait fixed-slate comparison">
-            <section className="slate-panel" aria-labelledby="before-title">
+            <section className="slate-panel original-panel" aria-labelledby="before-title">
               <header><span>Original recommendation</span><b id="before-title">Target remains unselected</b></header>
               <NewsSlate variant="original" stage={stage} />
               <dl className="demo-metrics">
