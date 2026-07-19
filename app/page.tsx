@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
@@ -104,19 +104,50 @@ function NewsSlate({ attacked, stage }: { attacked: boolean; stage: AttackStage 
 export default function Home() {
   const [stage, setStage] = useState<AttackStage>("idle");
   const [copied, setCopied] = useState(false);
-  const running = stage !== "idle" && stage !== "complete";
+  const demoRef = useRef<HTMLElement>(null);
 
-  async function runAttack() {
-    if (running) return;
-    if (stage === "complete") {
-      setStage("idle");
-      await new Promise((resolve) => setTimeout(resolve, 180));
+  useEffect(() => {
+    const node = demoRef.current;
+    if (!node) return;
+
+    let timers: number[] = [];
+    const clearTimers = () => timers.forEach((timer) => window.clearTimeout(timer));
+    const schedulePlayback = () => {
+      clearTimers();
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        timers = [window.setTimeout(() => setStage("complete"), 0)];
+        return;
+      }
+      timers = [
+        window.setTimeout(() => setStage("advisor"), 500),
+        window.setTimeout(() => setStage("rewriter"), 1200),
+        window.setTimeout(() => setStage("chooser"), 1950),
+        window.setTimeout(() => setStage("complete"), 2750),
+      ];
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      schedulePlayback();
+      return clearTimers;
     }
-    for (const next of ["advisor", "rewriter", "chooser", "complete"] as AttackStage[]) {
-      setStage(next);
-      await new Promise((resolve) => setTimeout(resolve, next === "complete" ? 0 : 620));
-    }
-  }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          schedulePlayback();
+        } else {
+          clearTimers();
+          setStage("idle");
+        }
+      },
+      { threshold: 0.25, rootMargin: "-8% 0px" },
+    );
+    observer.observe(node);
+    return () => {
+      clearTimers();
+      observer.disconnect();
+    };
+  }, []);
 
   async function copyCitation() {
     try {
@@ -161,21 +192,19 @@ export default function Home() {
           </div>
         </header>
 
-        <section className={`attack-demo stage-${stage}`} id="demo" aria-labelledby="demo-title">
+        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-labelledby="demo-title">
           <div className="demo-heading">
             <div>
               <p className="section-label-inline">Interactive Figure 1</p>
               <h2 id="demo-title">The cards do not move. The chooser does.</h2>
             </div>
-            <div className="demo-action">
-              <button type="button" onClick={runAttack} disabled={running}>
-                {running ? "Running…" : stage === "complete" ? "Replay AgentBait" : "Run AgentBait"}
-              </button>
+            <div className="demo-action autoplay-indicator" aria-label={`Automatic demonstration status: ${stage}`}>
+              <span><i className="autoplay-dot" aria-hidden="true" /> Auto play</span>
               <p>MIND-style fixed slate · GPT-5-mini chooser</p>
             </div>
           </div>
 
-          <div className="attack-stage" aria-live="polite">
+          <div className="attack-stage" aria-label="Automatically animated AgentBait fixed-slate comparison">
             <section className="slate-panel" aria-labelledby="before-title">
               <header><span>Original recommendation</span><b id="before-title">Target remains unselected</b></header>
               <NewsSlate attacked={false} stage={stage} />
@@ -205,7 +234,7 @@ export default function Home() {
               </dl>
             </section>
           </div>
-          <p className="demo-status" role="status">
+          <p className="demo-status">
             {stage === "idle" && "Ready · one title and abstract may change; every competing candidate stays fixed."}
             {stage === "advisor" && "Advisor is proposing a strategy: force a technical topic into the target."}
             {stage === "rewriter" && "Rewriter is adding technical authority cues unsupported by the source."}

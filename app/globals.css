@@ -74,10 +74,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .section-label-inline { margin: 0 0 8px; color: var(--red); font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .demo-heading h2 { max-width: 780px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(35px, 4.5vw, 64px); font-weight: 500; line-height: .98; letter-spacing: -.04em; }
 .demo-action { display: flex; flex-direction: column; align-items: end; gap: 8px; }
-.demo-action button, .citation-body button { border: 1px solid var(--navy); border-radius: 0; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
-.demo-action button { min-width: 172px; height: 42px; padding: 0 18px; }
-.demo-action button:hover, .citation-body button:hover { background: var(--blue); border-color: var(--blue); }
-.demo-action button:disabled { cursor: wait; opacity: .7; }
+.citation-body button { border: 1px solid var(--navy); border-radius: 0; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.citation-body button:hover { background: var(--blue); border-color: var(--blue); }
+.autoplay-indicator > span { display: flex; align-items: center; gap: 8px; color: var(--navy); font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.autoplay-dot { width: 8px; height: 8px; display: inline-block; border: 1px solid var(--rule-dark); border-radius: 50%; background: var(--rule); }
+.stage-advisor .autoplay-dot, .stage-rewriter .autoplay-dot, .stage-chooser .autoplay-dot { background: var(--red); border-color: var(--red); }
+.stage-complete .autoplay-dot { background: var(--green); border-color: var(--green); }
 .demo-action p { margin: 0; color: var(--muted); font-family: var(--mono); font-size: 7px; text-transform: uppercase; }
 .attack-stage { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); }
 .slate-panel { padding: 16px 18px 17px; }
