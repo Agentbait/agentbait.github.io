@@ -14,29 +14,31 @@ async function render() {
   );
 }
 
-test("server-renders the AgentBait paper site", async () => {
+test("server-renders the AgentBait research feature", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
-  assert.match(html, /MIND \/ AGENT FEED/);
-  assert.match(html, /17\.1%/);
-  assert.match(html, /34\.8%/);
-  assert.match(html, /98\.5%/);
-  assert.match(html, /Selection is not usefulness/);
+  assert.match(html, /Research question/);
+  assert.match(html, /Representative case/);
+  assert.match(html, /Target selection under original and rewritten presentations/);
+  assert.match(html, /Cross-target-agent mismatch/);
+  assert.match(html, /Selection and source support move on different axes/);
+  assert.match(html, /What the experiment does not establish/);
+  assert.match(html, /16\.9%/);
+  assert.match(html, /98\.5/);
   assert.match(html, /\/agentbait-method\.png/);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+  assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
 });
 
-test("ships the paper, method figure, and social preview", async () => {
+test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 
   await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
-    access(new URL("../public/og.png", import.meta.url)),
   ]);
 });

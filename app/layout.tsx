@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import "./globals.css";
 
 const title = "You Won't Believe This Click | AgentBait";
-const description = "AgentBait studies how content rewriting changes what language-model agents select from a fixed candidate feed.";
+const description = "An evidence-led research feature on how content rewriting changes what language-model agents select from a fixed candidate list—and what that objective leaves out.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -25,13 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: "website",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "AgentBait paper preview" }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title,
       description,
-      images: ["/og.png"],
     },
   };
 }
