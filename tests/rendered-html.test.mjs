@@ -21,14 +21,21 @@ test("server-renders the AgentBait research feature", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
+  assert.match(html, /Run AgentBait/);
+  assert.match(html, /The cards do not move\. The chooser does\./);
+  assert.match(html, /Original recommendation/);
+  assert.match(html, /After rewriting/);
+  assert.match(html, /AI-Driven/);
   assert.match(html, /Research question/);
-  assert.match(html, /Representative case/);
+  assert.match(html, /Examples as editorial redlines/);
+  assert.match(html, /Language and dataset transfer/);
   assert.match(html, /Target selection under original and rewritten presentations/);
   assert.match(html, /Cross-target-agent mismatch/);
   assert.match(html, /Selection and source support move on different axes/);
   assert.match(html, /What the experiment does not establish/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
+  assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
 });
