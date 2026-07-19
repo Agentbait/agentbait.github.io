@@ -73,11 +73,18 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
-function NewsSlate({ attacked, stage }: { attacked: boolean; stage: AttackStage }) {
-  const selectedId = attacked && ["complete", "constrained"].includes(stage) ? 8 : 3;
+type SlateVariant = "original" | "without-minicheck" | "with-minicheck";
+
+function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackStage }) {
+  const attacked = variant !== "original";
+  const selectedId = variant === "without-minicheck" && ["complete", "constrained"].includes(stage)
+    ? 8
+    : variant === "with-minicheck" && stage === "constrained"
+      ? 8
+      : 3;
   const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
-    <ol className="news-slate" aria-label={attacked ? "Candidate slate after target rewriting" : "Original fixed candidate slate"}>
+    <ol className="news-slate" aria-label={variant === "original" ? "Original fixed candidate slate" : `${variant} candidate slate after target rewriting`}>
       {candidates.map((item) => {
         const selected = item.id === selectedId;
         return (
@@ -87,7 +94,7 @@ function NewsSlate({ attacked, stage }: { attacked: boolean; stage: AttackStage 
             <span className="news-copy">
               <small>{item.category} · {item.age}</small>
               <b>
-                {item.target && attacked && stage === "constrained" ? (
+                {item.target && variant === "with-minicheck" && stage === "constrained" ? (
                   <>
                     <mark className="grounded-injection">How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights
                   </>
@@ -213,7 +220,7 @@ export default function Home() {
           <div className="attack-stage" aria-label="Automatically animated AgentBait fixed-slate comparison">
             <section className="slate-panel" aria-labelledby="before-title">
               <header><span>Original recommendation</span><b id="before-title">Target remains unselected</b></header>
-              <NewsSlate attacked={false} stage={stage} />
+              <NewsSlate variant="original" stage={stage} />
               <dl className="demo-metrics">
                 <div><dt>Reported selection rate</dt><dd>17.1%</dd></div>
                 <div><dt>Candidate order</dt><dd>Fixed</dd></div>
@@ -232,14 +239,25 @@ export default function Home() {
               <p className="fixed-order-note">Slot 08 stays slot 08</p>
             </section>
 
-            <section className="slate-panel after-panel" aria-labelledby="after-title">
-              <header><span>After rewriting</span><b id="after-title">{stage === "constrained" ? "MiniCheck redirects the rewrite" : stage === "complete" ? "Target captures the choice" : "Awaiting intervention"}</b></header>
-              <NewsSlate attacked stage={stage} />
-              <dl className="demo-metrics">
-                <div><dt>Reported selection rate</dt><dd>{stage === "constrained" ? "68.6%" : stage === "complete" ? "98.5%" : "—"}</dd></div>
-                <div className="support-metric"><dt>MiniCheck support</dt><dd>{stage === "constrained" ? "31.2 / 100" : stage === "complete" ? "2.0 / 100" : "—"}</dd></div>
-              </dl>
-            </section>
+            <div className="result-windows" aria-label="Rewriting outcomes with and without MiniCheck">
+              <section className="slate-panel result-window without-minicheck" aria-labelledby="without-minicheck-title">
+                <header><span>Without MiniCheck</span><b id="without-minicheck-title">{["complete", "constrained"].includes(stage) ? "Target selected" : "Selection optimized"}</b></header>
+                <NewsSlate variant="without-minicheck" stage={stage} />
+                <dl className="demo-metrics">
+                  <div><dt>Reported selection rate</dt><dd>{["complete", "constrained"].includes(stage) ? "98.5%" : "—"}</dd></div>
+                  <div className="support-metric"><dt>MiniCheck support</dt><dd>{["complete", "constrained"].includes(stage) ? "2.0 / 100" : "—"}</dd></div>
+                </dl>
+              </section>
+
+              <section className="slate-panel result-window with-minicheck" aria-labelledby="with-minicheck-title">
+                <header><span>With MiniCheck</span><b id="with-minicheck-title">{stage === "constrained" ? "Target also selected" : "Grounded constraint"}</b></header>
+                <NewsSlate variant="with-minicheck" stage={stage} />
+                <dl className="demo-metrics">
+                  <div><dt>Reported selection rate</dt><dd>{stage === "constrained" ? "68.6%" : "—"}</dd></div>
+                  <div className="support-metric"><dt>MiniCheck support</dt><dd>{stage === "constrained" ? "31.2 / 100" : "—"}</dd></div>
+                </dl>
+              </section>
+            </div>
           </div>
           <p className="demo-status">
             {stage === "idle" && "Ready · one title and abstract may change; every competing candidate stays fixed."}
@@ -247,9 +265,9 @@ export default function Home() {
             {stage === "rewriter" && "Rewriter is adding technical authority cues unsupported by the source."}
             {stage === "chooser" && "Chooser is reading the same eight candidates in the same order."}
             {stage === "complete" && "Selection flips to the target while source support falls. Aggregate rates shown: MIND-En, n=1,000, Table 1."}
-            {stage === "constrained" && "MiniCheck redirects the strategy toward grounded framing: selection decreases to 68.6% while source support rises to 31.2."}
+            {stage === "constrained" && "Both chooser runs select the target. MiniCheck changes the rewrite and raises source support from 2.0 to 31.2 while retaining a 68.6% selection rate."}
           </p>
-          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of the paper&apos;s fixed-slate intervention.</b> The animation first shows unconstrained selection optimization, then the MiniCheck-constrained route. Haneda rewrites and aggregate MIND-En metrics are paper-reported; the eight-item interface is an explanatory reconstruction.</p>
+          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of the paper&apos;s fixed-slate intervention.</b> The two right-hand windows compare the endpoints directly: the target is selected both without and with MiniCheck, while the support score and rewrite strategy differ. Haneda rewrites and aggregate MIND-En metrics are paper-reported; the eight-item interface is an explanatory reconstruction.</p>
         </section>
 
         <section className="story-section question" id="question" aria-labelledby="question-title">

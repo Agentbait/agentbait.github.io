@@ -26,9 +26,12 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Run AgentBait|Replay AgentBait/);
   assert.match(html, /MiniCheck/);
   assert.match(html, /grounded rewrite · support 31\.2/);
+  assert.match(html, /Without MiniCheck/);
+  assert.match(html, /With MiniCheck/);
+  assert.match(html, /the target is selected both without and with MiniCheck/);
   assert.match(html, /The cards do not move\. The chooser does\./);
   assert.match(html, /Original recommendation/);
-  assert.match(html, /After rewriting/);
+  assert.match(html, /Rewriting outcomes with and without MiniCheck/);
   assert.match(html, /AI-Driven/);
   assert.match(html, /Research question/);
   assert.match(html, /Examples as editorial redlines/);
