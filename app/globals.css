@@ -329,8 +329,10 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .paper-links { padding: 14px 0; border-left: 0; border-top: 1px solid var(--rule); }
   .demo-heading { align-items: flex-start; flex-direction: column; }
   .demo-action { align-items: flex-start; }
-  .attack-stage { grid-template-columns: 1fr; }
-  .attack-pipeline { border: 0; border-top: 1px solid var(--rule-dark); border-bottom: 1px solid var(--rule-dark); }
+  .attack-stage { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .attack-stage > .slate-panel:first-child { grid-column: 1; grid-row: 2; }
+  .after-panel { grid-column: 2; grid-row: 2; border-left: 1px solid var(--rule-dark); }
+  .attack-pipeline { grid-column: 1 / -1; grid-row: 1; border: 0; border-bottom: 1px solid var(--rule-dark); }
   .attack-pipeline ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .attack-pipeline ol::before { top: 15px; bottom: auto; left: 8%; right: 8%; width: auto; height: 1px; }
   .attack-pipeline li { min-height: 92px; display: block; text-align: center; }
@@ -397,6 +399,22 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .citation-body button { width: fit-content; }
   footer { grid-template-columns: 1fr; }
   footer a { justify-self: start; }
+}
+
+@media (max-width: 460px) {
+  .attack-demo { padding-inline: 6px; }
+  .slate-panel { padding-inline: 6px; }
+  .slate-panel > header { min-height: 58px; display: block; }
+  .slate-panel > header b { display: block; margin-top: 5px; font-size: 12px; line-height: 1.15; }
+  .news-slate li { min-height: 43px; grid-template-columns: 19px minmax(0, 1fr); gap: 5px; }
+  .news-thumb { display: none; }
+  .news-copy small { display: none; }
+  .news-copy b { font-size: 8px; line-height: 1.15; }
+  .demo-metrics { grid-template-columns: 1fr; gap: 4px; }
+  .demo-metrics dd { font-size: 13px; }
+  .attack-pipeline ol { gap: 2px; }
+  .attack-pipeline li b { font-size: 9px; }
+  .fixed-order-note { font-size: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
