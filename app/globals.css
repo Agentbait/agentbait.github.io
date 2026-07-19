@@ -29,6 +29,7 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
 article section { scroll-margin-top: 68px; }
 mark { padding: 0 .13em; color: inherit; background: #e8b7ae; text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+mark.grounded-injection { background: #bcd8ca; text-decoration-color: var(--green); }
 del { color: #817d75; text-decoration-color: var(--red); text-decoration-thickness: 1px; }
 
 .site-header {
@@ -78,8 +79,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .citation-body button:hover { background: var(--blue); border-color: var(--blue); }
 .autoplay-indicator > span { display: flex; align-items: center; gap: 8px; color: var(--navy); font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .autoplay-dot { width: 8px; height: 8px; display: inline-block; border: 1px solid var(--rule-dark); border-radius: 50%; background: var(--rule); }
-.stage-advisor .autoplay-dot, .stage-rewriter .autoplay-dot, .stage-chooser .autoplay-dot { background: var(--red); border-color: var(--red); }
-.stage-complete .autoplay-dot { background: var(--green); border-color: var(--green); }
+.stage-advisor .autoplay-dot, .stage-rewriter .autoplay-dot, .stage-chooser .autoplay-dot, .stage-complete .autoplay-dot { background: var(--red); border-color: var(--red); }
+.stage-constrained .autoplay-dot { background: var(--green); border-color: var(--green); }
 .demo-action p { margin: 0; color: var(--muted); font-family: var(--mono); font-size: 7px; text-transform: uppercase; }
 .attack-stage { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); }
 .slate-panel { padding: 16px 18px 17px; }
@@ -113,6 +114,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .news-slate li.is-selected .selection-state { color: var(--blue); }
 .stage-complete .after-panel .news-slate li.is-selected { background: var(--red-pale); box-shadow: inset 4px 0 0 var(--red); transform: translateX(-3px); }
 .stage-complete .after-panel .selection-state { color: var(--red); }
+.stage-constrained .after-panel { background: rgba(54, 113, 90, .08); }
+.stage-constrained .after-panel .news-slate li.is-selected { background: var(--green-pale); box-shadow: inset 4px 0 0 var(--green); transform: translateX(-3px); }
+.stage-constrained .after-panel .news-slate li.is-selected .rank, .stage-constrained .after-panel .selection-state { color: var(--green); }
 .demo-metrics { margin: 12px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--mono); }
 .demo-metrics div { padding-top: 9px; border-top: 1px solid var(--rule); }
 .demo-metrics dt { color: var(--muted); font-size: 6px; letter-spacing: .08em; text-transform: uppercase; }
@@ -335,7 +339,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .attack-stage > .slate-panel:first-child { grid-column: 1; grid-row: 2; }
   .after-panel { grid-column: 2; grid-row: 2; border-left: 1px solid var(--rule-dark); }
   .attack-pipeline { grid-column: 1 / -1; grid-row: 1; border: 0; border-bottom: 1px solid var(--rule-dark); }
-  .attack-pipeline ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .attack-pipeline ol { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
   .attack-pipeline ol::before { top: 15px; bottom: auto; left: 8%; right: 8%; width: auto; height: 1px; }
   .attack-pipeline li { min-height: 92px; display: block; text-align: center; }
   .attack-pipeline li > span { margin: 0 auto 8px; position: relative; }

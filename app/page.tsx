@@ -61,7 +61,7 @@ const bibtex = `@article{jin2026agentbait,
   year    = {2026}
 }`;
 
-type AttackStage = "idle" | "advisor" | "rewriter" | "chooser" | "complete";
+type AttackStage = "idle" | "advisor" | "rewriter" | "chooser" | "complete" | "constrained";
 
 function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   return (
@@ -74,7 +74,8 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
 }
 
 function NewsSlate({ attacked, stage }: { attacked: boolean; stage: AttackStage }) {
-  const selectedId = attacked && stage === "complete" ? 8 : 3;
+  const selectedId = attacked && ["complete", "constrained"].includes(stage) ? 8 : 3;
+  const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
     <ol className="news-slate" aria-label={attacked ? "Candidate slate after target rewriting" : "Original fixed candidate slate"}>
       {candidates.map((item) => {
@@ -86,7 +87,11 @@ function NewsSlate({ attacked, stage }: { attacked: boolean; stage: AttackStage 
             <span className="news-copy">
               <small>{item.category} · {item.age}</small>
               <b>
-                {item.target && attacked && stage !== "idle" ? (
+                {item.target && attacked && stage === "constrained" ? (
+                  <>
+                    <mark className="grounded-injection">How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights
+                  </>
+                ) : item.target && attacked && rewriteVisible ? (
                   <>
                     <mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate
                   </>
@@ -115,7 +120,7 @@ export default function Home() {
     const schedulePlayback = () => {
       clearTimers();
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        timers = [window.setTimeout(() => setStage("complete"), 0)];
+        timers = [window.setTimeout(() => setStage("constrained"), 0)];
         return;
       }
       timers = [
@@ -123,6 +128,7 @@ export default function Home() {
         window.setTimeout(() => setStage("rewriter"), 1200),
         window.setTimeout(() => setStage("chooser"), 1950),
         window.setTimeout(() => setStage("complete"), 2750),
+        window.setTimeout(() => setStage("constrained"), 4700),
       ];
     };
 
@@ -218,19 +224,20 @@ export default function Home() {
               <p className="pipeline-heading">Attack process</p>
               <ol>
                 <li className={stage !== "idle" ? "active" : ""}><span>01</span><div><b>Advisor</b><small>technical-topic pivot</small></div></li>
-                <li className={["rewriter", "chooser", "complete"].includes(stage) ? "active" : ""}><span>02</span><div><b>Frozen rewriter</b><small>injects authority cues</small></div></li>
-                <li className={["chooser", "complete"].includes(stage) ? "active" : ""}><span>03</span><div><b>Chooser agent</b><small>selects one candidate</small></div></li>
-                <li className={stage === "complete" ? "active factuality" : ""}><span>04</span><div><b>Reward / support</b><small>+1 selection · support 2.0</small></div></li>
+                <li className={["rewriter", "chooser", "complete", "constrained"].includes(stage) ? "active" : ""}><span>02</span><div><b>Frozen rewriter</b><small>injects authority cues</small></div></li>
+                <li className={["chooser", "complete", "constrained"].includes(stage) ? "active" : ""}><span>03</span><div><b>Chooser agent</b><small>selects one candidate</small></div></li>
+                <li className={["complete", "constrained"].includes(stage) ? "active" : ""}><span>04</span><div><b>Selection reward</b><small>98.5 selection · support 2.0</small></div></li>
+                <li className={stage === "constrained" ? "active factuality" : ""}><span>05</span><div><b>MiniCheck</b><small>grounded rewrite · support 31.2</small></div></li>
               </ol>
               <p className="fixed-order-note">Slot 08 stays slot 08</p>
             </section>
 
             <section className="slate-panel after-panel" aria-labelledby="after-title">
-              <header><span>After rewriting</span><b id="after-title">{stage === "complete" ? "Target captures the choice" : "Awaiting intervention"}</b></header>
+              <header><span>After rewriting</span><b id="after-title">{stage === "constrained" ? "MiniCheck redirects the rewrite" : stage === "complete" ? "Target captures the choice" : "Awaiting intervention"}</b></header>
               <NewsSlate attacked stage={stage} />
               <dl className="demo-metrics">
-                <div><dt>Reported selection rate</dt><dd>{stage === "complete" ? "98.5%" : "—"}</dd></div>
-                <div className="support-metric"><dt>MiniCheck support</dt><dd>{stage === "complete" ? "2.0 / 100" : "—"}</dd></div>
+                <div><dt>Reported selection rate</dt><dd>{stage === "constrained" ? "68.6%" : stage === "complete" ? "98.5%" : "—"}</dd></div>
+                <div className="support-metric"><dt>MiniCheck support</dt><dd>{stage === "constrained" ? "31.2 / 100" : stage === "complete" ? "2.0 / 100" : "—"}</dd></div>
               </dl>
             </section>
           </div>
@@ -240,8 +247,9 @@ export default function Home() {
             {stage === "rewriter" && "Rewriter is adding technical authority cues unsupported by the source."}
             {stage === "chooser" && "Chooser is reading the same eight candidates in the same order."}
             {stage === "complete" && "Selection flips to the target while source support falls. Aggregate rates shown: MIND-En, n=1,000, Table 1."}
+            {stage === "constrained" && "MiniCheck redirects the strategy toward grounded framing: selection decreases to 68.6% while source support rises to 31.2."}
           </p>
-          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of the paper&apos;s fixed-slate intervention.</b> The Haneda rewrite and aggregate metrics are paper-reported; the eight-item interface is an explanatory reconstruction. The experiment measures final selection, not a model-produced ranking.</p>
+          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of the paper&apos;s fixed-slate intervention.</b> The animation first shows unconstrained selection optimization, then the MiniCheck-constrained route. Haneda rewrites and aggregate MIND-En metrics are paper-reported; the eight-item interface is an explanatory reconstruction.</p>
         </section>
 
         <section className="story-section question" id="question" aria-labelledby="question-title">

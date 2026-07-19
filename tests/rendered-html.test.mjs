@@ -24,6 +24,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Auto play/);
   assert.match(html, /Automatically animated AgentBait fixed-slate comparison/);
   assert.doesNotMatch(html, /Run AgentBait|Replay AgentBait/);
+  assert.match(html, /MiniCheck/);
+  assert.match(html, /grounded rewrite · support 31\.2/);
   assert.match(html, /The cards do not move\. The chooser does\./);
   assert.match(html, /Original recommendation/);
   assert.match(html, /After rewriting/);
