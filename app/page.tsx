@@ -16,6 +16,8 @@ const candidates = [
   { id: 8, category: "Travel", age: "6h", title: "Why Tokyo's Haneda is one of the world's most punctual airports", thumb: "travel", target: true },
 ];
 
+const demoCandidates = candidates.filter(({ id }) => [1, 3, 6, 8].includes(id));
+
 const mainResults = [
   { group: "Reference", method: "Original text", values: [17.1, 17.1, 17.1, 17.3, 17.6, 17.5] },
   { group: "Prompting only", method: "Rewriter only", values: [34.8, 24.1, 40.7, 20.2, 24.4, 41.0] },
@@ -85,7 +87,7 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
   const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
     <ol className="news-slate" aria-label={variant === "original" ? "Original fixed candidate slate" : `${variant} candidate slate after target rewriting`}>
-      {candidates.map((item) => {
+      {demoCandidates.map((item) => {
         const selected = item.id === selectedId;
         return (
           <li key={item.id} className={`${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""}`}>
@@ -109,6 +111,9 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
           </li>
         );
       })}
+      <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
+        <span>4 of 8 candidates shown · order unchanged</span>
+      </li>
     </ol>
   );
 }
