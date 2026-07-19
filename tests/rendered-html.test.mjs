@@ -34,7 +34,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /news-thumb/);
   assert.match(html, /Rewriting outcomes with and without MiniCheck/);
   assert.match(html, /4 of 8 candidates shown · order unchanged/);
-  assert.doesNotMatch(html, /New chip design cuts data-center energy use/);
+  assert.match(html, /New chip design cuts data-center energy use/);
   assert.match(html, /AI-Driven/);
   assert.match(html, /Research question/);
   assert.match(html, /Examples as editorial redlines/);

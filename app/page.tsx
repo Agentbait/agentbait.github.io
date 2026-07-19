@@ -79,6 +79,7 @@ type SlateVariant = "original" | "without-minicheck" | "with-minicheck";
 
 function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackStage }) {
   const attacked = variant !== "original";
+  const visibleCandidates = variant === "original" ? candidates : demoCandidates;
   const selectedId = variant === "without-minicheck" && ["complete", "constrained"].includes(stage)
     ? 8
     : variant === "with-minicheck" && stage === "constrained"
@@ -87,7 +88,7 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
   const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
     <ol className="news-slate" aria-label={variant === "original" ? "Original fixed candidate slate" : `${variant} candidate slate after target rewriting`}>
-      {demoCandidates.map((item) => {
+      {visibleCandidates.map((item) => {
         const selected = item.id === selectedId;
         return (
           <li key={item.id} className={`${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""}`}>
@@ -110,9 +111,11 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
           </li>
         );
       })}
-      <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
-        <span>4 of 8 candidates shown · order unchanged</span>
-      </li>
+      {variant !== "original" && (
+        <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
+          <span>4 of 8 candidates shown · order unchanged</span>
+        </li>
+      )}
     </ol>
   );
 }
