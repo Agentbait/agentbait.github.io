@@ -307,13 +307,37 @@ export default function Home() {
               <p>The primary experiment uses held-out MIND news impressions. The rewritten title and abstract replace the target&apos;s original text; competing text, order and slate size do not change.</p>
             </div>
           </div>
-          <figure className="slate-figure" aria-labelledby="slate-caption">
-            <div className="slate-flow">
-              <div className="slate-column"><span className="flow-label">Candidate pool</span><div className="slate-row"><b>A</b><span>Competitor text</span><em>fixed</em></div><div className="slate-row target-row"><b>B</b><span>Target title + abstract</span><em>treated</em></div><div className="slate-row"><b>C</b><span>Competitor text</span><em>fixed</em></div></div>
-              <div className="flow-step"><span>Advisor</span><p>proposes an editorial strategy</p></div>
-              <div className="flow-step"><span>Frozen rewriter</span><p>revises target B only</p></div>
-              <div className="flow-step"><span>Chooser agent</span><p>selects one item</p></div>
-              <div className="flow-step reward-step"><span>Reward / constraint</span><p>selection + source support</p></div>
+          <figure className="slate-figure controlled-figure" aria-labelledby="setting-figure-title slate-caption">
+            <h3 className="experiment-thesis" id="setting-figure-title">Only the target text changes. The candidate set and chooser conditions remain fixed.</h3>
+            <div className="constant-ribbon">
+              <b>Held constant across conditions</b>
+              <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
+            </div>
+
+            <div className="experiment-diagram">
+              <section className="candidate-panel" aria-labelledby="candidate-panel-title">
+                <header><span>Block 1</span><h4 id="candidate-panel-title">Fixed candidate set</h4></header>
+                <ol>
+                  <li><b>A</b><p>Competitor text</p><em>Fixed</em></li>
+                  <li className="treated-candidate"><b>B</b><p>Target title + abstract</p><em>Treated</em></li>
+                  <li><b>C</b><p>Competitor text</p><em>Fixed</em></li>
+                </ol>
+              </section>
+
+              <section className="intervention-panel" aria-labelledby="intervention-title">
+                <header><span>Block 2</span><h4 id="intervention-title">Intervention pipeline</h4></header>
+                <ol className="intervention-steps">
+                  <li><span>01</span><div><b>Advisor</b><p>Proposes an editorial strategy</p></div></li>
+                  <li className="rewrite-step"><span>02</span><div><b>Frozen rewriter</b><p>Rewrites target B only</p></div></li>
+                  <li><span>03</span><div><b>Chooser agent</b><p>Selects one item from the same candidate set</p></div></li>
+                </ol>
+              </section>
+
+              <aside className="reward-panel" aria-labelledby="reward-title">
+                <header><span>Block 3</span><h4 id="reward-title">Reward / Constraint</h4></header>
+                <dl><div><dt>Selection reward</dt><dd>Was target B selected?</dd></div><div><dt>Optional constraint</dt><dd>Source support</dd></div></dl>
+                <p>MiniCheck sentence support</p>
+              </aside>
             </div>
             <figcaption id="slate-caption"><b>Figure 2 | AgentBait system.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
           </figure>

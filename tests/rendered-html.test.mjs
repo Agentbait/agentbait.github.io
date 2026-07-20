@@ -47,6 +47,12 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok(html.indexOf("Key findings") < html.indexOf("Robustness, transfer and failure"));
   assert.ok(html.indexOf("Robustness, transfer and failure") < html.indexOf("Experimental setting"));
   assert.ok(html.indexOf("Experimental setting") < html.indexOf("Examples as editorial redlines"));
+  assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
+  assert.match(html, /Held constant across conditions/);
+  assert.match(html, /Candidate identity/);
+  assert.match(html, /Rewrites target B only/);
+  assert.match(html, /Selects one item from the same candidate set/);
+  assert.match(html, /MiniCheck sentence support/);
   assert.match(html, /Cross-lingual transfer on fixed MIND slates/);
   assert.match(html, /Transfer across news datasets/);
   assert.match(html, /Transfer to academic document selection/);
@@ -82,6 +88,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
+  assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
+  assert.match(globalStyles, /\.experiment-diagram\s*\{/);
   assert.match(globalStyles, /font-size:\s*clamp\(64px, 5\.2vw, 92px\)/);
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
