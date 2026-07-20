@@ -53,7 +53,8 @@ test("ships the manuscript and method figure", async () => {
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.match(pageSource, /text-cursor/);
-  assert.match(pageSource, /setStage\("final"\), 6300/);
+  assert.match(pageSource, /selection-highlight/);
+  assert.match(pageSource, /setStage\("final"\), 11000/);
 
   await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),

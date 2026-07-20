@@ -107,7 +107,7 @@ function CandidateStoryboard({ stage }: { stage: AttackStage }) {
         <div className="rewrite-field title-field">
           <small>Title</small>
           {stage === "rewrite-title" ? (
-            <h3 className="editing-title"><del>Understanding Preference Effects in Content Selection</del><span className="typed-title">How Rewriting Changes Which Content Gets Chosen</span><i className="text-cursor" aria-hidden="true" /></h3>
+            <h3 className="editing-title"><del>Understanding <span className="selection-highlight">Preference Effects in Content Selection</span></del><span className="typed-title">How Rewriting Changes Which Content Gets Chosen</span><i className="text-cursor" aria-hidden="true" /></h3>
           ) : (
             <h3>{stage === "rewrite-abstract" ? "How Rewriting Changes Which Content Gets Chosen" : "Understanding Preference Effects in Content Selection"}{stage === "focus" && <i className="text-cursor" aria-hidden="true" />}</h3>
           )}
@@ -151,16 +151,16 @@ export default function Home() {
         return;
       }
       timers = [
-        window.setTimeout(() => setStage("scan-a"), 300),
-        window.setTimeout(() => setStage("scan-b"), 650),
-        window.setTimeout(() => setStage("original-selected"), 1000),
-        window.setTimeout(() => setStage("focus"), 2000),
-        window.setTimeout(() => setStage("rewrite-title"), 2500),
-        window.setTimeout(() => setStage("rewrite-abstract"), 3500),
-        window.setTimeout(() => setStage("return"), 4500),
-        window.setTimeout(() => setStage("rescan"), 4850),
-        window.setTimeout(() => setStage("selected"), 5200),
-        window.setTimeout(() => setStage("final"), 6300),
+        window.setTimeout(() => setStage("scan-a"), 500),
+        window.setTimeout(() => setStage("scan-b"), 1200),
+        window.setTimeout(() => setStage("original-selected"), 2000),
+        window.setTimeout(() => setStage("focus"), 3200),
+        window.setTimeout(() => setStage("rewrite-title"), 4000),
+        window.setTimeout(() => setStage("rewrite-abstract"), 6200),
+        window.setTimeout(() => setStage("return"), 8000),
+        window.setTimeout(() => setStage("rescan"), 8700),
+        window.setTimeout(() => setStage("selected"), 9600),
+        window.setTimeout(() => setStage("final"), 11000),
       ];
     };
 
@@ -238,7 +238,7 @@ export default function Home() {
             </div>
             <div className="demo-action autoplay-indicator" aria-label={`Automatic demonstration status: ${stage}`}>
               <span><i className="autoplay-dot" aria-hidden="true" /> Auto play</span>
-              <p>Seven-second fixed-set chooser replay</p>
+              <p>Eleven-second fixed-set chooser replay</p>
             </div>
           </div>
 
