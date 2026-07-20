@@ -70,7 +70,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .paper-links a { color: var(--navy); font-family: var(--mono); font-size: 10px; font-weight: 600; text-transform: uppercase; }
 .paper-links a:hover { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
 
-.attack-demo { min-width: 0; padding: 24px clamp(22px, 2.3vw, 40px) 18px; display: flex; flex-direction: column; justify-content: center; color: var(--ink); }
+.attack-demo { min-width: 0; padding: 24px clamp(22px, 2.3vw, 40px) 18px; display: flex; flex-direction: column; justify-content: center; color: var(--ink); background: var(--paper); }
 .citation-body button { border: 1px solid var(--navy); border-radius: 0; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .citation-body button:hover { background: var(--red); border-color: var(--red); }
 
@@ -363,23 +363,21 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .limitations p { margin: 0; color: var(--muted); font-family: var(--serif); font-size: 14px; line-height: 1.5; }
 
 .methods { background: var(--paper) !important; }
-.method-figure { background: transparent; }
-.interactive-method-figure { padding: 0; border: 0; }
-.method-flip-card { min-height: 500px; perspective: 1600px; cursor: pointer; }
-.method-flip-card:focus-visible { outline: 2px solid var(--navy); outline-offset: 5px; }
-.method-flip-inner { width: 100%; min-height: 500px; display: grid; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
-.method-flip-face { min-width: 0; min-height: 500px; grid-area: 1 / 1; position: relative; overflow: hidden; border: 1px solid var(--rule-dark); background: rgba(255,255,255,.22); transition: opacity .28s ease, transform .8s cubic-bezier(.2,.72,.2,1); }
-.method-flip-front { padding: 26px 30px 22px; opacity: 1; transform: rotateY(0deg); }
-.method-flip-front .storyboard-board { max-width: none; min-height: 405px; }
-.method-flip-back { padding: 30px 38px; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: rotateY(-180deg); }
-.method-flip-card.is-flipped .method-flip-front { opacity: 0; pointer-events: none; transform: rotateY(180deg); }
-.method-flip-card.is-flipped .method-flip-back { opacity: 1; pointer-events: auto; transform: rotateY(0deg); }
-.method-flip-back img { width: 100%; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; }
+.hero-flip-card { min-height: 500px; perspective: 1600px; cursor: pointer; }
+.hero-flip-card:focus-visible { outline: 2px solid var(--navy); outline-offset: 5px; }
+.hero-flip-inner { width: 100%; min-height: 500px; display: grid; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+.hero-flip-face { min-width: 0; min-height: 500px; grid-area: 1 / 1; position: relative; overflow: hidden; background: var(--paper); transition: opacity .28s ease, transform .8s cubic-bezier(.2,.72,.2,1); }
+.hero-flip-front { padding: 18px 16px 34px; opacity: 1; transform: rotateY(0deg); }
+.hero-flip-front .storyboard-board { max-width: none; min-height: 405px; }
+.hero-flip-back { padding: 30px 24px 42px; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: rotateY(-180deg); }
+.hero-flip-card.is-flipped .hero-flip-front { opacity: 0; pointer-events: none; transform: rotateY(180deg); }
+.hero-flip-card.is-flipped .hero-flip-back { opacity: 1; pointer-events: auto; transform: rotateY(0deg); }
+.hero-flip-back img { width: 100%; max-height: 410px; object-fit: contain; mix-blend-mode: multiply; }
 .flip-cue { width: fit-content; padding: 7px 9px; position: absolute; right: 14px; bottom: 13px; z-index: 5; color: var(--red); background: rgba(240,238,232,.94); border: 1px solid var(--red); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .method-figure figcaption { padding-top: 13px; border-top: 1px solid var(--rule); }
 
 @media (prefers-reduced-motion: reduce) {
-  .method-flip-face { transition: none; }
+  .hero-flip-face { transition: none; }
 }
 
 .resources { color: var(--paper); background: var(--navy) !important; }
@@ -496,9 +494,9 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .paired-name { left: -108px; width: 96px; font-size: 9px; }
   .limitations li { grid-template-columns: 31px 1fr; gap: 11px; }
   .limitations li p { grid-column: 2; }
-  .method-flip-card, .method-flip-inner, .method-flip-face { min-height: 560px; }
-  .method-flip-front { padding: 8px 7px 42px; }
-  .method-flip-back { padding: 18px 12px 44px; }
+  .hero-flip-card, .hero-flip-inner, .hero-flip-face { min-height: 560px; }
+  .hero-flip-front { padding: 8px 7px 42px; }
+  .hero-flip-back { padding: 18px 12px 44px; }
   .flip-cue { right: 8px; bottom: 8px; }
   .citation-body { grid-template-columns: 1fr; }
   .citation-body button { width: fit-content; }

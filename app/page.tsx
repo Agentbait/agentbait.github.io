@@ -186,20 +186,18 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
 
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
-  const methodReplayRef = useRef<HTMLDivElement>(null);
   const stage = useStoryboardPlayback(demoRef);
-  const methodStage = useStoryboardPlayback(methodReplayRef);
-  const [methodFlipped, setMethodFlipped] = useState(false);
+  const [heroFlipped, setHeroFlipped] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  function toggleMethodFigure() {
-    setMethodFlipped((current) => !current);
+  function toggleHeroFigure() {
+    setHeroFlipped((current) => !current);
   }
 
-  function handleMethodFigureKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+  function handleHeroFigureKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      toggleMethodFigure();
+      toggleHeroFigure();
     }
   }
 
@@ -246,9 +244,30 @@ export default function Home() {
           </div>
         </header>
 
-        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay">
-          <CandidateStoryboard stage={stage} instanceId="hero" />
-          <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
+        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
+          <div
+            className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""}`}
+            role="button"
+            tabIndex={0}
+            aria-pressed={heroFlipped}
+            aria-label={heroFlipped ? "Show the chooser replay" : "Show the advisor-rewriter training loop"}
+            onClick={toggleHeroFigure}
+            onKeyDown={handleHeroFigureKeyDown}
+          >
+            <div className="hero-flip-inner">
+              <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
+                <CandidateStoryboard stage={stage} instanceId="hero" />
+                <span className="flip-cue">Click to reveal training loop ↻</span>
+              </div>
+              <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
+                {/* The source is the publication-resolution figure exported with the manuscript. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
+                <span className="flip-cue">Click to return to chooser replay ↻</span>
+              </div>
+            </div>
+          </div>
+          <p className="demo-caption">{heroFlipped ? <><b>Advisor–rewriter training loop.</b> The advisor proposes strategy; the frozen rewriter edits the target; the chooser supplies selection reward, optionally with MiniCheck support.</> : <><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</>}</p>
         </section>
         </section>
 
@@ -396,32 +415,6 @@ export default function Home() {
         <section className="story-section methods" id="methods" aria-labelledby="methods-title">
           <div className="section-label">06 · Methods</div>
           <div className="story-grid"><div className="prose"><h2 id="methods-title">The advisor learns strategy; the rewriter supplies prose</h2><p>The Qwen3.5-9B advisor samples high-level strategies. GPT-5-mini, frozen in the advisor setting, turns each strategy into a revised title and abstract. GRPO reinforces strategies that lead the target agent to select the treated item.</p><p>The factuality-constrained variant adds the minimum sentence-level MiniCheck score, allowing one unsupported sentence to reduce the support reward.</p></div><aside className="margin-note"><span>Strategy audit</span><p>Unconstrained GPT-5-mini training produces an unfaithful technical pivot in 96.2% of audited outputs; with MiniCheck, 0.1%.</p></aside></div>
-          <figure className="method-figure interactive-method-figure" aria-labelledby="method-caption">
-            <div
-              ref={methodReplayRef}
-              className={`method-flip-card ${methodFlipped ? "is-flipped" : ""}`}
-              role="button"
-              tabIndex={0}
-              aria-pressed={methodFlipped}
-              aria-label={methodFlipped ? "Show the chooser replay" : "Show the advisor-rewriter training loop"}
-              onClick={toggleMethodFigure}
-              onKeyDown={handleMethodFigureKeyDown}
-            >
-              <div className="method-flip-inner">
-                <div className={`method-flip-face method-flip-front stage-${methodStage}`} aria-hidden={methodFlipped}>
-                  <CandidateStoryboard stage={methodStage} instanceId="method" />
-                  <span className="flip-cue">Click to reveal training loop ↻</span>
-                </div>
-                <div className="method-flip-face method-flip-back" aria-hidden={!methodFlipped}>
-                  {/* The source is the publication-resolution figure exported with the manuscript. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-                  <span className="flip-cue">Click to return to chooser replay ↻</span>
-                </div>
-              </div>
-            </div>
-            <figcaption id="method-caption">{methodFlipped ? "MIND training n=8,000; policy: Qwen3.5-9B; frozen rewriter and default target: GPT-5-mini; optimization: GRPO with binary selection reward, optionally augmented by MiniCheck support." : "Interactive chooser replay. Click or press Enter to reveal the advisor–rewriter training loop."}</figcaption>
-          </figure>
         </section>
 
         <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
