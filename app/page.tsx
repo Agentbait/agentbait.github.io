@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from "react";
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
@@ -77,7 +77,7 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
-function CandidateStoryboard({ stage }: { stage: AttackStage }) {
+function CandidateStoryboard({ stage, instanceId }: { stage: AttackStage; instanceId: string }) {
   const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
   const inspectedId = stage === "scan-a" ? "A" : stage === "scan-b" ? "C" : stage === "rescan" ? "B" : null;
@@ -85,9 +85,9 @@ function CandidateStoryboard({ stage }: { stage: AttackStage }) {
 
   return (
     <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
-      <section className="candidate-set" aria-labelledby="candidate-set-title">
+      <section className="candidate-set" aria-labelledby={`${instanceId}-candidate-set-title`}>
         <header>
-          <div><span>Candidate Set</span><b id="candidate-set-title">Three fixed MIND snippets</b></div>
+          <div><span>Candidate Set</span><b id={`${instanceId}-candidate-set-title`}>Three fixed MIND snippets</b></div>
           <small>{rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
         </header>
         <ol>
@@ -129,10 +129,8 @@ function CandidateStoryboard({ stage }: { stage: AttackStage }) {
   );
 }
 
-export default function Home() {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
-  const [copied, setCopied] = useState(false);
-  const demoRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const node = demoRef.current;
@@ -181,7 +179,29 @@ export default function Home() {
       clearTimers();
       observer.disconnect();
     };
-  }, []);
+  }, [ref]);
+
+  return stage;
+}
+
+export default function Home() {
+  const demoRef = useRef<HTMLElement>(null);
+  const methodReplayRef = useRef<HTMLDivElement>(null);
+  const stage = useStoryboardPlayback(demoRef);
+  const methodStage = useStoryboardPlayback(methodReplayRef);
+  const [methodFlipped, setMethodFlipped] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  function toggleMethodFigure() {
+    setMethodFlipped((current) => !current);
+  }
+
+  function handleMethodFigureKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleMethodFigure();
+    }
+  }
 
   async function copyCitation() {
     try {
@@ -227,7 +247,7 @@ export default function Home() {
         </header>
 
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay">
-          <CandidateStoryboard stage={stage} />
+          <CandidateStoryboard stage={stage} instanceId="hero" />
           <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
         </section>
         </section>
@@ -376,11 +396,31 @@ export default function Home() {
         <section className="story-section methods" id="methods" aria-labelledby="methods-title">
           <div className="section-label">06 · Methods</div>
           <div className="story-grid"><div className="prose"><h2 id="methods-title">The advisor learns strategy; the rewriter supplies prose</h2><p>The Qwen3.5-9B advisor samples high-level strategies. GPT-5-mini, frozen in the advisor setting, turns each strategy into a revised title and abstract. GRPO reinforces strategies that lead the target agent to select the treated item.</p><p>The factuality-constrained variant adds the minimum sentence-level MiniCheck score, allowing one unsupported sentence to reduce the support reward.</p></div><aside className="margin-note"><span>Strategy audit</span><p>Unconstrained GPT-5-mini training produces an unfaithful technical pivot in 96.2% of audited outputs; with MiniCheck, 0.1%.</p></aside></div>
-          <figure className="method-figure" aria-labelledby="method-caption">
-            {/* The source is the publication-resolution figure exported with the manuscript. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-            <figcaption id="method-caption">MIND training n=8,000; policy: Qwen3.5-9B; frozen rewriter and default target: GPT-5-mini; optimization: GRPO with binary selection reward, optionally augmented by MiniCheck support.</figcaption>
+          <figure className="method-figure interactive-method-figure" aria-labelledby="method-caption">
+            <div
+              ref={methodReplayRef}
+              className={`method-flip-card ${methodFlipped ? "is-flipped" : ""}`}
+              role="button"
+              tabIndex={0}
+              aria-pressed={methodFlipped}
+              aria-label={methodFlipped ? "Show the chooser replay" : "Show the advisor-rewriter training loop"}
+              onClick={toggleMethodFigure}
+              onKeyDown={handleMethodFigureKeyDown}
+            >
+              <div className="method-flip-inner">
+                <div className={`method-flip-face method-flip-front stage-${methodStage}`} aria-hidden={methodFlipped}>
+                  <CandidateStoryboard stage={methodStage} instanceId="method" />
+                  <span className="flip-cue">Click to reveal training loop ↻</span>
+                </div>
+                <div className="method-flip-face method-flip-back" aria-hidden={!methodFlipped}>
+                  {/* The source is the publication-resolution figure exported with the manuscript. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
+                  <span className="flip-cue">Click to return to chooser replay ↻</span>
+                </div>
+              </div>
+            </div>
+            <figcaption id="method-caption">{methodFlipped ? "MIND training n=8,000; policy: Qwen3.5-9B; frozen rewriter and default target: GPT-5-mini; optimization: GRPO with binary selection reward, optionally augmented by MiniCheck support." : "Interactive chooser replay. Click or press Enter to reveal the advisor–rewriter training loop."}</figcaption>
           </figure>
         </section>
 

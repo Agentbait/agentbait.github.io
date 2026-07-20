@@ -74,6 +74,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
+  assert.match(html, /Click to reveal training loop/);
+  assert.match(html, /Show the advisor-rewriter training loop/);
+  assert.match(html, /id="hero-candidate-set-title"/);
+  assert.match(html, /id="method-candidate-set-title"/);
   assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
 });
 
@@ -99,6 +103,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /text-cursor/);
   assert.match(pageSource, /selection-highlight/);
   assert.match(pageSource, /setStage\("final"\), 11000/);
+  assert.match(pageSource, /method-flip-card/);
+  assert.match(pageSource, /rotateY\(180deg\)|methodFlipped/);
 
   await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
