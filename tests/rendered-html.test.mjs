@@ -113,8 +113,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /xB \+ s → x′B/);
   assert.match(html, /Target · Selected/);
   assert.match(html, /Overview of our target-only advisor–rewriter setting\./);
-  assert.match(html, /Held constant across conditions/);
-  assert.match(html, /Candidate identity/);
+  assert.doesNotMatch(html, /Held constant across conditions|Slate size|Non-target text|Chooser prompt/);
   assert.match(html, /Advisor/);
   assert.match(html, /Rewriter/);
   assert.match(html, /Selection/);
@@ -205,6 +204,8 @@ test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.doesNotMatch(pageSource, /constant-ribbon/);
+  assert.doesNotMatch(globalStyles, /\.constant-ribbon/);
   assert.doesNotMatch(pageSource, /transfer-strip/);
   assert.doesNotMatch(globalStyles, /\.transfer-strip/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

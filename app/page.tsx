@@ -420,11 +420,6 @@ export default function Home() {
                 <i aria-hidden="true">⇄</i>
               </button>
             </div>
-            <div className="constant-ribbon">
-              <div className="constant-ribbon-title"><span aria-hidden="true">×</span><b>Held constant across conditions</b></div>
-              <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
-            </div>
-
             <div className="setting-view-stage" id="setting-view-stage">
             <div className="paper-method-view" aria-hidden={!paperGraph}>
               <div className="setting-view-content paper-method-figure" tabIndex={paperGraph ? 0 : -1}>
@@ -527,7 +522,7 @@ export default function Home() {
             </div>
             </div>
             </div>
-            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the chooser sees the full fixed slate. Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
+            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the chooser sees the full fixed slate. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
           </figure>
         </section>
 

@@ -290,14 +290,6 @@ blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2v
 html.is-native-graph-morph .controlled-figure *, html.is-native-graph-morph .controlled-figure *::before, html.is-native-graph-morph .controlled-figure *::after { transition: none !important; }
 html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:not(:last-child)::after, html.is-native-graph-morph .controlled-figure.is-paper-graph .cross-panel-path { animation: none !important; }
 .experiment-thesis { max-width: 920px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(24px, 2.6vw, 34px); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; }
-.constant-ribbon { margin-top: 22px; padding: 10px 14px 12px; position: relative; background: rgba(217,224,226,.72); border: 1px solid var(--navy); }
-.constant-ribbon-title { display: flex; align-items: center; justify-content: center; gap: 8px; }
-.constant-ribbon-title span { width: 16px; height: 16px; display: grid; place-items: center; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 10px; line-height: 1; }
-.constant-ribbon b { color: var(--navy); font-family: var(--mono); font-size: 10px; letter-spacing: .09em; text-transform: uppercase; }
-.constant-ribbon ul { margin: 9px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); list-style: none; border-top: 1px solid var(--navy); }
-.constant-ribbon li { min-width: 0; padding: 14px 7px 0; position: relative; color: var(--navy); border-left: 1px solid rgba(23,52,79,.35); font-family: var(--mono); font-size: 9px; text-align: center; text-transform: uppercase; }
-.constant-ribbon li:first-child { border-left: 0; }
-.constant-ribbon li::before { content: ""; width: 8px; height: 8px; position: absolute; left: 50%; top: -5px; background: var(--navy); border: 2px solid var(--blue-pale); transform: translateX(-50%); }
 
 .setting-view-stage { margin-top: 22px; display: grid; position: relative; }
 .paper-method-view, .system-graph-view { min-width: 0; min-height: 0; grid-area: 1 / 1; display: grid; transition: grid-template-rows var(--morph-time) var(--morph-ease), opacity 180ms ease, transform 360ms var(--morph-ease), visibility 0s linear 180ms; }
@@ -423,7 +415,6 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .policy-feedback > p b { color: var(--red); font-weight: 700; }
 
 /* The same Figure 2 DOM folds from the editorial narrative into a compact paper graph. */
-.constant-ribbon { max-height: 132px; overflow: hidden; transition: max-height 360ms var(--morph-ease), margin var(--morph-time) var(--morph-ease), padding 320ms var(--morph-ease), opacity 180ms ease, transform 260ms var(--morph-ease), border-color 180ms ease; }
 .process-spine { width: 100%; transition: width 440ms var(--morph-ease), margin var(--morph-time) var(--morph-ease), gap var(--morph-time) var(--morph-ease); }
 .process-spine li, .process-spine li b, .process-spine li span { transition: min-height 420ms var(--morph-ease), font-size 360ms var(--morph-ease), gap 360ms var(--morph-ease), border-color 220ms ease, color 220ms ease; }
 .concept-triptych { width: 100%; transition: width 440ms var(--morph-ease) 80ms, gap 440ms var(--morph-ease) 80ms; }
@@ -442,7 +433,6 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 
 .controlled-figure.is-paper-graph .narrative-view-copy { opacity: 0; visibility: hidden; transform: translateY(-5px); transition-delay: 0ms, 0ms, 180ms; }
 .controlled-figure.is-paper-graph .paper-view-copy { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 300ms, 300ms, 0ms; }
-.controlled-figure.is-paper-graph .constant-ribbon { max-height: 0; margin-top: 0; padding-top: 0; padding-bottom: 0; opacity: 0; border-color: transparent; transform: translateY(-8px); }
 .controlled-figure.is-paper-graph .process-spine { width: 84%; margin: 14px auto 18px; gap: 58px; }
 .controlled-figure.is-paper-graph .process-spine li { min-height: 38px; gap: 8px; border-bottom-width: 1px; animation: none; box-shadow: none; }
 .controlled-figure.is-paper-graph .process-spine li b { font-size: 22px; }
@@ -803,12 +793,6 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   blockquote p { font-size: 28px; }
   .controlled-figure-head { align-items: flex-start; flex-direction: column; gap: 14px; }
   .graph-view-toggle { align-self: flex-start; }
-  .constant-ribbon { padding-inline: 10px; }
-  .constant-ribbon-title { justify-content: flex-start; }
-  .constant-ribbon ul { grid-template-columns: repeat(2, 1fr); }
-  .constant-ribbon li { padding: 12px 5px 7px; border-bottom: 1px solid rgba(23,52,79,.18); }
-  .constant-ribbon li:nth-child(odd) { border-left: 0; }
-  .constant-ribbon li:last-child { grid-column: 1 / -1; border-left: 0; border-bottom: 0; }
   .process-spine { margin-top: 14px; }
   .process-spine li { min-height: 43px; gap: 5px; }
   .process-spine li b { font-size: 25px; }
