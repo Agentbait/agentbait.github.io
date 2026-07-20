@@ -103,6 +103,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(settingText, /The candidate list has already been constructed\. Only the target presentation may change\./);
   assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
   assert.match(html, /data-graph-view="narrative"/);
+  assert.match(html, /\/narrative-method\.png/);
+  assert.match(html, /AgentBait narrative pipeline: a target document is selected from a fixed candidate slate/);
   assert.match(html, /class="graph-view-toggle"/);
   assert.match(html, /Paper graph/);
   assert.match(html, /Advisor–rewriter setting/);
@@ -238,6 +240,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /story-section question|id="question"/);
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
+  assert.match(pageSource, /rewriter-hand-strings\.png/);
+  assert.match(pageSource, /narrative-method\.png/);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
@@ -248,11 +252,10 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
-  assert.match(pageSource, /className="rewrite-puppet"/);
+  assert.match(pageSource, /className="rewrite-hand-motion"/);
   assert.match(pageSource, /Advisor strategy/);
-  assert.match(pageSource, /puppet-string puppet-string-one/);
-  assert.match(pageSource, /puppet-string puppet-string-two/);
-  assert.match(pageSource, /puppet-string puppet-string-three/);
+  assert.doesNotMatch(pageSource, /rewrite-puppet|puppet-crossbar|puppet-string/);
+  assert.doesNotMatch(globalStyles, /puppet-crossbar|puppet-string/);
   assert.match(globalStyles, /@keyframes rewriter-hand-left/);
   assert.match(globalStyles, /@keyframes strategy-control-signal/);
   assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
@@ -274,6 +277,10 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /className="training-feedback"|GRPO updates the advisor<\/li>/);
   assert.match(pageSource, /const \[paperGraph, setPaperGraph\] = useState\(false\)/);
   assert.match(pageSource, /data-graph-view=\{paperGraph \? "paper" : "narrative"\}/);
+  assert.match(pageSource, /className="narrative-method-view" aria-hidden=\{paperGraph\}/);
+  assert.match(pageSource, /className="system-graph-view" aria-hidden=\{!paperGraph\}/);
+  assert.match(pageSource, /aria-controls="setting-view-stage"/);
+  assert.doesNotMatch(pageSource, /<iframe|<object/);
   assert.match(pageSource, /className="graph-view-toggle"/);
   assert.match(pageSource, /aria-pressed=\{paperGraph\}/);
   assert.match(pageSource, /onClick=\{togglePaperGraph\}/);
@@ -281,6 +288,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /flushSync\(updateGraph\)/);
   assert.equal((pageSource.match(/className="concept-triptych"/g) ?? []).length, 1);
   assert.match(globalStyles, /--morph-time:\s*760ms/);
+  assert.match(globalStyles, /\.system-graph-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.narrative-method-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.system-graph-view\s*\{[^}]*grid-template-rows:\s*1fr/s);
+  assert.match(globalStyles, /\.narrative-method-artwork\s*\{[^}]*min-width:\s*880px/s);
+  assert.match(globalStyles, /animation-play-state:\s*paused/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.triptych-panel/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.selection-candidates/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.policy-feedback/);
@@ -290,6 +302,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.advisor-target-document/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor-target/);
+  assert.match(globalStyles, /view-transition-name:\s*graph-narrative-artwork/);
   assert.match(globalStyles, /::view-transition-group\(graph-feedback\)/);
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);
@@ -313,14 +326,20 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.playback-toggle\s*\{/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
-  const [, , editorHand, advisorScholar, selectorHand] = await Promise.all([
+  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
+    readFile(new URL("../public/narrative-method.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),
+    readFile(new URL("../public/rewriter-hand-strings.png", import.meta.url)),
     readFile(new URL("../public/advisor-scholar.png", import.meta.url)),
     readFile(new URL("../public/selector-hand.png", import.meta.url)),
   ]);
+  assert.equal(narrativeMethod[25], 2, "narrative method figure must be an RGB PNG");
+  assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
+  assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");
   assert.equal(editorHand[25], 6, "editor hand must be an RGBA PNG");
+  assert.equal(rewriterHand[25], 6, "rewriter hand with strings must be an RGBA PNG");
   assert.equal(advisorScholar[25], 6, "advisor scholar must be an RGBA PNG");
   assert.equal(selectorHand[25], 6, "selector hand must be an RGBA PNG");
 });

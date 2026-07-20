@@ -412,6 +412,7 @@ export default function Home() {
                 type="button"
                 className="graph-view-toggle"
                 aria-label={paperGraph ? "Show narrative figure" : "Show paper graph"}
+                aria-controls="setting-view-stage"
                 aria-pressed={paperGraph}
                 onClick={togglePaperGraph}
               >
@@ -424,6 +425,24 @@ export default function Home() {
               <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
             </div>
 
+            <div className="setting-view-stage" id="setting-view-stage">
+            <div className="narrative-method-view" aria-hidden={paperGraph}>
+              <div className="setting-view-content narrative-method-figure" tabIndex={paperGraph ? -1 : 0}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  className="narrative-method-artwork"
+                  src={assetUrl("/narrative-method.png")}
+                  alt="AgentBait narrative pipeline: a target document is selected from a fixed candidate slate, rewritten by a frozen rewriter under a learned advisor strategy, returned to the slate for target-agent selection, and the selection reward updates the advisor."
+                  width={3782}
+                  height={1416}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            <div className="system-graph-view" aria-hidden={!paperGraph}>
+            <div className="setting-view-content paper-graph-stage">
             <ol className="process-spine" aria-label="AgentBait process: read the target, edit it, then select from the fixed slate">
               <li><b>01</b><span>Read</span></li>
               <li><b>02</b><span>Edit</span></li>
@@ -473,14 +492,10 @@ export default function Home() {
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
                   <span className="ink-bottle" aria-hidden="true" />
-                  <div className="rewrite-puppet" aria-hidden="true">
+                  <div className="rewrite-hand-motion" aria-hidden="true">
                     <span className="strategy-control-tag">Advisor strategy</span>
-                    <span className="puppet-crossbar" />
-                    <span className="puppet-string puppet-string-one" />
-                    <span className="puppet-string puppet-string-two" />
-                    <span className="puppet-string puppet-string-three" />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className="triptych-quill" src={assetUrl("/editor-hand.png")} alt="" />
+                    <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
                   </div>
                   <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
                 </div>
@@ -509,6 +524,9 @@ export default function Home() {
               <span className="feedback-return" aria-hidden="true"><i /></span>
               <span className="feedback-ascent" aria-hidden="true"><i /></span>
               <p><span>Selection outcome defines the reward</span><b>GRPO updates the advisor policy.</b></p>
+            </div>
+            </div>
+            </div>
             </div>
             <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the chooser sees the full fixed slate. Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
           </figure>
