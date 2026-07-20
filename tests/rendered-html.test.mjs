@@ -149,7 +149,7 @@ test("server-renders the AgentBait research feature", async () => {
   const finding1 = sliceBetween(findingsText, "Finding 1", "Finding 2");
   const finding2 = sliceBetween(findingsText, "Finding 2", "Finding 3");
   const finding3 = sliceBetween(findingsText, "Finding 3", "Finding 4");
-  const finding4 = sliceBetween(findingsText, "Finding 4", "The effect travels");
+  const finding4 = sliceBetween(findingsText, "Finding 4", "Evidence table 1");
   assert.match(findingsText, /Four conclusions from the controlled comparison/);
   assert.match(finding1, /Presentation alone changes agent decisions/);
   assert.match(finding1, /17\.1%/);
@@ -171,10 +171,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(finding4, /Reward only/);
   assert.match(finding4, /reward \+ constraint/);
   assert.match(finding4, /Adding MiniCheck changes the learned strategy distribution, not only the final evaluation rubric\./);
-  assert.match(findingsText, /The effect travels/i);
-  assert.match(findingsText, /Across agents/);
-  assert.match(findingsText, /Across languages/);
-  assert.match(findingsText, /From news to scientific-paper selection/);
+  assert.doesNotMatch(findingsText, /The effect travels|Across agents|Across languages|From news to scientific-paper selection/i);
   assert.ok(findingsText.indexOf("Evidence table 1") < findingsText.indexOf("Target selection under original and rewritten presentations"));
   assert.ok(findingsText.indexOf("Evidence table 2") < findingsText.indexOf("Selection and source support under rewriting"));
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
@@ -203,6 +200,8 @@ test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.doesNotMatch(pageSource, /transfer-strip/);
+  assert.doesNotMatch(globalStyles, /\.transfer-strip/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
   assert.match(globalStyles, /--paper:\s*#f0eee8/);

@@ -564,8 +564,6 @@ export default function Home() {
             </article>
           </div>
 
-          <div className="transfer-strip"><span>The effect travels</span><ul><li>Across agents</li><li>Across languages</li><li>From news to scientific-paper selection</li></ul></div>
-
           <div className="finding-block">
             <header className="finding-heading"><span>Evidence table 1</span><h3 id="finding-one">Complete target-agent comparison</h3></header>
             <figure className="evidence-figure" aria-labelledby="main-results-caption">
