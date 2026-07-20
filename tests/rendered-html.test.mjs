@@ -88,7 +88,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
-  assert.match(html, /Click to reveal training loop/);
+  assert.match(html, /Auto flip after replay · inspect now/);
+  assert.match(html, /Auto return · replay again/);
   assert.match(html, /Show the advisor-rewriter training loop/);
   assert.match(html, /id="hero-candidate-set-title"/);
   assert.doesNotMatch(html, /id="method-candidate-set-title"|interactive-method-figure|method-flip-card/);
@@ -142,7 +143,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);
   assert.match(pageSource, /\["final", 12600\]/);
-  assert.match(pageSource, /completedFullEdit/);
+  assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
+  assert.match(pageSource, /setFlipped\(true\), 14600/);
+  assert.match(pageSource, /setFlipped\(false\), 19000/);
+  assert.match(pageSource, /setTimeout\(scheduleCycle, 20000\)/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /hero-flip-card/);

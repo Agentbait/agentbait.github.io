@@ -197,10 +197,9 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
-  const completedFullEdit = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -208,36 +207,35 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
 
     let timers: number[] = [];
     const clearTimers = () => timers.forEach((timer) => window.clearTimeout(timer));
-    const schedulePlayback = () => {
+    const scheduleCycle = () => {
       clearTimers();
+      setFlipped(false);
+      setStage("candidate-set");
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setShowEditorHand(false);
-        completedFullEdit.current = true;
         timers = [window.setTimeout(() => setStage("final"), 0)];
         return;
       }
-      const fullEdit = !completedFullEdit.current;
-      setShowEditorHand(fullEdit);
-      const timeline: Array<[AttackStage, number]> = fullEdit
-        ? [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]]
-        : [["scan-a", 300], ["scan-b", 700], ["original-selected", 1200], ["focus", 1800], ["rewrite-title", 2300], ["rewrite-complete", 3600], ["return", 4300], ["rescan", 4700], ["selected", 5300], ["final", 6100]];
-      timers = timeline.map(([nextStage, delay]) => window.setTimeout(() => {
-        setStage(nextStage);
-        if (nextStage === "final") completedFullEdit.current = true;
-      }, delay));
+      setShowEditorHand(true);
+      const timeline: Array<[AttackStage, number]> = [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]];
+      timers = timeline.map(([nextStage, delay]) => window.setTimeout(() => setStage(nextStage), delay));
+      timers.push(window.setTimeout(() => setFlipped(true), 14600));
+      timers.push(window.setTimeout(() => setFlipped(false), 19000));
+      timers.push(window.setTimeout(scheduleCycle, 20000));
     };
 
     if (typeof IntersectionObserver === "undefined") {
-      schedulePlayback();
+      scheduleCycle();
       return clearTimers;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          schedulePlayback();
+          scheduleCycle();
         } else {
           clearTimers();
+          setFlipped(false);
           setStage("candidate-set");
         }
       },
@@ -248,15 +246,15 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
       clearTimers();
       observer.disconnect();
     };
-  }, [ref]);
+  }, [ref, setFlipped]);
 
   return { stage, showEditorHand };
 }
 
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef);
   const [heroFlipped, setHeroFlipped] = useState(false);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped);
   const [copied, setCopied] = useState(false);
 
   function toggleHeroFigure() {
@@ -326,13 +324,13 @@ export default function Home() {
             <div className="hero-flip-inner">
               <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
                 <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
-                <span className="flip-cue">Click to reveal training loop ↻</span>
+                <span className="flip-cue">Auto flip after replay · inspect now ↻</span>
               </div>
               <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
                 {/* The source is the publication-resolution figure exported with the manuscript. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-                <span className="flip-cue">Click to return to chooser replay ↻</span>
+                <span className="flip-cue">Auto return · replay again ↻</span>
               </div>
             </div>
           </div>
