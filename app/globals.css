@@ -559,13 +559,13 @@ figcaption b { color: var(--ink); }
 .grounded-mark { color: var(--green); border-color: var(--green); }
 
 .results { background: var(--paper) !important; }
-.finding-summary { max-width: 1140px; margin: 48px auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 3px solid var(--navy); border-bottom: 1px solid var(--navy); }
-.finding-summary article { min-width: 0; padding: 23px 25px 25px; }
+.finding-summary { max-width: 1140px; margin: 48px auto 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 3px solid var(--navy); border-bottom: 1px solid var(--navy); }
+.finding-summary article { min-width: 0; padding: 23px 18px 25px; }
 .finding-summary article:first-child { padding-left: 0; }
 .finding-summary article:last-child { padding-right: 0; }
 .finding-summary article + article { border-left: 1px solid var(--rule-dark); }
 .finding-summary-kicker { margin: 0 0 16px; color: var(--red); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-.finding-summary h3 { min-height: 54px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.15; }
+.finding-summary h3 { min-height: 100px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(18px, 1.55vw, 21px); font-weight: 600; line-height: 1.15; }
 .finding-shift { margin: 22px 0 15px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 9px; align-items: center; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .finding-shift > span { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .finding-shift b { color: var(--navy); font-size: clamp(27px, 2.65vw, 40px); font-weight: 500; line-height: 1; letter-spacing: -.055em; }

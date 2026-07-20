@@ -535,27 +535,33 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">Three conclusions from the controlled comparison</h2><p className="lead">Presentation changes observed selection. Learning amplifies that shift, but selection success does not establish source support or usefulness.</p></div>
+            <div className="prose"><h2 id="results-title">Four conclusions from the controlled comparison</h2><p className="lead">Presentation changes decisions. Learned strategies transfer. Selection and factual quality can diverge, and constraints alter the policy itself.</p></div>
           </div>
 
-          <div className="finding-summary" aria-label="Three principal findings">
+          <div className="finding-summary" aria-label="Four principal findings">
             <article>
               <p className="finding-summary-kicker">Finding 1</p>
-              <h3>Presentation alone changes behavior</h3>
+              <h3>Presentation alone changes agent decisions</h3>
               <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with standalone rewriting"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Standalone rewriting</small></span></div>
               <p className="finding-summary-copy">The chooser moves before advisor training begins.</p>
             </article>
             <article>
               <p className="finding-summary-kicker">Finding 2</p>
-              <h3>Learning amplifies the shift</h3>
+              <h3>Learned advice produces strong, transferable selection strategies</h3>
               <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 98.5 percent with the trained advisor"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
-              <p className="finding-summary-copy">The advisor learns strategies that make the target substantially more selectable.</p>
+              <p className="finding-summary-copy">The learned strategies remain effective across target agents, languages and document domains.</p>
             </article>
             <article>
               <p className="finding-summary-kicker">Finding 3</p>
-              <h3>Selection success is not content quality</h3>
+              <h3>Selection success and factual quality can diverge</h3>
               <div className="finding-equation" aria-label="More selected does not mean more faithful"><b>More selected</b><i aria-hidden="true">≠</i><b>more faithful</b></div>
               <p className="finding-summary-copy">Unconstrained optimization can discover unsupported shortcuts rather than better content.</p>
+            </article>
+            <article>
+              <p className="finding-summary-kicker">Finding 4</p>
+              <h3>Constraints change what the advisor learns, not merely how its outputs are scored.</h3>
+              <div className="finding-equation" aria-label="Reward-only training differs from training with a factuality constraint"><b>Reward only</b><i aria-hidden="true">≠</i><b>reward + constraint</b></div>
+              <p className="finding-summary-copy">Adding MiniCheck changes the learned strategy distribution, not only the final evaluation rubric.</p>
             </article>
           </div>
 
