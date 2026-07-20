@@ -308,7 +308,7 @@ export default function Home() {
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
           <p className="hero-eyebrow">01 · Agent-legible presentation effects</p>
-          <h1 id="paper-title">Does a better presentation become a different decision?</h1>
+          <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord />: Content Rewriting for Agentic Choice</h1>
           <p className="standfirst">We rewrite one target item&apos;s title and abstract, then ask the same LLM chooser to select again from the same candidate list.</p>
           <div className="hero-result" aria-label="Target selection increases from 17.1 percent to 98.5 percent with a learned advisor">
             <p><b>17.1%</b><i aria-hidden="true">→</i><b>98.5%</b></p>
@@ -316,7 +316,6 @@ export default function Home() {
             <small>MIND-English · GPT-5-mini target agent</small>
           </div>
           <div className="paper-identity">
-            <p className="paper-title-line"><span>Paper</span><b>You Won&apos;t Believe This <InteractiveClickWord />: Content Rewriting for Agentic Choice</b></p>
             <div className="byline">
               <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
               <p>University of California, Berkeley</p>
