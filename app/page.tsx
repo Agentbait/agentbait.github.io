@@ -202,7 +202,6 @@ export default function Home() {
       <article>
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
-          <p className="rubric">Agent-mediated information access <span>Working paper · July 2026</span></p>
           <h1 id="paper-title">You Won&apos;t Believe This Click</h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">Small textual rewrites can systematically manipulate LLM-based recommendation agents.</p>

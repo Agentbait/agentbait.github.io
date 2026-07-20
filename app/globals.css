@@ -58,8 +58,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 .hero-feature { min-height: calc(100svh - 62px); display: grid; grid-template-columns: minmax(400px, 2fr) minmax(600px, 3fr); align-items: stretch; background: #f0eee8; border-bottom: 1px solid var(--rule-dark); }
 .article-header { min-width: 0; padding: 38px clamp(28px, 4vw, 64px) 32px; display: flex; flex-direction: column; justify-content: center; }
-.rubric { max-width: 1280px; margin: 0 auto 38px; padding-bottom: 11px; display: flex; justify-content: space-between; gap: 18px; border-bottom: 2px solid var(--navy); color: var(--red); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-.rubric span { color: var(--muted); }
 .article-header h1 { max-width: 1280px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(52px, 4.5vw, 76px); font-weight: 500; line-height: .92; letter-spacing: -.04em; }
 .subtitle { max-width: 1280px; margin: 17px 0 0; color: var(--blue); font-family: var(--serif); font-size: clamp(24px, 2.2vw, 34px); font-style: italic; line-height: 1.12; letter-spacing: -.018em; }
 .standfirst { max-width: 870px; margin: 24px 0 0; font-family: var(--serif); font-size: clamp(18px, 1.35vw, 22px); line-height: 1.48; letter-spacing: -.008em; }
@@ -440,8 +438,6 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .site-header nav a { font-size: 9px; }
   .site-header nav a:nth-child(4) { display: none; }
   .article-header, .story-section { padding: 54px 19px; }
-  .rubric { margin-bottom: 35px; }
-  .rubric span { display: none; }
   .article-header h1 { font-size: clamp(48px, 17vw, 72px); }
   .standfirst { margin-top: 32px; }
   .paper-links { flex-wrap: wrap; }
