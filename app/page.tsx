@@ -227,16 +227,6 @@ export default function Home() {
           </div>
 
           <CandidateStoryboard stage={stage} />
-          <p className="demo-status">
-            {["candidate-set", "scan-a", "scan-b"].includes(stage) && "Scene 1 · The chooser scans three fixed MIND snippets; target A stays in place."}
-            {stage === "original-selected" && "Scene 2 · Before rewriting, the chooser stops on B; A is not selected."}
-            {stage === "focus" && "Scene 3 · The view isolates the unselected target before any text changes."}
-            {stage === "rewrite-title" && "Scene 4 · A visible editing cursor rewrites the target title."}
-            {stage === "rewrite-complete" && "Scene 4 · The real Figure 1 rewrite is now complete; no other candidate text changes."}
-            {["return", "rescan"].includes(stage) && "Scene 5 · The same candidate set returns with only the target presentation changed."}
-            {stage === "selected" && "Scene 6 · The chooser now stops on A. Candidate positions remain unchanged."}
-            {stage === "final" && "Scene 7 · Before: Click B. After: Click A."}
-          </p>
           <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
         </section>
         </section>

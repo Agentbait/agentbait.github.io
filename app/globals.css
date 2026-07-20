@@ -194,9 +194,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .attack-pipeline li.active > span { color: white; background: var(--red); border-color: var(--red); }
 .attack-pipeline li.active.factuality > span { background: var(--green); border-color: var(--green); }
 .fixed-order-note { margin: 4px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--red); font-family: var(--mono); font-size: 9px; text-align: center; text-transform: uppercase; }
-.demo-status, .demo-caption { max-width: 1380px; margin-left: auto; margin-right: auto; }
-.demo-status { min-height: 27px; margin-top: 8px; margin-bottom: 0; color: var(--navy); font-family: var(--mono); font-size: 10px; line-height: 1.4; }
-.demo-caption { margin-top: 2px; margin-bottom: 0; color: var(--muted); font-family: var(--serif); font-size: 13px; line-height: 1.55; }
+.demo-caption { max-width: 1080px; margin: 10px auto 0; color: var(--muted); font-family: var(--serif); font-size: 13px; line-height: 1.55; }
 .demo-caption b { color: var(--ink); }
 
 .story-section { padding: 82px clamp(24px, 7vw, 126px); border-bottom: 1px solid var(--rule-dark); }
@@ -452,7 +450,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .news-copy b { font-size: 9px; }
   .attack-pipeline { padding-inline: 5px; }
   .attack-pipeline li small { display: none; }
-  .demo-status, .demo-caption { padding-inline: 7px; }
+  .demo-caption { padding-inline: 7px; }
   .section-label { margin-bottom: 34px; }
   .prose h2, .resources h2 { font-size: 36px; }
   .prose p, .prose .lead { font-size: 17px; }
