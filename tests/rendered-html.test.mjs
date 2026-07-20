@@ -21,7 +21,7 @@ test("server-renders the AgentBait research feature", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
-  assert.match(html, /Auto play/);
+  assert.doesNotMatch(html, /Interactive Figure 1|Eleven-second fixed-set chooser replay|Auto play/);
   assert.match(html, /Automatically animated AgentBait fixed-slate comparison/);
   assert.doesNotMatch(html, /Run AgentBait|Replay AgentBait/);
   assert.match(html, /Candidate Set/);

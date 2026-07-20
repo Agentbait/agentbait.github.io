@@ -222,12 +222,7 @@ export default function Home() {
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-labelledby="demo-title">
           <div className="demo-heading">
             <div>
-              <p className="section-label-inline">Interactive Figure 1</p>
               <h2 id="demo-title">The cards do not move. The chooser does.</h2>
-            </div>
-            <div className="demo-action autoplay-indicator" aria-label={`Automatic demonstration status: ${stage}`}>
-              <span><i className="autoplay-dot" aria-hidden="true" /> Auto play</span>
-              <p>Eleven-second fixed-set chooser replay</p>
             </div>
           </div>
 
@@ -242,7 +237,7 @@ export default function Home() {
             {stage === "selected" && "Scene 6 · The chooser now stops on A. Candidate positions remain unchanged."}
             {stage === "final" && "Scene 7 · Before: Click B. After: Click A."}
           </p>
-          <p className="demo-caption"><b>Interactive Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
+          <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
         </section>
         </section>
 
@@ -389,7 +384,7 @@ export default function Home() {
         <section className="story-section resources" id="resources" aria-labelledby="resources-title">
           <div className="section-label">07 · Abstract, resources and citation</div>
           <div className="abstract-grid"><div><p className="figure-number">Abstract</p><h2 id="resources-title">A post-retrieval presentation effect</h2></div><p>Language-model agents increasingly mediate which documents users see. We study whether one item&apos;s short-text presentation can alter an agent&apos;s choice from a fixed candidate list. AgentBait trains an advisor to propose rewriting strategies for a frozen rewriter. Selection gains transfer across target agents, languages and datasets, while unconstrained optimization can reduce source faithfulness. The results isolate a conditional selection effect—not end-to-end retrieval quality or human usefulness.</p></div>
-          <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Interactive Figure 1</b><em>↑</em></a></div>
+          <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
           <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
         </section>
       </article>
