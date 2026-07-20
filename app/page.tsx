@@ -133,7 +133,7 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
 
   useEffect(() => {
-    const node = demoRef.current;
+    const node = ref.current;
     if (!node) return;
 
     let timers: number[] = [];

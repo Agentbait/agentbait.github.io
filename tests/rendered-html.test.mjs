@@ -103,6 +103,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /text-cursor/);
   assert.match(pageSource, /selection-highlight/);
   assert.match(pageSource, /setStage\("final"\), 11000/);
+  assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
+  assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /method-flip-card/);
   assert.match(pageSource, /rotateY\(180deg\)|methodFlipped/);
 
