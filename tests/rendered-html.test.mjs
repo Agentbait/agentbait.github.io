@@ -277,8 +277,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /className="training-feedback"|GRPO updates the advisor<\/li>/);
   assert.match(pageSource, /const \[paperGraph, setPaperGraph\] = useState\(false\)/);
   assert.match(pageSource, /data-graph-view=\{paperGraph \? "paper" : "narrative"\}/);
-  assert.match(pageSource, /className="narrative-method-view" aria-hidden=\{paperGraph\}/);
-  assert.match(pageSource, /className="system-graph-view" aria-hidden=\{!paperGraph\}/);
+  assert.match(pageSource, /className="paper-method-view" aria-hidden=\{!paperGraph\}/);
+  assert.match(pageSource, /className="system-graph-view" aria-hidden=\{paperGraph\}/);
   assert.match(pageSource, /aria-controls="setting-view-stage"/);
   assert.doesNotMatch(pageSource, /<iframe|<object/);
   assert.match(pageSource, /className="graph-view-toggle"/);
@@ -288,10 +288,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /flushSync\(updateGraph\)/);
   assert.equal((pageSource.match(/className="concept-triptych"/g) ?? []).length, 1);
   assert.match(globalStyles, /--morph-time:\s*760ms/);
-  assert.match(globalStyles, /\.system-graph-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
-  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.narrative-method-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
-  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.system-graph-view\s*\{[^}]*grid-template-rows:\s*1fr/s);
-  assert.match(globalStyles, /\.narrative-method-artwork\s*\{[^}]*min-width:\s*880px/s);
+  assert.match(globalStyles, /\.paper-method-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.system-graph-view\s*\{[^}]*grid-template-rows:\s*1fr/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.paper-method-view\s*\{[^}]*grid-template-rows:\s*1fr/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.system-graph-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.paper-method-artwork\s*\{[^}]*min-width:\s*880px/s);
   assert.match(globalStyles, /animation-play-state:\s*paused/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.triptych-panel/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.selection-candidates/);
@@ -302,7 +303,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.advisor-target-document/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor-target/);
-  assert.match(globalStyles, /view-transition-name:\s*graph-narrative-artwork/);
+  assert.match(globalStyles, /view-transition-name:\s*graph-paper-artwork/);
   assert.match(globalStyles, /::view-transition-group\(graph-feedback\)/);
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);

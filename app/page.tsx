@@ -426,11 +426,11 @@ export default function Home() {
             </div>
 
             <div className="setting-view-stage" id="setting-view-stage">
-            <div className="narrative-method-view" aria-hidden={paperGraph}>
-              <div className="setting-view-content narrative-method-figure" tabIndex={paperGraph ? -1 : 0}>
+            <div className="paper-method-view" aria-hidden={!paperGraph}>
+              <div className="setting-view-content paper-method-figure" tabIndex={paperGraph ? 0 : -1}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  className="narrative-method-artwork"
+                  className="paper-method-artwork"
                   src={assetUrl("/narrative-method.png")}
                   alt="AgentBait narrative pipeline: a target document is selected from a fixed candidate slate, rewritten by a frozen rewriter under a learned advisor strategy, returned to the slate for target-agent selection, and the selection reward updates the advisor."
                   width={3782}
@@ -441,7 +441,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="system-graph-view" aria-hidden={!paperGraph}>
+            <div className="system-graph-view" aria-hidden={paperGraph}>
             <div className="setting-view-content paper-graph-stage">
             <ol className="process-spine" aria-label="AgentBait process: read the target, edit it, then select from the fixed slate">
               <li><b>01</b><span>Read</span></li>
