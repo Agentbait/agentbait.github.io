@@ -14,19 +14,48 @@ async function render() {
   );
 }
 
+function toPlainText(html) {
+  return html
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&quot;/g, '"')
+    .replace(/(?:&#x27;|&#39;|&apos;)/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function sliceBetween(text, start, end) {
+  const startIndex = text.indexOf(start);
+  const endIndex = text.indexOf(end, startIndex + start.length);
+  assert.ok(startIndex >= 0, `Missing section marker: ${start}`);
+  assert.ok(endIndex > startIndex, `Missing or misordered marker: ${end}`);
+  return text.slice(startIndex, endIndex);
+}
+
 test("server-renders the AgentBait research feature", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const plainText = toPlainText(html);
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
   assert.match(html, /class="click-word"/);
   assert.match(html, /Complete the word Click/);
   assert.match(html, /class="click-placeholder">_<\/span>/);
   assert.doesNotMatch(html, /Click, selected/);
-  assert.match(html, /We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select\. Selection rate: 17\.1% → 98\.5%/);
-  assert.doesNotMatch(html, /an LLM chooser/);
+  assert.match(plainText, /01 · Agent-legible presentation effects/i);
+  assert.match(plainText, /Does a better presentation become a different decision\?/);
+  assert.match(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
+  assert.match(plainText, /17\.1% → 98\.5%/);
+  assert.match(plainText, /Target selection with a learned advisor/);
+  assert.match(plainText, /MIND-English · GPT-5-mini target agent/);
+  assert.doesNotMatch(plainText, /We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select/);
   assert.doesNotMatch(html, /Small textual rewrites can systematically manipulate LLM-based recommendation agents/);
   assert.doesNotMatch(html, /Interactive Figure 1|Eleven-second fixed-set chooser replay|Auto play/);
   assert.doesNotMatch(html, /Scene [1-7] ·/);
@@ -46,14 +75,31 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /news-thumb/);
   assert.doesNotMatch(html, /clearer framing|stronger relevance|same underlying content/i);
   assert.doesNotMatch(html, /Original baseline|Rewriting outcomes with and without MiniCheck/);
-  assert.match(html, /Research question/);
+  assert.doesNotMatch(plainText, /Research question/);
   assert.doesNotMatch(html, /Agent-mediated information access|Working paper · July 2026/);
   assert.doesNotMatch(html, /class="margin-note numbered-note"/);
   assert.match(html, /Examples as editorial redlines/);
-  assert.ok(html.indexOf("Research question") < html.indexOf("Key findings"));
-  assert.ok(html.indexOf("Key findings") < html.indexOf("Robustness, transfer and failure"));
-  assert.ok(html.indexOf("Robustness, transfer and failure") < html.indexOf("Experimental setting"));
-  assert.ok(html.indexOf("Experimental setting") < html.indexOf("Examples as editorial redlines"));
+  const abstractText = sliceBetween(plainText, "02 · Abstract", "03 · Interactive setting");
+  const settingText = sliceBetween(plainText, "03 · Interactive setting", "04 · Key findings");
+  const findingsText = sliceBetween(plainText, "04 · Key findings", "05 · Robustness, transfer and failure");
+  assert.ok(plainText.indexOf("02 · Abstract") < plainText.indexOf("03 · Interactive setting"));
+  assert.ok(plainText.indexOf("03 · Interactive setting") < plainText.indexOf("04 · Key findings"));
+  assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Robustness, transfer and failure"));
+  assert.ok(plainText.indexOf("05 · Robustness, transfer and failure") < plainText.indexOf("06 · Examples as editorial redlines"));
+  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · Methods"));
+  assert.ok(plainText.indexOf("07 · Methods") < plainText.indexOf("08 · Paper resources and citation"));
+
+  const formalAbstractParts = [
+    "Language models are increasingly used as agents to help humans decide what information is surfaced. This usage incentivizes content creators to optimize content in ways that appeal not only to humans, but also to agents that mediate access to them. In this paper, we study selection shifts induced by rewriting in agentic decision-making. Given a set of competing content snippets, we rewrite only one snippet while leaving the rest unchanged, and then measure how it impacts the agent's choice.",
+    "We operationalize this setup with AgentBait, an advisor-rewriter framework in which the advisor learns to propose rewriting strategies and the rewriter revises the snippet. While a rewriter with a fixed prompt improves target snippet selection from 17.1% to 34.8%, our AgentBait raises its selection to 98.5%. We further show that the advisor trained with AgentBait effectively transfers to setups with different agents, languages, and snippets in other domains (e.g., scientific papers).",
+    "However, higher target selection can reflect unsupported rewrites rather than better content. Adding a reward for support from the original snippet redirects the advisor toward more supported rewriting strategies, revealing a trade-off between factuality and target selection. Together, our results show that once agents mediate access to information, content can be rewritten to be chosen by the agent, even when selection and usefulness diverge.",
+  ];
+  for (const paragraph of formalAbstractParts) assert.ok(abstractText.includes(paragraph), `Formal Abstract paragraph is missing or altered: ${paragraph.slice(0, 70)}…`);
+  assert.match(abstractText, /"Preference" refers only to observed choices under the same prompt and candidate list, not to a belief, stable preference, or judgment that the rewritten item is better\./);
+  assert.match(abstractText, /Observed choice, not intrinsic quality/i);
+
+  assert.match(settingText, /Same slate\. One rewrite\. A different decision\./);
+  assert.match(settingText, /The candidate list has already been constructed\. Only the target presentation may change\./);
   assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
   assert.match(html, /Held constant across conditions/);
   assert.match(html, /Candidate identity/);
@@ -61,11 +107,17 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Rewriter/);
   assert.match(html, /Selection/);
   assert.match(html, /Strategy note/);
-  assert.match(html, /Ranks candidates and proposes a strategy/);
-  assert.match(html, /Rewrites target B only/);
-  assert.match(html, /Chooses one winner from the same fixed slate/);
+  assert.match(settingText, /Reads the slate and proposes an explicit rewriting strategy\./);
+  assert.match(settingText, /Applies the strategy to the target title and abstract only\./);
+  assert.match(settingText, /Selects one item from the unchanged candidate slate\./);
   assert.match(html, /AgentBait process: read, edit, then select/);
   assert.match(html, /MiniCheck sentence support/);
+  assert.match(settingText, /Selection outcome/);
+  assert.match(settingText, /Reward/);
+  assert.match(settingText, /GRPO updates the advisor/);
+  assert.match(settingText, /Rewriter · Frozen/);
+  assert.match(settingText, /Chooser · Frozen/);
+  assert.match(settingText, /Advisor · Trained/);
   assert.match(html, /\/advisor-scholar\.png/);
   assert.match(html, /\/selector-hand\.png/);
   assert.match(html, /Cross-lingual transfer on fixed MIND slates/);
@@ -77,8 +129,31 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Target selection under original and rewritten presentations/);
   assert.doesNotMatch(html, /Cross-target-agent mismatch/);
   assert.match(html, /Selection and source support under rewriting/);
-  assert.ok(html.indexOf("Finding 1") < html.indexOf("Target selection under original and rewritten presentations"));
-  assert.ok(html.indexOf("Finding 2") < html.indexOf("Selection and source support under rewriting"));
+  const finding1 = sliceBetween(findingsText, "Finding 1", "Finding 2");
+  const finding2 = sliceBetween(findingsText, "Finding 2", "Finding 3");
+  const finding3 = sliceBetween(findingsText, "Finding 3", "The effect travels");
+  assert.match(finding1, /Presentation alone changes behavior/);
+  assert.match(finding1, /17\.1%/);
+  assert.match(finding1, /34\.8%/);
+  assert.match(finding1, /Original target/);
+  assert.match(finding1, /Standalone rewriting/);
+  assert.match(finding1, /The chooser moves before advisor training begins\./);
+  assert.match(finding2, /Learning amplifies the shift/);
+  assert.match(finding2, /17\.1%/);
+  assert.match(finding2, /98\.5%/);
+  assert.match(finding2, /Trained advisor/);
+  assert.match(finding2, /The advisor learns strategies that make the target substantially more selectable\./);
+  assert.match(finding3, /Selection success is not content quality/);
+  assert.match(finding3, /More selected/);
+  assert.match(finding3, /≠/);
+  assert.match(finding3, /more faithful/);
+  assert.match(finding3, /Unconstrained optimization can discover unsupported shortcuts rather than better content\./);
+  assert.match(findingsText, /The effect travels/i);
+  assert.match(findingsText, /Across agents/);
+  assert.match(findingsText, /Across languages/);
+  assert.match(findingsText, /From news to scientific-paper selection/);
+  assert.ok(findingsText.indexOf("Evidence table 1") < findingsText.indexOf("Target selection under original and rewritten presentations"));
+  assert.ok(findingsText.indexOf("Evidence table 2") < findingsText.indexOf("Selection and source support under rewriting"));
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
@@ -87,7 +162,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
-  assert.match(html, /\/agentbait-method\.png/);
+  assert.doesNotMatch(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
   assert.match(html, /Pause hero animation/);
@@ -117,11 +192,14 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
   assert.match(globalStyles, /\.process-spine\s*\{/);
+  assert.match(globalStyles, /\.abstract-layout\s*\{/);
+  assert.match(globalStyles, /\.finding-summary\s*\{/);
+  assert.match(globalStyles, /\.training-feedback\s*\{/);
   assert.match(globalStyles, /\.cross-panel-path\s*\{/);
   assert.match(globalStyles, /@keyframes selection-pulse/);
   assert.match(globalStyles, /\.selection-beam\s*\{/);
   assert.doesNotMatch(globalStyles, /\.experiment-diagram\s*\{|\.candidate-panel\s*\{|\.intervention-panel\s*\{|\.reward-panel\s*\{/);
-  assert.match(globalStyles, /font-size:\s*clamp\(64px, 5\.2vw, 92px\)/);
+  assert.match(globalStyles, /font-size:\s*clamp\(48px, 4\.4vw, 70px\)/);
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
@@ -129,7 +207,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /onClick=\{completeWord\}/);
   assert.match(pageSource, /setTimeout\(\(\) => setSelectedVisible\(false\), 2600\)/);
   assert.match(pageSource, /className="click-letter"/);
-  assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
+  assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('id="abstract"'));
+  assert.ok(pageSource.indexOf('id="abstract"') < pageSource.indexOf('id="setting"'));
+  assert.ok(pageSource.indexOf('id="setting"') < pageSource.indexOf('id="results"'));
+  assert.doesNotMatch(pageSource, /story-section question|id="question"/);
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /advisor-scholar\.png/);
@@ -146,8 +227,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /\["final", 12600\]/);
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
   assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
-  assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);
-  assert.match(pageSource, /elapsed >= 14600 && elapsed < 19000/);
+  assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 15000/);
   assert.match(pageSource, /requestAnimationFrame\(update\)/);
   assert.match(pageSource, /heroPlaying/);
   assert.match(pageSource, /className="playback-toggle"/);
@@ -157,8 +237,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /toggleHeroFigure|handleHeroFigureKeyDown|flip-cue|scheduleCycle/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
-  assert.match(pageSource, /hero-flip-card/);
-  assert.match(pageSource, /rotateY\(180deg\)|heroFlipped/);
+  assert.match(pageSource, /hero-player-card/);
+  assert.doesNotMatch(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
   assert.match(globalStyles, /\.playback-toggle\s*\{/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);

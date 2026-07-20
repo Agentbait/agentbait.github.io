@@ -197,13 +197,12 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void, playing: boolean) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: boolean) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const elapsedRef = useRef(0);
   const stageRef = useRef<AttackStage>("candidate-set");
-  const flippedRef = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -228,8 +227,6 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setShowEditorHand(false);
         stageRef.current = "final";
         setStage("final");
-        flippedRef.current = false;
-        setFlipped(false);
       });
       return () => window.cancelAnimationFrame(reducedMotionFrame);
     }
@@ -243,7 +240,7 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
     const update = (now: number) => {
       if (lastFrameTime !== null) {
         const frameDelta = Math.min(now - lastFrameTime, 100);
-        elapsedRef.current = (elapsedRef.current + frameDelta) % 20000;
+        elapsedRef.current = (elapsedRef.current + frameDelta) % 15000;
       }
       lastFrameTime = now;
       const elapsed = elapsedRef.current;
@@ -258,18 +255,12 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setStage(nextStage);
       }
 
-      const nextFlipped = elapsed >= 14600 && elapsed < 19000;
-      if (flippedRef.current !== nextFlipped) {
-        flippedRef.current = nextFlipped;
-        setFlipped(nextFlipped);
-      }
-
       animationFrame = window.requestAnimationFrame(update);
     };
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [isVisible, playing, setFlipped]);
+  }, [isVisible, playing]);
 
   return { stage, showEditorHand };
 }
@@ -277,9 +268,8 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
   const heroAnimationRef = useRef<HTMLDivElement>(null);
-  const [heroFlipped, setHeroFlipped] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(true);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -317,10 +307,16 @@ export default function Home() {
       <article>
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
-          <h1 id="paper-title" aria-label="You Won't Believe This Click">You Won&apos;t Believe This <InteractiveClickWord /></h1>
-          <p className="subtitle">Content Rewriting for Agentic Choice</p>
-          <p className="standfirst">We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select. Selection rate: 17.1% → 98.5%</p>
+          <p className="hero-eyebrow">01 · Agent-legible presentation effects</p>
+          <h1 id="paper-title">Does a better presentation become a different decision?</h1>
+          <p className="standfirst">We rewrite one target item&apos;s title and abstract, then ask the same LLM chooser to select again from the same candidate list.</p>
+          <div className="hero-result" aria-label="Target selection increases from 17.1 percent to 98.5 percent with a learned advisor">
+            <p><b>17.1%</b><i aria-hidden="true">→</i><b>98.5%</b></p>
+            <span>Target selection with a learned advisor</span>
+            <small>MIND-English · GPT-5-mini target agent</small>
+          </div>
           <div className="paper-identity">
+            <p className="paper-title-line"><span>Paper</span><b>You Won&apos;t Believe This <InteractiveClickWord />: Content Rewriting for Agentic Choice</b></p>
             <div className="byline">
               <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
               <p>University of California, Berkeley</p>
@@ -334,17 +330,10 @@ export default function Home() {
           </div>
         </header>
 
-        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
-          <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
-            <div ref={heroAnimationRef} className="hero-flip-inner">
-              <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
-                <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
-              </div>
-              <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
-                {/* The source is the publication-resolution figure exported with the manuscript. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-              </div>
+        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay">
+          <div className={`hero-player-card ${heroPlaying ? "" : "is-paused"}`}>
+            <div ref={heroAnimationRef} className="hero-player-surface">
+              <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
             </div>
             <button
               type="button"
@@ -355,30 +344,135 @@ export default function Home() {
               <span className={`playback-icon ${heroPlaying ? "is-pause" : "is-play"}`} aria-hidden="true" />
             </button>
           </div>
-          <p className="demo-caption">{heroFlipped ? <><b>Advisor–rewriter training loop.</b> The advisor proposes strategy; the frozen rewriter edits the target; the chooser supplies selection reward, optionally with MiniCheck support.</> : <><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</>}</p>
+          <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</p>
         </section>
         </section>
 
-        <section className="story-section question" id="question" aria-labelledby="question-title">
-          <div className="section-label">01 · Research question</div>
-          <div className="story-grid solo-grid">
+        <section className="story-section abstract-section" id="abstract" aria-labelledby="abstract-title">
+          <div className="section-label">02 · Abstract</div>
+          <div className="abstract-layout">
+            <div className="abstract-copy">
+              <h2 id="abstract-title">Abstract</h2>
+              <p>Language models are increasingly used as agents to help humans decide what information is surfaced. This usage incentivizes content creators to optimize content in ways that appeal not only to humans, but also to agents that mediate access to them. In this paper, we study selection shifts induced by rewriting in agentic decision-making. Given a set of competing content snippets, we rewrite only one snippet while leaving the rest unchanged, and then measure how it impacts the agent&apos;s choice.</p>
+              <p>We operationalize this setup with AgentBait, an advisor-rewriter framework in which the advisor learns to propose rewriting strategies and the rewriter revises the snippet. While a rewriter with a fixed prompt improves target snippet selection from 17.1% to 34.8%, our AgentBait raises its selection to 98.5%. We further show that the advisor trained with AgentBait effectively transfers to setups with different agents, languages, and snippets in other domains (e.g., scientific papers).</p>
+              <p>However, higher target selection can reflect unsupported rewrites rather than better content. Adding a reward for support from the original snippet redirects the advisor toward more supported rewriting strategies, revealing a trade-off between factuality and target selection. Together, our results show that once agents mediate access to information, content can be rewritten to be chosen by the agent, even when selection and usefulness diverge.</p>
+            </div>
+            <aside className="abstract-margin"><span>Observed choice,<br />not intrinsic quality</span><p>“Preference” refers only to observed choices under the same prompt and candidate list, not to a belief, stable preference, or judgment that the rewritten item is better.</p></aside>
+          </div>
+        </section>
+
+        <section className="story-section setting" id="setting" aria-labelledby="setting-title">
+          <div className="section-label">03 · Interactive setting</div>
+          <div className="story-grid setting-grid">
             <div className="prose">
-              <h2 id="question-title">Does a better presentation become a different decision?</h2>
-              <p className="lead">Recommendation is usually studied as a ranking problem. Here, ranking has already happened. Candidate identities, order and chooser prompt remain fixed. Only one target item&apos;s title and abstract may change.</p>
-              <p>AgentBait separates strategy from prose. A trainable advisor proposes how to rewrite; a frozen model performs the edit; a target agent selects one item from the unchanged slate.</p>
+              <h2 id="setting-title">Same slate. One rewrite.<br />A different decision.</h2>
+              <p>The candidate list has already been constructed. Only the target presentation may change.</p>
             </div>
           </div>
-          <blockquote><p>Same candidates. Same order. Same chooser. A different rendering of one item.</p></blockquote>
+          <figure className="slate-figure controlled-figure" aria-labelledby="setting-figure-title slate-caption">
+            <h3 className="experiment-thesis" id="setting-figure-title">Only the target text changes. The candidate set and chooser conditions remain fixed.</h3>
+            <div className="constant-ribbon">
+              <div className="constant-ribbon-title"><span aria-hidden="true">×</span><b>Held constant across conditions</b></div>
+              <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
+            </div>
+
+            <ol className="process-spine" aria-label="AgentBait process: read, edit, then select">
+              <li><b>01</b><span>Read</span></li>
+              <li><b>02</b><span>Edit</span></li>
+              <li><b>03</b><span>Select</span></li>
+            </ol>
+
+            <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
+              <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
+              <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
+              <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
+                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4><p>Reads the slate and proposes an explicit rewriting strategy.</p></header>
+                <div className="advisor-visual">
+                  <span className="arch-fragment" aria-hidden="true" />
+                  <div className="scholar-fragment" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/advisor-scholar.png" alt="" />
+                  </div>
+                  <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
+                    <li><b>A</b><span>Candidate A</span></li>
+                    <li className="advisor-target"><b>B</b><span>Target B</span></li>
+                    <li><b>C</b><span>Candidate C</span></li>
+                  </ol>
+                </div>
+                <p className="strategy-note"><span>Strategy note</span><b>Increase specificity and narrative tension</b></p>
+              </section>
+
+              <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
+                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p>Applies the strategy to the target title and abstract only.</p></header>
+                <div className="rewriter-visual">
+                  <div className="paper-fragment">
+                    <small>Original title</small>
+                    <p>A study of <del>news recommendation</del></p>
+                    <small>Rewritten title</small>
+                    <p className="rewritten-line">What Makes a Model Choose This?</p>
+                  </div>
+                  <span className="ink-bottle" aria-hidden="true" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="triptych-quill" src="/editor-hand.png" alt="" aria-hidden="true" />
+                  <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
+                </div>
+              </section>
+
+              <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
+                <header><span>03 · Select</span><h4 id="selection-panel-title">Same Chooser</h4><p>Selects one item from the unchanged candidate slate.</p></header>
+                <div className="selection-visual">
+                  <span className="selection-beam" aria-hidden="true" />
+                  <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
+                    <li><b>A</b><span>Candidate A</span></li>
+                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em></li>
+                    <li><b>C</b><span>Candidate C</span></li>
+                  </ol>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="selector-hand" src="/selector-hand.png" alt="" aria-hidden="true" />
+                </div>
+              </section>
+            </div>
+
+            <div className="training-feedback" aria-label="Advisor reinforcement learning feedback loop">
+              <p>RL feedback loop</p>
+              <ol><li>Selection outcome</li><li>Reward</li><li>GRPO updates the advisor</li></ol>
+              <ul aria-label="Training status"><li>Rewriter · Frozen</li><li>Chooser · Frozen</li><li>Advisor · Trained</li></ul>
+            </div>
+            <figcaption id="slate-caption"><b>Figure 2 | AgentBait system schematic.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
+          </figure>
         </section>
 
         <section className="story-section results" id="results" aria-labelledby="results-title">
-          <div className="section-label">02 · Key findings</div>
+          <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">A strong selection effect—and a separate support problem</h2><p className="lead">The largest number is only interpretable beside its baseline, evaluator, dataset and factuality condition.</p></div>
+            <div className="prose"><h2 id="results-title">Three conclusions from the controlled comparison</h2><p className="lead">Presentation changes observed selection. Learning amplifies that shift, but selection success does not establish source support or usefulness.</p></div>
           </div>
 
+          <div className="finding-summary" aria-label="Three principal findings">
+            <article>
+              <p className="finding-summary-kicker">Finding 1</p>
+              <h3>Presentation alone changes behavior</h3>
+              <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with standalone rewriting"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Standalone rewriting</small></span></div>
+              <p className="finding-summary-copy">The chooser moves before advisor training begins.</p>
+            </article>
+            <article>
+              <p className="finding-summary-kicker">Finding 2</p>
+              <h3>Learning amplifies the shift</h3>
+              <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 98.5 percent with the trained advisor"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
+              <p className="finding-summary-copy">The advisor learns strategies that make the target substantially more selectable.</p>
+            </article>
+            <article>
+              <p className="finding-summary-kicker">Finding 3</p>
+              <h3>Selection success is not content quality</h3>
+              <div className="finding-equation" aria-label="More selected does not mean more faithful"><b>More selected</b><i aria-hidden="true">≠</i><b>more faithful</b></div>
+              <p className="finding-summary-copy">Unconstrained optimization can discover unsupported shortcuts rather than better content.</p>
+            </article>
+          </div>
+
+          <div className="transfer-strip"><span>The effect travels</span><ul><li>Across agents</li><li>Across languages</li><li>From news to scientific-paper selection</li></ul></div>
+
           <div className="finding-block">
-            <header className="finding-heading"><span>Finding 1</span><h3 id="finding-one">Rewriting changes selection</h3></header>
+            <header className="finding-heading"><span>Evidence table 1</span><h3 id="finding-one">Complete target-agent comparison</h3></header>
             <figure className="evidence-figure" aria-labelledby="main-results-caption">
               <div className="figure-heading"><div><p className="figure-number">Table 1</p><h3>Target selection under original and rewritten presentations</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
               <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Policy",value:"Qwen3.5-9B"},{label:"Rewriter",value:"GPT-5-mini"},{label:"Baseline",value:"Original; chance = 16.9%"}]} />
@@ -390,7 +484,7 @@ export default function Home() {
           </div>
 
           <div className="finding-block">
-            <header className="finding-heading"><span>Finding 2</span><h3 id="finding-two">Selection can outrun source support</h3></header>
+            <header className="finding-heading"><span>Evidence table 2</span><h3 id="finding-two">Selection can outrun source support</h3></header>
             <figure className="evidence-figure" aria-labelledby="support-results-caption">
               <div className="figure-heading"><div><p className="figure-number">Table 2</p><h3>Selection and source support under rewriting</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
               <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Chooser",value:"GPT-5-mini"},{label:"Support",value:"MiniCheck-Flan"},{label:"Baseline",value:"Original selection = 17.1%"}]} />
@@ -401,7 +495,7 @@ export default function Home() {
         </section>
 
         <section className="story-section transfer" aria-labelledby="transfer-title">
-          <div className="section-label">03 · Robustness, transfer and failure</div>
+          <div className="section-label">05 · Robustness, transfer and failure</div>
           <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
 
           <figure className="evidence-figure robustness-figure" aria-labelledby="language-caption">
@@ -426,84 +520,8 @@ export default function Home() {
           </figure>
         </section>
 
-        <section className="story-section setting" id="setting" aria-labelledby="setting-title">
-          <div className="section-label">04 · Experimental setting</div>
-          <div className="story-grid setting-grid">
-            <div className="prose">
-              <h2 id="setting-title">A controlled intervention after retrieval</h2>
-              <p>The primary experiment uses held-out MIND news impressions. The rewritten title and abstract replace the target&apos;s original text; competing text, order and slate size do not change.</p>
-            </div>
-          </div>
-          <figure className="slate-figure controlled-figure" aria-labelledby="setting-figure-title slate-caption">
-            <h3 className="experiment-thesis" id="setting-figure-title">Only the target text changes. The candidate set and chooser conditions remain fixed.</h3>
-            <div className="constant-ribbon">
-              <div className="constant-ribbon-title"><span aria-hidden="true">×</span><b>Held constant across conditions</b></div>
-              <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
-            </div>
-
-            <ol className="process-spine" aria-label="AgentBait process: read, edit, then select">
-              <li><b>01</b><span>Read</span></li>
-              <li><b>02</b><span>Edit</span></li>
-              <li><b>03</b><span>Select</span></li>
-            </ol>
-
-            <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
-              <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
-              <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
-                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4><p>Ranks candidates and proposes a strategy</p></header>
-                <div className="advisor-visual">
-                  <span className="arch-fragment" aria-hidden="true" />
-                  <div className="scholar-fragment" aria-hidden="true">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/advisor-scholar.png" alt="" />
-                  </div>
-                  <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
-                    <li><b>A</b><span>Candidate A</span><em>.21</em></li>
-                    <li className="advisor-target"><b>B</b><span>Target B</span><em>.17</em></li>
-                    <li><b>C</b><span>Candidate C</span><em>.13</em></li>
-                  </ol>
-                </div>
-                <p className="strategy-note"><span>Strategy note</span><b>Increase specificity and narrative tension</b></p>
-              </section>
-
-              <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
-                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Rewriter</h4><p>Rewrites target B only</p></header>
-                <div className="rewriter-visual">
-                  <div className="paper-fragment">
-                    <small>Original title</small>
-                    <p>Marshawn playing in charity soccer game <del>went exactly as you&apos;d expect.</del></p>
-                    <small>Rewritten title</small>
-                    <p className="rewritten-line">When Marshawn Lynch Took the Pitch: An Inside Look …</p>
-                  </div>
-                  <span className="ink-bottle" aria-hidden="true" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="triptych-quill" src="/editor-hand.png" alt="" aria-hidden="true" />
-                  <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
-                </div>
-              </section>
-
-              <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><span>03 · Select</span><h4 id="selection-panel-title">Selection</h4><p>Chooses one winner from the same fixed slate</p></header>
-                <div className="selection-visual">
-                  <span className="selection-beam" aria-hidden="true" />
-                  <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
-                    <li><b>A</b><span>Candidate A</span></li>
-                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em></li>
-                    <li><b>C</b><span>Candidate C</span></li>
-                  </ol>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="selector-hand" src="/selector-hand.png" alt="" aria-hidden="true" />
-                </div>
-              </section>
-            </div>
-            <div className="triptych-objective"><span>Selection reward</span><b>Was target B selected?</b><i>+</i><span>Optional constraint</span><b>MiniCheck sentence support</b></div>
-            <figcaption id="slate-caption"><b>Figure 2 | AgentBait system.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
-          </figure>
-        </section>
-
         <section className="story-section case-study" id="examples" aria-labelledby="example-title">
-          <div className="section-label">05 · Examples as editorial redlines</div>
+          <div className="section-label">06 · Examples as editorial redlines</div>
           <div className="story-grid">
             <div className="prose"><h2 id="example-title">One airport story, two ways to win selection</h2><p>Both learned rewrites make the target selectable. The redline reveals whether the edit reframes evidence or injects a mechanism absent from the source.</p></div>
             <aside className="margin-note"><span>How to read</span><p><del>Struck text</del> is displaced source framing. <mark>Red text</mark> is introduced by the rewrite.</p></aside>
@@ -533,12 +551,12 @@ export default function Home() {
         </section>
 
         <section className="story-section methods" id="methods" aria-labelledby="methods-title">
-          <div className="section-label">06 · Methods</div>
+          <div className="section-label">07 · Methods</div>
           <div className="story-grid"><div className="prose"><h2 id="methods-title">The advisor learns strategy; the rewriter supplies prose</h2><p>The Qwen3.5-9B advisor samples high-level strategies. GPT-5-mini, frozen in the advisor setting, turns each strategy into a revised title and abstract. GRPO reinforces strategies that lead the target agent to select the treated item.</p><p>The factuality-constrained variant adds the minimum sentence-level MiniCheck score, allowing one unsupported sentence to reduce the support reward.</p></div><aside className="margin-note"><span>Strategy audit</span><p>Unconstrained GPT-5-mini training produces an unfaithful technical pivot in 96.2% of audited outputs; with MiniCheck, 0.1%.</p></aside></div>
         </section>
 
         <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
-          <div className="section-label">07 · Paper resources and citation</div>
+          <div className="section-label">08 · Paper resources and citation</div>
           <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
           <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
         </section>
