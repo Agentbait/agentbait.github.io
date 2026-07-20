@@ -226,13 +226,7 @@ export default function Home() {
           </div>
         </header>
 
-        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-labelledby="demo-title">
-          <div className="demo-heading">
-            <div>
-              <h2 id="demo-title">The cards do not move. The chooser does.</h2>
-            </div>
-          </div>
-
+        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay">
           <CandidateStoryboard stage={stage} />
           <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
         </section>

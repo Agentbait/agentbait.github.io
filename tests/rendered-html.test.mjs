@@ -34,7 +34,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Click B/);
   assert.match(html, /Click A/);
   assert.match(html, /MiniCheck/);
-  assert.match(html, /The cards do not move\. The chooser does\./);
+  assert.doesNotMatch(html, /The cards do not move\. The chooser does\./);
   assert.match(html, /class="hero-feature"/);
   assert.doesNotMatch(html, /news-thumb/);
   assert.doesNotMatch(html, /clearer framing|stronger relevance|same underlying content/i);
