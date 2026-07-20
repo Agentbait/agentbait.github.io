@@ -380,7 +380,7 @@ export default function Home() {
             {/* The source is the publication-resolution figure exported with the manuscript. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-            <figcaption id="method-caption"><b>Figure 5 | Advisor–rewriter training loop.</b> MIND training n=8,000; policy: Qwen3.5-9B; frozen rewriter and default target: GPT-5-mini; optimization: GRPO with binary selection reward, optionally augmented by MiniCheck support.</figcaption>
+            <figcaption id="method-caption">MIND training n=8,000; policy: Qwen3.5-9B; frozen rewriter and default target: GPT-5-mini; optimization: GRPO with binary selection reward, optionally augmented by MiniCheck support.</figcaption>
           </figure>
         </section>
 

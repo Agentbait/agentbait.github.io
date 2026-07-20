@@ -73,6 +73,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
+  assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
 });
 
