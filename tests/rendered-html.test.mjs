@@ -24,18 +24,16 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Auto play/);
   assert.match(html, /Automatically animated AgentBait fixed-slate comparison/);
   assert.doesNotMatch(html, /Run AgentBait|Replay AgentBait/);
+  assert.match(html, /Candidate Set/);
+  assert.match(html, /Five fixed documents/);
+  assert.match(html, /Understanding Preference Effects in Content Selection/);
+  assert.match(html, /How Rewriting Changes Which Content Gets Chosen/);
+  assert.match(html, /Chooser output/);
+  assert.match(html, /Source slot remains #4/);
   assert.match(html, /MiniCheck/);
-  assert.match(html, /grounded rewrite · support 31\.2/);
-  assert.match(html, /Without MiniCheck/);
-  assert.match(html, /With MiniCheck/);
-  assert.match(html, /the target is selected both without and with MiniCheck/);
   assert.match(html, /The cards do not move\. The chooser does\./);
-  assert.match(html, /Original baseline/);
   assert.doesNotMatch(html, /news-thumb/);
-  assert.match(html, /Rewriting outcomes with and without MiniCheck/);
-  assert.match(html, /4 of 8 candidates shown · order unchanged/);
-  assert.doesNotMatch(html, /New chip design cuts data-center energy use/);
-  assert.match(html, /AI-Driven/);
+  assert.doesNotMatch(html, /Original baseline|Rewriting outcomes with and without MiniCheck/);
   assert.match(html, /Research question/);
   assert.match(html, /Examples as editorial redlines/);
   assert.match(html, /Language and dataset transfer/);
@@ -52,7 +50,10 @@ test("server-renders the AgentBait research feature", async () => {
 
 test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
+  const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.match(pageSource, /text-cursor/);
+  assert.match(pageSource, /setStage\("final"\), 6300/);
 
   await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),

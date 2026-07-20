@@ -5,18 +5,13 @@ import { useEffect, useRef, useState } from "react";
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
 
-const candidates = [
-  { id: 1, category: "Politics", age: "38m", title: "Senate budget talks enter their final week" },
-  { id: 2, category: "Technology", age: "1h", title: "New chip design cuts data-center energy use" },
-  { id: 3, category: "Health", age: "2h", title: "Researchers map a pathway for immune response" },
-  { id: 4, category: "Business", age: "2h", title: "Airlines revise summer capacity forecasts" },
-  { id: 5, category: "Culture", age: "3h", title: "Museum reopens its modern photography archive" },
-  { id: 6, category: "World", age: "4h", title: "Coastal cities prepare for higher seasonal tides" },
-  { id: 7, category: "Science", age: "5h", title: "Ocean temperature records prompt new analysis" },
-  { id: 8, category: "Travel", age: "6h", title: "Why Tokyo's Haneda is one of the world's most punctual airports", target: true },
+const storyboardCandidates = [
+  { id: 1, title: "Calibrating Language Models for Document Choice", abstract: "A controlled study of confidence estimates when agents select one document from a fixed candidate set." },
+  { id: 2, title: "Measuring Position Bias in Ranked Interfaces", abstract: "We separate display position from document relevance across repeated recommendation decisions." },
+  { id: 3, title: "Source Signals for Reliable Information Access", abstract: "An evaluation of evidence cues and their effect on model-mediated information selection." },
+  { id: 4, title: "Understanding Preference Effects in Content Selection", abstract: "We isolate how a document's presentation affects selection while its underlying content and candidate context stay fixed.", target: true },
+  { id: 5, title: "Evaluating Chooser Stability Under Prompt Variation", abstract: "A matched analysis of chooser decisions under small changes to instructions and presentation." },
 ];
-
-const demoCandidates = candidates.filter(({ id }) => [1, 3, 6, 8].includes(id));
 
 const mainResults = [
   { group: "Reference", method: "Original text", values: [17.1, 17.1, 17.1, 17.3, 17.6, 17.5] },
@@ -63,7 +58,7 @@ const bibtex = `@article{jin2026agentbait,
   year    = {2026}
 }`;
 
-type AttackStage = "idle" | "advisor" | "rewriter" | "chooser" | "complete" | "constrained";
+type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "original-selected" | "focus" | "rewrite-title" | "rewrite-abstract" | "return" | "rescan" | "selected" | "final";
 
 function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   return (
@@ -75,49 +70,71 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
-type SlateVariant = "without-minicheck" | "with-minicheck";
+function CandidateStoryboard({ stage }: { stage: AttackStage }) {
+  const rewritten = ["return", "rescan", "selected", "final"].includes(stage);
+  const focused = ["focus", "rewrite-title", "rewrite-abstract"].includes(stage);
+  const inspectedId = stage === "scan-a" ? 2 : stage === "scan-b" ? 5 : stage === "rescan" ? 3 : null;
+  const selectedId = stage === "original-selected" ? 1 : ["selected", "final"].includes(stage) ? 4 : null;
 
-function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackStage }) {
-  const selectedId = variant === "without-minicheck" && ["complete", "constrained"].includes(stage)
-    ? 8
-    : variant === "with-minicheck" && stage === "constrained"
-      ? 8
-      : 3;
-  const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
-    <ol className="news-slate" aria-label={`${variant} candidate slate after target rewriting`}>
-      {demoCandidates.map((item) => {
-        const selected = item.id === selectedId;
-        return (
-          <li key={item.id} className={`${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""}`}>
-            <span className="rank">{String(item.id).padStart(2, "0")}</span>
-            <span className="news-copy">
-              <small>{item.category} · {item.age}</small>
-              <b>
-                {item.target && variant === "with-minicheck" && stage === "constrained" ? (
-                  <>
-                    <mark className="grounded-injection">How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights
-                  </>
-                ) : item.target && rewriteVisible ? (
-                  <>
-                    <mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate
-                  </>
-                ) : item.title}
-              </b>
-            </span>
-            <span className="selection-state">{selected ? "Selected" : item.target ? "Target" : ""}</span>
-          </li>
-        );
-      })}
-      <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
-        <span>4 of 8 candidates shown · order unchanged</span>
-      </li>
-    </ol>
+    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${["selected", "final"].includes(stage) ? "has-output" : ""}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison">
+      <section className="candidate-set" aria-labelledby="candidate-set-title">
+        <header>
+          <div><span>Candidate Set</span><b id="candidate-set-title">Five fixed documents</b></div>
+          <small>{rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
+        </header>
+        <ol>
+          {storyboardCandidates.map((item) => {
+            const selected = item.id === selectedId;
+            const inspected = item.id === inspectedId;
+            return (
+              <li key={item.id} className={`candidate-card ${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""} ${inspected ? "is-inspected" : ""}`}>
+                <span className="paper-rank">#{item.id}</span>
+                <span className="paper-copy">
+                  <b>{item.target && rewritten ? "How Rewriting Changes Which Content Gets Chosen" : item.title}</b>
+                  <small>{item.target && rewritten ? "We test clearer framing and stronger relevance cues while preserving the same underlying content." : item.abstract}</small>
+                </span>
+                {selected && <span className="decision-label">Selected</span>}
+                {item.target && stage === "original-selected" && <span className="not-selected-label">Not selected</span>}
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <section className="rewrite-focus" aria-label="Target title and abstract rewriting">
+        <header><span>Target document · #4</span>{["rewrite-abstract", "return", "rescan", "selected", "final"].includes(stage) && <b>Rewritten</b>}</header>
+        <div className="rewrite-field title-field">
+          <small>Title</small>
+          {stage === "rewrite-title" ? (
+            <h3 className="editing-title"><del>Understanding Preference Effects in Content Selection</del><span className="typed-title">How Rewriting Changes Which Content Gets Chosen</span><i className="text-cursor" aria-hidden="true" /></h3>
+          ) : (
+            <h3>{stage === "rewrite-abstract" ? "How Rewriting Changes Which Content Gets Chosen" : "Understanding Preference Effects in Content Selection"}{stage === "focus" && <i className="text-cursor" aria-hidden="true" />}</h3>
+          )}
+        </div>
+        <div className="rewrite-field abstract-field">
+          <small>Abstract</small>
+          {stage === "rewrite-abstract" ? (
+            <p>We test <mark>clearer framing</mark> and <mark>stronger relevance</mark> cues while preserving the <mark>same underlying content</mark>.<i className="text-cursor" aria-hidden="true" /></p>
+          ) : (
+            <p>We isolate how a document&apos;s presentation affects selection while its underlying content and candidate context stay fixed.</p>
+          )}
+        </div>
+        {stage === "focus" && <span className="focus-not-selected">Not selected</span>}
+      </section>
+
+      <aside className={`selected-output ${["selected", "final"].includes(stage) ? "is-visible" : ""}`} aria-label="Chooser selected output">
+        <header><span>Chooser output</span><b>Selected</b></header>
+        <p><span>#4</span><b>How Rewriting Changes Which Content Gets Chosen</b></p>
+        <dl><div><dt>Before rewrite</dt><dd>17.1%</dd></div><i aria-hidden="true">→</i><div><dt>After rewrite</dt><dd>98.5%</dd></div></dl>
+        <small>Source slot remains #4 · selection output shown separately</small>
+      </aside>
+    </div>
   );
 }
 
 export default function Home() {
-  const [stage, setStage] = useState<AttackStage>("idle");
+  const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [copied, setCopied] = useState(false);
   const demoRef = useRef<HTMLElement>(null);
 
@@ -130,15 +147,20 @@ export default function Home() {
     const schedulePlayback = () => {
       clearTimers();
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        timers = [window.setTimeout(() => setStage("constrained"), 0)];
+        timers = [window.setTimeout(() => setStage("final"), 0)];
         return;
       }
       timers = [
-        window.setTimeout(() => setStage("advisor"), 500),
-        window.setTimeout(() => setStage("rewriter"), 1200),
-        window.setTimeout(() => setStage("chooser"), 1950),
-        window.setTimeout(() => setStage("complete"), 2750),
-        window.setTimeout(() => setStage("constrained"), 4700),
+        window.setTimeout(() => setStage("scan-a"), 300),
+        window.setTimeout(() => setStage("scan-b"), 650),
+        window.setTimeout(() => setStage("original-selected"), 1000),
+        window.setTimeout(() => setStage("focus"), 2000),
+        window.setTimeout(() => setStage("rewrite-title"), 2500),
+        window.setTimeout(() => setStage("rewrite-abstract"), 3500),
+        window.setTimeout(() => setStage("return"), 4500),
+        window.setTimeout(() => setStage("rescan"), 4850),
+        window.setTimeout(() => setStage("selected"), 5200),
+        window.setTimeout(() => setStage("final"), 6300),
       ];
     };
 
@@ -153,7 +175,7 @@ export default function Home() {
           schedulePlayback();
         } else {
           clearTimers();
-          setStage("idle");
+          setStage("candidate-set");
         }
       },
       { threshold: 0.25, rootMargin: "-8% 0px" },
@@ -216,61 +238,22 @@ export default function Home() {
             </div>
             <div className="demo-action autoplay-indicator" aria-label={`Automatic demonstration status: ${stage}`}>
               <span><i className="autoplay-dot" aria-hidden="true" /> Auto play</span>
-              <p>MIND-style fixed slate · GPT-5-mini chooser</p>
+              <p>Seven-second fixed-set chooser replay</p>
             </div>
           </div>
 
-          <div className="attack-stage" aria-label="Automatically animated AgentBait fixed-slate comparison">
-            <section className="baseline-strip" aria-labelledby="baseline-title">
-              <header><span>Original baseline</span><b id="baseline-title">Target unselected</b></header>
-              <p className="baseline-title"><span>08</span><b>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</b></p>
-              <dl>
-                <div><dt>Selection</dt><dd>17.1%</dd></div>
-                <div><dt>Order</dt><dd>Fixed</dd></div>
-              </dl>
-            </section>
-
-            <section className="attack-pipeline" aria-label="Attack process">
-              <p className="pipeline-heading">Attack process</p>
-              <ol>
-                <li className={stage !== "idle" ? "active" : ""}><span>01</span><div><b>Advisor</b><small>technical-topic pivot</small></div></li>
-                <li className={["rewriter", "chooser", "complete", "constrained"].includes(stage) ? "active" : ""}><span>02</span><div><b>Frozen rewriter</b><small>injects authority cues</small></div></li>
-                <li className={["chooser", "complete", "constrained"].includes(stage) ? "active" : ""}><span>03</span><div><b>Chooser agent</b><small>selects one candidate</small></div></li>
-                <li className={["complete", "constrained"].includes(stage) ? "active" : ""}><span>04</span><div><b>Selection reward</b><small>98.5 selection · support 2.0</small></div></li>
-                <li className={stage === "constrained" ? "active factuality" : ""}><span>05</span><div><b>MiniCheck</b><small>grounded rewrite · support 31.2</small></div></li>
-              </ol>
-              <p className="fixed-order-note">Slot 08 stays slot 08</p>
-            </section>
-
-            <div className="result-windows" aria-label="Rewriting outcomes with and without MiniCheck">
-              <section className="slate-panel result-window without-minicheck" aria-labelledby="without-minicheck-title">
-                <header><span>Without MiniCheck</span><b id="without-minicheck-title">{["complete", "constrained"].includes(stage) ? "Target selected" : "Selection optimized"}</b></header>
-                <NewsSlate variant="without-minicheck" stage={stage} />
-                <dl className="demo-metrics">
-                  <div><dt>Reported selection rate</dt><dd>{["complete", "constrained"].includes(stage) ? "98.5%" : "—"}</dd></div>
-                  <div className="support-metric"><dt>MiniCheck support</dt><dd>{["complete", "constrained"].includes(stage) ? "2.0 / 100" : "—"}</dd></div>
-                </dl>
-              </section>
-
-              <section className="slate-panel result-window with-minicheck" aria-labelledby="with-minicheck-title">
-                <header><span>With MiniCheck</span><b id="with-minicheck-title">{stage === "constrained" ? "Target also selected" : "Grounded constraint"}</b></header>
-                <NewsSlate variant="with-minicheck" stage={stage} />
-                <dl className="demo-metrics">
-                  <div><dt>Reported selection rate</dt><dd>{stage === "constrained" ? "68.6%" : "—"}</dd></div>
-                  <div className="support-metric"><dt>MiniCheck support</dt><dd>{stage === "constrained" ? "31.2 / 100" : "—"}</dd></div>
-                </dl>
-              </section>
-            </div>
-          </div>
+          <CandidateStoryboard stage={stage} />
           <p className="demo-status">
-            {stage === "idle" && "Ready · one title and abstract may change; every competing candidate stays fixed."}
-            {stage === "advisor" && "Advisor is proposing a strategy: force a technical topic into the target."}
-            {stage === "rewriter" && "Rewriter is adding technical authority cues unsupported by the source."}
-            {stage === "chooser" && "Chooser is reading the same eight candidates in the same order."}
-            {stage === "complete" && "Selection flips to the target while source support falls. Aggregate rates shown: MIND-En, n=1,000, Table 1."}
-            {stage === "constrained" && "Both chooser runs select the target. MiniCheck changes the rewrite and raises source support from 2.0 to 31.2 while retaining a 68.6% selection rate."}
+            {["candidate-set", "scan-a", "scan-b"].includes(stage) && "Scene 1 · The chooser scans five fixed candidates; the target remains in source slot #4."}
+            {stage === "original-selected" && "Scene 2 · The original target is not selected; the chooser stops on candidate #1."}
+            {stage === "focus" && "Scene 3 · The view isolates the unselected target before any text changes."}
+            {stage === "rewrite-title" && "Scene 4 · A visible editing cursor rewrites the target title."}
+            {stage === "rewrite-abstract" && "Scene 4 · The cursor moves into the abstract and marks the changed framing cues."}
+            {["return", "rescan"].includes(stage) && "Scene 5 · The same candidate set returns with only the target presentation changed."}
+            {stage === "selected" && "Scene 6 · The chooser now selects target #4; a copy lifts into the separate selection output."}
+            {stage === "final" && "Scene 7 · Same content. Different presentation. Different outcome."}
           </p>
-          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of the paper&apos;s fixed-slate intervention.</b> The two right-hand windows compare the endpoints directly: the target is selected both without and with MiniCheck, while the support score and rewrite strategy differ. Haneda rewrites and aggregate MIND-En metrics are paper-reported; the eight-item interface is an explanatory reconstruction.</p>
+          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of a fixed-candidate intervention.</b> The example document text is schematic; aggregate selection rates are paper-reported for MIND-English (n=1,000, Table 1). The target remains in source slot #4—the upward motion represents the chooser&apos;s selected output, not a new ranking.</p>
         </section>
 
         <section className="story-section question" id="question" aria-labelledby="question-title">
