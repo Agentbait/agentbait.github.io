@@ -398,7 +398,7 @@ export default function Home() {
           <div className="section-label">03 · Interactive setting</div>
           <div className="story-grid setting-grid">
             <div className="prose">
-              <h2 id="setting-title">Same slate. One rewrite.<br />A different decision.</h2>
+              <h2 id="setting-title">Same slate. One rewrite.<br />Can the decision change?</h2>
               <p>The candidate list has already been constructed. Only the target presentation may change.</p>
             </div>
           </div>
@@ -478,7 +478,7 @@ export default function Home() {
                     <em>Title + abstract</em>
                   </article>
                 </div>
-                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Policy updated: sharpen specificity and narrative tension</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
+                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Advisor output · strategy s</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
@@ -501,7 +501,7 @@ export default function Home() {
               </section>
 
               <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 className="morph-copy" id="selection-panel-title"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Same Chooser</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Chooser</span></h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selects one item from the unchanged candidate slate.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Selects y from candidate slate C</span></p></header>
+                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 className="morph-copy" id="selection-panel-title"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Same Chooser</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Chooser</span></h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selects from the same candidate identities and order, with only the target rewritten.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Selects y from candidate slate C</span></p></header>
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
@@ -534,7 +534,7 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">Four conclusions from the controlled comparison</h2><p className="lead">Presentation changes decisions. Learned strategies transfer. Selection and factual quality can diverge, and constraints alter the policy itself.</p></div>
+            <div className="prose"><h2 id="results-title">Four conclusions from the controlled comparison</h2><p className="lead">Presentation changes decisions. Learned strategies transfer. Selection and source support can diverge, and constraints alter the policy itself.</p></div>
           </div>
 
           <div className="finding-summary" aria-label="Four principal findings">
@@ -542,7 +542,7 @@ export default function Home() {
               <p className="finding-summary-kicker">Finding 1</p>
               <h3>Presentation alone changes agent decisions</h3>
               <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with standalone rewriting"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Standalone rewriting</small></span></div>
-              <p className="finding-summary-copy">The chooser moves before advisor training begins.</p>
+              <p className="finding-summary-copy">The chooser moves before any selection-based training.</p>
             </article>
             <article>
               <p className="finding-summary-kicker">Finding 2</p>
@@ -552,15 +552,15 @@ export default function Home() {
             </article>
             <article>
               <p className="finding-summary-kicker">Finding 3</p>
-              <h3>Selection success and factual quality can diverge</h3>
+              <h3>Selection success and source support can diverge</h3>
               <div className="finding-equation" aria-label="More selected does not mean more faithful"><b>More selected</b><i aria-hidden="true">≠</i><b>more faithful</b></div>
               <p className="finding-summary-copy">Unconstrained optimization can discover unsupported shortcuts rather than better content.</p>
             </article>
             <article>
               <p className="finding-summary-kicker">Finding 4</p>
               <h3>Constraints change what the advisor learns, not merely how its outputs are scored.</h3>
-              <div className="finding-equation" aria-label="Reward-only training differs from training with a factuality constraint"><b>Reward only</b><i aria-hidden="true">≠</i><b>reward + constraint</b></div>
-              <p className="finding-summary-copy">Adding MiniCheck changes the learned strategy distribution, not only the final evaluation rubric.</p>
+              <div className="finding-equation" aria-label="Selection-reward training differs from training with both selection and source-support rewards"><b>Selection reward</b><i aria-hidden="true">≠</i><b>selection reward + source-support reward</b></div>
+              <p className="finding-summary-copy">Adding MiniCheck changes the learned strategy distribution, not merely how finished rewrites are scored.</p>
             </article>
           </div>
 
@@ -582,7 +582,7 @@ export default function Home() {
               <div className="figure-heading"><div><p className="figure-number">Table 2</p><h3>Selection and source support under rewriting</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
               <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Chooser",value:"GPT-5-mini"},{label:"Support",value:"MiniCheck-Flan"},{label:"Baseline",value:"Original selection = 17.1%"}]} />
               <div className="table-scroll"><table className="support-table"><thead><tr><th>Condition</th><th>Target selected (%)</th><th>MiniCheck support (%)</th><th>Constraint</th></tr></thead><tbody>{supportResults.map(row=><tr key={row.method} className={row.constrained?"constrained-row":""}><th>{row.method}</th><td className="score-bar-cell" style={{"--score":`${row.selection}%`} as React.CSSProperties}><b>{row.selection.toFixed(1)}</b></td><td className="score-bar-cell score-bar-support" style={{"--score":`${row.support}%`} as React.CSSProperties}><b>{row.support.toFixed(1)}</b></td><td>{row.constrained?"MiniCheck":"None"}</td></tr>)}</tbody></table></div>
-              <figcaption id="support-results-caption"><b>Table 2 | Factuality tradeoff on MIND-English.</b> Unconstrained RL produces the highest selection and lowest source support. MiniCheck recovers support while reducing selection.</figcaption>
+              <figcaption id="support-results-caption"><b>Table 2 | Source-support tradeoff on MIND-English.</b> Unconstrained RL produces the highest selection and lowest source support. MiniCheck recovers support while reducing selection.</figcaption>
             </figure>
           </div>
         </section>
@@ -622,7 +622,7 @@ export default function Home() {
             <div className="example-source"><span>Original target</span><p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p><small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small></div>
             <div className="redline-columns">
               <article className="unsupported">
-                <header><span>Attack strategy 01</span><b>Technical authority · novelty</b></header>
+                <header><span>Unconstrained strategy</span><b>Technical authority · novelty</b></header>
                 <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
                 <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
                 <p>The rewrite attributes the result to proprietary predictive maintenance, sensor fusion, delay forecasting and reinforcement-learning scheduling.</p>
@@ -630,7 +630,7 @@ export default function Home() {
                 <p className="editorial-mark">Unsupported mechanism added</p>
               </article>
               <article className="supported">
-                <header><span>Attack strategy 02</span><b>Operational puzzle · stakes</b></header>
+                <header><span>Support-aware strategy</span><b>Operational puzzle · stakes</b></header>
                 <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
                 <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
                 <p>The rewrite asks which management choices, scheduling practices, ground operations and airport–airline coordination explain the result.</p>
