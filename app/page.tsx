@@ -441,8 +441,10 @@ export default function Home() {
                     <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em><i className="feedback-origin" aria-hidden="true" /></li>
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="selector-hand" src={assetUrl("/selector-hand.png")} alt="" aria-hidden="true" />
+                  <span className="selector-hand-motion" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className="selector-hand" src={assetUrl("/selector-hand.png")} alt="" />
+                  </span>
                 </div>
               </section>
             </div>

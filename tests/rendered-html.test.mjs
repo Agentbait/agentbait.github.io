@@ -225,6 +225,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
+  assert.match(pageSource, /className="selector-hand-motion"/);
+  assert.match(globalStyles, /\.scholar-fragment\s*\{[^}]*transform:\s*scaleX\(-1\)/s);
+  assert.match(globalStyles, /\.selector-hand\s*\{[^}]*transform:\s*rotate\(90deg\)/s);
+  assert.match(globalStyles, /@keyframes chooser-tap-up/);
+  assert.doesNotMatch(globalStyles, /@keyframes chooser-nudge/);
   assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
