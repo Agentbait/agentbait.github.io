@@ -56,13 +56,14 @@ del { color: #817d75; text-decoration-color: var(--red); text-decoration-thickne
 .site-header nav a:hover { color: var(--red); border-bottom-color: var(--red); }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 
-.article-header { padding: 72px clamp(24px, 7vw, 126px) 54px; border-bottom: 1px solid var(--rule-dark); }
+.hero-feature { background: #f0eee8; border-bottom: 1px solid var(--rule-dark); }
+.article-header { padding: 64px clamp(24px, 7vw, 126px) 38px; }
 .rubric { max-width: 1280px; margin: 0 auto 44px; padding-bottom: 11px; display: flex; justify-content: space-between; gap: 18px; border-bottom: 2px solid var(--navy); color: var(--red); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .rubric span { color: var(--muted); }
-.article-header h1 { max-width: 1280px; margin: 0 auto; color: var(--navy); font-family: var(--serif); font-size: clamp(62px, 9vw, 140px); font-weight: 500; line-height: .85; letter-spacing: -.062em; }
+.article-header h1 { max-width: 1280px; margin: 0 auto; color: var(--navy); font-family: var(--serif); font-size: clamp(58px, 8vw, 118px); font-weight: 500; line-height: .86; letter-spacing: -.058em; }
 .subtitle { max-width: 1280px; margin: 21px auto 0; color: var(--blue); font-family: var(--serif); font-size: clamp(27px, 3.2vw, 46px); font-style: italic; line-height: 1.08; letter-spacing: -.025em; }
-.standfirst { max-width: 870px; margin: 38px auto 0; font-family: var(--serif); font-size: clamp(22px, 2vw, 29px); line-height: 1.42; letter-spacing: -.015em; }
-.paper-identity { max-width: 870px; margin: 32px auto 0; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.standfirst { max-width: 870px; margin: 30px auto 0; font-family: var(--serif); font-size: clamp(22px, 2vw, 29px); line-height: 1.42; letter-spacing: -.015em; }
+.paper-identity { max-width: 870px; margin: 25px auto 0; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .byline { padding: 14px 0; }
 .byline p { margin: 0; font-size: 11px; line-height: 1.5; }
 .byline p:last-child { color: var(--muted); }
@@ -70,7 +71,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .paper-links a { color: var(--navy); font-family: var(--mono); font-size: 8px; font-weight: 600; text-transform: uppercase; }
 .paper-links a:hover { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
 
-.attack-demo { padding: 52px clamp(20px, 4vw, 66px) 30px; color: var(--ink); background: #f0eee8; border-bottom: 1px solid var(--rule-dark); }
+.attack-demo { padding: 18px clamp(20px, 4vw, 66px) 34px; color: var(--ink); }
 .demo-heading { max-width: 1380px; margin: 0 auto 25px; display: flex; justify-content: space-between; align-items: end; gap: 35px; }
 .section-label-inline { margin: 0 0 8px; color: var(--red); font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .demo-heading h2 { max-width: 780px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(35px, 4.5vw, 64px); font-weight: 500; line-height: .98; letter-spacing: -.04em; }

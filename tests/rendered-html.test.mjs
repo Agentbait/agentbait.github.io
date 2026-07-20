@@ -32,6 +32,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Source slot remains #4/);
   assert.match(html, /MiniCheck/);
   assert.match(html, /The cards do not move\. The chooser does\./);
+  assert.match(html, /class="hero-feature"/);
   assert.doesNotMatch(html, /news-thumb/);
   assert.doesNotMatch(html, /Original baseline|Rewriting outcomes with and without MiniCheck/);
   assert.match(html, /Research question/);
@@ -52,6 +53,7 @@ test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.match(pageSource, /text-cursor/);
   assert.match(pageSource, /selection-highlight/);
   assert.match(pageSource, /setStage\("final"\), 11000/);

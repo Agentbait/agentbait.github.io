@@ -211,9 +211,10 @@ export default function Home() {
       </header>
 
       <article>
+        <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
           <p className="rubric">Agent-mediated information access <span>Working paper · July 2026</span></p>
-          <h1>You Won&apos;t Believe This Click</h1>
+          <h1 id="paper-title">You Won&apos;t Believe This Click</h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">Small textual rewrites can systematically manipulate LLM-based recommendation agents.</p>
           <div className="paper-identity">
@@ -254,6 +255,7 @@ export default function Home() {
             {stage === "final" && "Scene 7 · Same content. Different presentation. Different outcome."}
           </p>
           <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of a fixed-candidate intervention.</b> The example document text is schematic; aggregate selection rates are paper-reported for MIND-English (n=1,000, Table 1). The target remains in source slot #4—the upward motion represents the chooser&apos;s selected output, not a new ranking.</p>
+        </section>
         </section>
 
         <section className="story-section question" id="question" aria-labelledby="question-title">
