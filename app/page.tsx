@@ -386,31 +386,58 @@ export default function Home() {
               <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
             </div>
 
-            <div className="experiment-diagram">
-              <section className="candidate-panel" aria-labelledby="candidate-panel-title">
-                <header><span>Block 1</span><h4 id="candidate-panel-title">Fixed candidate set</h4></header>
-                <ol>
-                  <li><b>A</b><p>Competitor text</p><em>Fixed</em></li>
-                  <li className="treated-candidate"><b>B</b><p>Target title + abstract</p><em>Treated</em></li>
-                  <li><b>C</b><p>Competitor text</p><em>Fixed</em></li>
-                </ol>
+            <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
+              <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
+                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4></header>
+                <div className="advisor-visual">
+                  <span className="arch-fragment" aria-hidden="true" />
+                  <div className="scholar-fragment" aria-hidden="true">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/advisor-scholar.png" alt="" />
+                    <span className="screen-head"><b>rank 02</b><small>preference ↑</small></span>
+                  </div>
+                  <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
+                    <li><b>A</b><span>Candidate A</span><em>.21</em></li>
+                    <li className="advisor-target"><b>B</b><span>Candidate B</span><em>.17</em></li>
+                    <li><b>C</b><span>Candidate C</span><em>.13</em></li>
+                  </ol>
+                </div>
+                <p className="strategy-note"><span>Strategy note</span><b>Increase specificity and narrative tension</b></p>
+                <p className="panel-action">Proposes an editorial strategy</p>
               </section>
 
-              <section className="intervention-panel" aria-labelledby="intervention-title">
-                <header><span>Block 2</span><h4 id="intervention-title">Intervention pipeline</h4></header>
-                <ol className="intervention-steps">
-                  <li><span>01</span><div><b>Advisor</b><p>Proposes an editorial strategy</p></div></li>
-                  <li className="rewrite-step"><span>02</span><div><b>Frozen rewriter</b><p>Rewrites target B only</p></div></li>
-                  <li><span>03</span><div><b>Chooser agent</b><p>Selects one item from the same candidate set</p></div></li>
-                </ol>
+              <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
+                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Rewriter</h4></header>
+                <div className="rewriter-visual">
+                  <div className="paper-fragment">
+                    <small>Original title</small>
+                    <p>Marshawn playing in charity soccer game <del>went exactly as you&apos;d expect.</del></p>
+                    <small>Rewritten title</small>
+                    <p className="rewritten-line">When Marshawn Lynch Took the Pitch: An Inside Look …</p>
+                  </div>
+                  <span className="ink-bottle" aria-hidden="true" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="triptych-quill" src="/editor-hand.png" alt="" aria-hidden="true" />
+                </div>
+                <p className="panel-action">Rewrites target B only</p>
               </section>
 
-              <aside className="reward-panel" aria-labelledby="reward-title">
-                <header><span>Block 3</span><h4 id="reward-title">Reward / Constraint</h4></header>
-                <dl><div><dt>Selection reward</dt><dd>Was target B selected?</dd></div><div><dt>Optional constraint</dt><dd>Source support</dd></div></dl>
-                <p>MiniCheck sentence support</p>
-              </aside>
+              <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
+                <header><span>03 · Select</span><h4 id="selection-panel-title">Selection</h4></header>
+                <div className="selection-visual">
+                  <span className="selection-beam" aria-hidden="true" />
+                  <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
+                    <li><b>A</b><span>Candidate A</span></li>
+                    <li><b>C</b><span>Candidate C</span></li>
+                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em></li>
+                  </ol>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="selector-hand" src="/selector-hand.png" alt="" aria-hidden="true" />
+                </div>
+                <p className="panel-action">Selects one item from the same candidate set</p>
+              </section>
             </div>
+            <div className="triptych-objective"><span>Selection reward</span><b>Was target B selected?</b><i>+</i><span>Optional constraint</span><b>MiniCheck sentence support</b></div>
             <figcaption id="slate-caption"><b>Figure 2 | AgentBait system.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
           </figure>
         </section>

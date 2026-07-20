@@ -50,9 +50,16 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
   assert.match(html, /Held constant across conditions/);
   assert.match(html, /Candidate identity/);
+  assert.match(html, /Advisor/);
+  assert.match(html, /Rewriter/);
+  assert.match(html, /Selection/);
+  assert.match(html, /Strategy note/);
+  assert.match(html, /Proposes an editorial strategy/);
   assert.match(html, /Rewrites target B only/);
   assert.match(html, /Selects one item from the same candidate set/);
   assert.match(html, /MiniCheck sentence support/);
+  assert.match(html, /\/advisor-scholar\.png/);
+  assert.match(html, /\/selector-hand\.png/);
   assert.match(html, /Cross-lingual transfer on fixed MIND slates/);
   assert.match(html, /Transfer across news datasets/);
   assert.match(html, /Transfer to academic document selection/);
@@ -94,7 +101,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
   assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
-  assert.match(globalStyles, /\.experiment-diagram\s*\{/);
+  assert.match(globalStyles, /\.concept-triptych\s*\{/);
+  assert.match(globalStyles, /\.triptych-panel\s*\{/);
+  assert.match(globalStyles, /\.selection-beam\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.experiment-diagram\s*\{|\.candidate-panel\s*\{|\.intervention-panel\s*\{|\.reward-panel\s*\{/);
   assert.match(globalStyles, /font-size:\s*clamp\(64px, 5\.2vw, 92px\)/);
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
@@ -102,6 +112,11 @@ test("ships the manuscript and method figure", async () => {
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
+  assert.match(pageSource, /advisor-scholar\.png/);
+  assert.match(pageSource, /selector-hand\.png/);
+  assert.match(pageSource, /className="screen-head"/);
+  assert.match(pageSource, /className="selection-beam"/);
+  assert.match(pageSource, /className="triptych-quill"/);
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);
   assert.match(pageSource, /\["final", 12600\]/);
@@ -112,10 +127,14 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /rotateY\(180deg\)|heroFlipped/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
 
-  const [, , editorHand] = await Promise.all([
+  const [, , editorHand, advisorScholar, selectorHand] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),
+    readFile(new URL("../public/advisor-scholar.png", import.meta.url)),
+    readFile(new URL("../public/selector-hand.png", import.meta.url)),
   ]);
   assert.equal(editorHand[25], 6, "editor hand must be an RGBA PNG");
+  assert.equal(advisorScholar[25], 6, "advisor scholar must be an RGBA PNG");
+  assert.equal(selectorHand[25], 6, "selector hand must be an RGBA PNG");
 });
