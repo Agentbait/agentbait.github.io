@@ -193,6 +193,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
+  assert.equal((html.match(/class="train-target-column"/g) || []).length, 8);
   assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
@@ -222,6 +223,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
+  assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
+  assert.match(globalStyles, /\.results-table thead \.train-target-column\s*\{[^}]*var\(--red\)[^}]*rgba\(188,73,63,\.08\)/s);
+  assert.match(globalStyles, /\.results-table tbody td\.train-target-column\s*\{[^}]*rgba\(188,73,63,\.045\)[^}]*box-shadow/s);
   assert.doesNotMatch(pageSource, /resource-links|<summary>|<details className="citation"/);
   assert.doesNotMatch(globalStyles, /\.resource-links|\.citation summary/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
