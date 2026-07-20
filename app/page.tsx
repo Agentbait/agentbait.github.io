@@ -394,7 +394,6 @@ export default function Home() {
                   <div className="scholar-fragment" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/advisor-scholar.png" alt="" />
-                    <span className="screen-head"><b>rank 02</b><small>preference ↑</small></span>
                   </div>
                   <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
                     <li><b>A</b><span>Candidate A</span><em>.21</em></li>

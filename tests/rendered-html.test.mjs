@@ -114,7 +114,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
-  assert.match(pageSource, /className="screen-head"/);
+  assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
   assert.match(pageSource, /TypewriterTitle/);
