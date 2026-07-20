@@ -55,7 +55,10 @@ test("server-renders the AgentBait research feature", async () => {
 test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
+  assert.match(globalStyles, /font-size:\s*clamp\(52px, 6\.5vw, 94px\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.match(pageSource, /text-cursor/);
