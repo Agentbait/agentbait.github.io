@@ -424,7 +424,7 @@ export default function Home() {
               <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
             </div>
 
-            <ol className="process-spine" aria-label="AgentBait process: read, edit, then select">
+            <ol className="process-spine" aria-label="AgentBait process: read the target, edit it, then select from the fixed slate">
               <li><b>01</b><span>Read</span></li>
               <li><b>02</b><span>Edit</span></li>
               <li><b>03</b><span>Select</span></li>
@@ -434,18 +434,30 @@ export default function Home() {
               <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
-                <header><div className="panel-heading-line"><span>01 · Read</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Reads the slate and proposes an explicit rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Policy πθ proposes strategy s</span></p></header>
+                <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
                 <div className="advisor-visual">
                   <span className="arch-fragment" aria-hidden="true" />
                   <div className="scholar-fragment" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={assetUrl("/advisor-scholar.png")} alt="" />
                   </div>
-                  <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
-                    <li><b>A</b><span>Candidate A</span></li>
-                    <li className="advisor-target"><b>B</b><span>Target B</span></li>
-                    <li><b>C</b><span>Candidate C</span></li>
-                  </ol>
+                  <div className="advisor-intake-animation" aria-hidden="true">
+                    <div className="upstream-slate">
+                      <span>Outside advisor · fixed slate</span>
+                      <ol>
+                        <li><b>A</b><span>Candidate A</span></li>
+                        <li className="upstream-target"><b>B</b><span>Target B</span></li>
+                        <li><b>C</b><span>Candidate C</span></li>
+                      </ol>
+                    </div>
+                    <span className="advisor-input-boundary"><i>Advisor input</i></span>
+                    <span className="target-extraction-trace"><i>Extract B</i></span>
+                  </div>
+                  <article className="advisor-target-document">
+                    <small>Advisor input · target only</small>
+                    <p><b>B</b><span>Target document</span></p>
+                    <em>Title + abstract</em>
+                  </article>
                 </div>
                 <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Policy updated: sharpen specificity and narrative tension</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
@@ -498,7 +510,7 @@ export default function Home() {
               <span className="feedback-ascent" aria-hidden="true"><i /></span>
               <p><span>Selection outcome defines the reward</span><b>GRPO updates the advisor policy.</b></p>
             </div>
-            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our advisor–rewriter setting.</span></figcaption>
+            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the chooser sees the full fixed slate. Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
           </figure>
         </section>
 
