@@ -365,20 +365,21 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .methods { background: var(--paper) !important; }
 .method-figure { background: transparent; }
 .interactive-method-figure { padding: 0; border: 0; }
-.method-flip-card { height: 500px; perspective: 1600px; cursor: pointer; }
+.method-flip-card { min-height: 500px; perspective: 1600px; cursor: pointer; }
 .method-flip-card:focus-visible { outline: 2px solid var(--navy); outline-offset: 5px; }
-.method-flip-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.2,.72,.2,1); }
-.method-flip-card.is-flipped .method-flip-inner { transform: rotateY(180deg); }
-.method-flip-face { position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid var(--rule-dark); background: rgba(255,255,255,.22); }
-.method-flip-front { padding: 26px 30px 22px; }
+.method-flip-inner { width: 100%; min-height: 500px; display: grid; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+.method-flip-face { min-width: 0; min-height: 500px; grid-area: 1 / 1; position: relative; overflow: hidden; border: 1px solid var(--rule-dark); background: rgba(255,255,255,.22); transition: opacity .28s ease, transform .8s cubic-bezier(.2,.72,.2,1); }
+.method-flip-front { padding: 26px 30px 22px; opacity: 1; transform: rotateY(0deg); }
 .method-flip-front .storyboard-board { max-width: none; min-height: 405px; }
-.method-flip-back { padding: 30px 38px; display: grid; place-items: center; transform: rotateY(180deg); }
+.method-flip-back { padding: 30px 38px; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: rotateY(-180deg); }
+.method-flip-card.is-flipped .method-flip-front { opacity: 0; pointer-events: none; transform: rotateY(180deg); }
+.method-flip-card.is-flipped .method-flip-back { opacity: 1; pointer-events: auto; transform: rotateY(0deg); }
 .method-flip-back img { width: 100%; max-height: 420px; object-fit: contain; mix-blend-mode: multiply; }
 .flip-cue { width: fit-content; padding: 7px 9px; position: absolute; right: 14px; bottom: 13px; z-index: 5; color: var(--red); background: rgba(240,238,232,.94); border: 1px solid var(--red); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .method-figure figcaption { padding-top: 13px; border-top: 1px solid var(--rule); }
 
 @media (prefers-reduced-motion: reduce) {
-  .method-flip-inner { transition: none; }
+  .method-flip-face { transition: none; }
 }
 
 .resources { color: var(--paper); background: var(--navy) !important; }
@@ -495,7 +496,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .paired-name { left: -108px; width: 96px; font-size: 9px; }
   .limitations li { grid-template-columns: 31px 1fr; gap: 11px; }
   .limitations li p { grid-column: 2; }
-  .method-flip-card { height: 560px; }
+  .method-flip-card, .method-flip-inner, .method-flip-face { min-height: 560px; }
   .method-flip-front { padding: 8px 7px 42px; }
   .method-flip-back { padding: 18px 12px 44px; }
   .flip-cue { right: 8px; bottom: 8px; }
