@@ -321,11 +321,6 @@ export default function Home() {
           <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">We rewrite one target item&apos;s title and abstract, then ask the same LLM chooser to select again from the same candidate list.</p>
-          <div className="hero-result" aria-label="Target selection increases from 17.1 percent to 98.5 percent with a learned advisor">
-            <p><b>17.1%</b><i aria-hidden="true">→</i><b>98.5%</b></p>
-            <span>Target selection with a learned advisor</span>
-            <small>MIND-English · GPT-5-mini target agent</small>
-          </div>
           <div className="paper-identity">
             <div className="byline">
               <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>

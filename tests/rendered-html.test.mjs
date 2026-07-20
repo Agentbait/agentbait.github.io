@@ -53,9 +53,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(plainText, /Does a better presentation become a different decision\?/);
   assert.match(plainText, /You Won't Believe This Cl\s+_\s+ck Content Rewriting for Agentic Choice/);
   assert.match(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
-  assert.match(plainText, /17\.1% → 98\.5%/);
-  assert.match(plainText, /Target selection with a learned advisor/);
-  assert.match(plainText, /MIND-English · GPT-5-mini target agent/);
+  assert.doesNotMatch(plainText, /Target selection with a learned advisor/);
   assert.doesNotMatch(plainText, /We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select/);
   assert.doesNotMatch(html, /Small textual rewrites can systematically manipulate LLM-based recommendation agents/);
   assert.doesNotMatch(html, /Interactive Figure 1|Eleven-second fixed-set chooser replay|Auto play/);
