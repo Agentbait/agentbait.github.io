@@ -234,22 +234,20 @@ export default function Home() {
 
         <section className="story-section question" id="question" aria-labelledby="question-title">
           <div className="section-label">01 · Research question</div>
-          <div className="story-grid">
+          <div className="story-grid solo-grid">
             <div className="prose">
               <h2 id="question-title">Does a better presentation become a different decision?</h2>
               <p className="lead">Recommendation is usually studied as a ranking problem. Here, ranking has already happened. Candidate identities, order and chooser prompt remain fixed. Only one target item&apos;s title and abstract may change.</p>
               <p>AgentBait separates strategy from prose. A trainable advisor proposes how to rewrite; a frozen model performs the edit; a target agent selects one item from the unchanged slate.</p>
             </div>
-            <aside className="margin-note"><span>Scope</span><p>Evidence is conditional on exposure. It does not measure upstream retrieval or ranking.</p></aside>
           </div>
           <blockquote><p>Same candidates. Same order. Same chooser. A different rendering of one item.</p></blockquote>
         </section>
 
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">02 · Key findings</div>
-          <div className="story-grid">
+          <div className="story-grid solo-grid">
             <div className="prose"><h2 id="results-title">A strong selection effect—and a separate support problem</h2><p className="lead">The largest number is only interpretable beside its baseline, evaluator, dataset and factuality condition.</p></div>
-            <aside className="margin-note"><span>Reference</span><p>Row-wise random choice is 16.9%. The experimental control is original text under the same target agent.</p></aside>
           </div>
 
           <div className="finding-block">
@@ -277,7 +275,7 @@ export default function Home() {
 
         <section className="story-section transfer" aria-labelledby="transfer-title">
           <div className="section-label">03 · Robustness, transfer and failure</div>
-          <div className="story-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div><aside className="margin-note"><span>Interpretation</span><p>All results remain fixed-slate target selection rates. Academic transfer uses SciRepEval-derived scientific-document candidate lists.</p></aside></div>
+          <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
 
           <figure className="evidence-figure robustness-figure" aria-labelledby="language-caption">
             <div className="figure-heading"><div><p className="figure-number">Table 3</p><h3>Cross-lingual transfer on fixed MIND slates</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
@@ -362,9 +360,8 @@ export default function Home() {
           </figure>
         </section>
 
-        <section className="story-section resources" id="resources" aria-labelledby="resources-title">
-          <div className="section-label">07 · Abstract, resources and citation</div>
-          <div className="abstract-grid"><div><p className="figure-number">Abstract</p><h2 id="resources-title">A post-retrieval presentation effect</h2></div><p>Language-model agents increasingly mediate which documents users see. We study whether one item&apos;s short-text presentation can alter an agent&apos;s choice from a fixed candidate list. AgentBait trains an advisor to propose rewriting strategies for a frozen rewriter. Selection gains transfer across target agents, languages and datasets, while unconstrained optimization can reduce source faithfulness. The results isolate a conditional selection effect—not end-to-end retrieval quality or human usefulness.</p></div>
+        <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
+          <div className="section-label">07 · Paper resources and citation</div>
           <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
           <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
         </section>

@@ -60,6 +60,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok(html.indexOf("Finding 2") < html.indexOf("Selection and source support under rewriting"));
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /What the experiment does not establish/);
+  assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
+  assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
+  assert.match(html, /Paper resources and citation/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
@@ -73,6 +76,12 @@ test("ships the manuscript and method figure", async () => {
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
+  assert.match(globalStyles, /--paper:\s*#f0eee8/);
+  assert.match(globalStyles, /--navy:\s*#17344f/);
+  assert.match(globalStyles, /--red:\s*#bc493f/);
+  assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
+  assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
+  assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
   assert.match(globalStyles, /font-size:\s*clamp\(64px, 5\.2vw, 92px\)/);
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
