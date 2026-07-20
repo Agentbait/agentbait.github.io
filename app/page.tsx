@@ -355,7 +355,10 @@ export default function Home() {
               <span className={`playback-icon ${heroPlaying ? "is-pause" : "is-play"}`} aria-hidden="true" />
             </button>
           </div>
-          <p className="demo-caption">{heroFlipped ? <><b>Advisor–rewriter training loop.</b> The advisor proposes strategy; the frozen rewriter edits the target; the chooser supplies selection reward, optionally with MiniCheck support.</> : <><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</>}</p>
+          <div className="demo-caption">
+            <p className="caption-question">Can rewriting a document make it more likely to be chosen over the same competitors?</p>
+            <p className="caption-copy">A list of competing documents is shown to the target agent. We choose one target document from the list and generate a rewriting strategy for only that document. A separate rewriting model then revises the target document&apos;s title and abstract, while all other documents in the list remain exactly the same. The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor.</p>
+          </div>
         </section>
         </section>
 

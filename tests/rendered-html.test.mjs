@@ -165,6 +165,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
   assert.match(html, /Pause hero animation/);
+  assert.match(plainText, /Can rewriting a document make it more likely to be chosen over the same competitors\?/);
+  assert.match(plainText, /A list of competing documents is shown to the target agent\. We choose one target document from the list and generate a rewriting strategy for only that document\./);
+  assert.match(plainText, /A separate rewriting model then revises the target document's title and abstract, while all other documents in the list remain exactly the same\./);
+  assert.match(plainText, /The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor\./);
   assert.equal((html.match(/class="playback-toggle"/g) || []).length, 1);
   assert.match(html, /id="hero-candidate-set-title"/);
   assert.doesNotMatch(html, /id="method-candidate-set-title"|interactive-method-figure|method-flip-card/);
