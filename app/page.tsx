@@ -400,7 +400,7 @@ export default function Home() {
               <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
-                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4><p>Reads the slate and proposes an explicit rewriting strategy.</p></header>
+                <header><div className="panel-heading-line"><span>01 · Read</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p>Reads the slate and proposes an explicit rewriting strategy.</p></header>
                 <div className="advisor-visual">
                   <span className="arch-fragment" aria-hidden="true" />
                   <div className="scholar-fragment" aria-hidden="true">
@@ -413,11 +413,11 @@ export default function Home() {
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                 </div>
-                <p className="strategy-note"><span>Strategy note</span><b>Increase specificity and narrative tension</b></p>
+                <p className="strategy-note"><span>Strategy note</span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Policy updated: sharpen specificity and narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
-                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p>Applies the strategy to the target title and abstract only.</p></header>
+                <header><div className="panel-heading-line"><span>02 · Edit</span><em className="training-state">Frozen</em></div><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p>Applies the strategy to the target title and abstract only.</p></header>
                 <div className="rewriter-visual">
                   <div className="paper-fragment">
                     <small>Original title</small>
@@ -433,12 +433,12 @@ export default function Home() {
               </section>
 
               <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><span>03 · Select</span><h4 id="selection-panel-title">Same Chooser</h4><p>Selects one item from the unchanged candidate slate.</p></header>
+                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 id="selection-panel-title">Same Chooser</h4><p>Selects one item from the unchanged candidate slate.</p></header>
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
                     <li><b>A</b><span>Candidate A</span></li>
-                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em></li>
+                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em><i className="feedback-origin" aria-hidden="true" /></li>
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -447,10 +447,12 @@ export default function Home() {
               </section>
             </div>
 
-            <div className="training-feedback" aria-label="Advisor reinforcement learning feedback loop">
-              <p>RL feedback loop</p>
-              <ol><li>Selection outcome</li><li>Reward</li><li>GRPO updates the advisor</li></ol>
-              <ul aria-label="Training status"><li>Rewriter · Frozen</li><li>Chooser · Frozen</li><li>Advisor · Trained</li></ul>
+            <div className="policy-feedback" aria-label="Chooser decision becomes a scalar reward; GRPO uses it to update only the advisor policy">
+              <span className="feedback-descent" aria-hidden="true"><i /></span>
+              <span className="reward-node"><small>Reward</small><b>r</b></span>
+              <span className="feedback-return" aria-hidden="true"><i /></span>
+              <span className="feedback-ascent" aria-hidden="true"><i /></span>
+              <p><span>Selection outcome defines the reward</span><b>GRPO updates the advisor policy.</b></p>
             </div>
             <figcaption id="slate-caption"><b>Figure 2 | AgentBait system schematic.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
           </figure>
