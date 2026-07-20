@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type CSSProperties, type RefObject } from 
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const assetUrl = (path: string) => `${basePath}${path}`;
 
 const storyboardCandidates = [
   { id: "A", title: "Marshawn playing in charity soccer game went exactly as you'd expect.", target: true },
@@ -184,7 +186,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
         </div>
         {showEditorHand && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="editor-hand" src="/editor-hand.png" alt="" aria-hidden="true" fetchPriority="high" />
+          <img className="editor-hand" src={assetUrl("/editor-hand.png")} alt="" aria-hidden="true" fetchPriority="high" />
         )}
         {stage === "focus" && <span className="focus-not-selected">Not selected</span>}
       </section>
@@ -306,7 +308,7 @@ export default function Home() {
       <header className="site-header">
         <a className="wordmark" href="#paper" aria-label="AgentBait paper home"><span>AgentBait</span><small>Research feature</small></a>
         <nav aria-label="Reading navigation">
-          <a href="/paper.pdf">Paper</a>
+          <a href={assetUrl("/paper.pdf")}>Paper</a>
           <a href="#results">Results</a>
           <a href="#examples">Examples</a>
           <a href={codeUrl} target="_blank" rel="noreferrer">Code</a>
@@ -326,7 +328,7 @@ export default function Home() {
               <p>University of California, Berkeley</p>
             </div>
             <div className="paper-links" aria-label="Paper resources">
-              <a href="/paper.pdf">Paper ↗</a>
+              <a href={assetUrl("/paper.pdf")}>Paper ↗</a>
               <a href={codeUrl} target="_blank" rel="noreferrer">Code ↗</a>
               <a href={datasetUrl} target="_blank" rel="noreferrer">Dataset ↗</a>
               <a href="#demo">Demo ↓</a>
@@ -342,7 +344,7 @@ export default function Home() {
               </div>
               <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
+                <img src={assetUrl("/agentbait-method.png")} alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
               </div>
             </div>
             <button
@@ -403,7 +405,7 @@ export default function Home() {
                   <span className="arch-fragment" aria-hidden="true" />
                   <div className="scholar-fragment" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/advisor-scholar.png" alt="" />
+                    <img src={assetUrl("/advisor-scholar.png")} alt="" />
                   </div>
                   <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
                     <li><b>A</b><span>Candidate A</span></li>
@@ -425,7 +427,7 @@ export default function Home() {
                   </div>
                   <span className="ink-bottle" aria-hidden="true" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="triptych-quill" src="/editor-hand.png" alt="" aria-hidden="true" />
+                  <img className="triptych-quill" src={assetUrl("/editor-hand.png")} alt="" aria-hidden="true" />
                   <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
                 </div>
               </section>
@@ -440,7 +442,7 @@ export default function Home() {
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="selector-hand" src="/selector-hand.png" alt="" aria-hidden="true" />
+                  <img className="selector-hand" src={assetUrl("/selector-hand.png")} alt="" aria-hidden="true" />
                 </div>
               </section>
             </div>
@@ -563,7 +565,7 @@ export default function Home() {
 
         <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
           <div className="section-label">07 · Paper resources and citation</div>
-          <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
+          <div className="resource-links"><a href={assetUrl("/paper.pdf")}><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
           <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
         </section>
       </article>

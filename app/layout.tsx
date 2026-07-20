@@ -1,38 +1,30 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import "./globals.css";
 
 const title = "You Won't Believe This Click | AgentBait";
 const description = "An interactive research feature showing how one editorial rewrite can redirect an LLM agent within a fixed MIND-style news slate—and reduce source support.";
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const siteUrl = isGitHubPages
+  ? "https://chrischrischristianyijin.github.io/agentbait-paper-website/"
+  : "https://agentbait-paper.chrischrischrisjin.chatgpt.site/";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3000";
-  const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  let metadataBase = new URL("http://localhost:3000");
-
-  try {
-    metadataBase = new URL(`${protocol}://${host}`);
-  } catch {
-    // Keep a safe local base for malformed preview headers.
-  }
-
-  return {
-    metadataBase,
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  openGraph: {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-    },
-    twitter: {
-      card: "summary",
-      title,
-      description,
-    },
-  };
-}
+    type: "website",
+    images: ["og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["og.png"],
+  },
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

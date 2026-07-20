@@ -21,3 +21,17 @@ node --test tests/rendered-html.test.mjs
 ```
 
 The paper PDF and website images live in `public/`. The deployable site is built with vinext for Cloudflare Workers-compatible hosting.
+
+## GitHub Pages
+
+The `main` branch deploys automatically to:
+
+<https://chrischrischristianyijin.github.io/agentbait-paper-website/>
+
+To verify the static export locally:
+
+```bash
+npm run build:pages
+```
+
+The generated GitHub Pages artifact is written to `out/`. The existing Sites deployment remains supported by `npm run build`.
