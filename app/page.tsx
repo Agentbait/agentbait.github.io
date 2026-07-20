@@ -528,33 +528,29 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">Four conclusions from the controlled comparison</h2><p className="lead">Presentation changes decisions. Learned strategies transfer. Selection and source support can diverge, and constraints alter the policy itself.</p></div>
+            <div className="prose"><h2 id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
           </div>
 
-          <div className="finding-summary" aria-label="Four principal findings">
-            <article>
-              <p className="finding-summary-kicker">Finding 1</p>
-              <h3>Presentation alone changes agent decisions</h3>
-              <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with standalone rewriting"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Standalone rewriting</small></span></div>
-              <p className="finding-summary-copy">The chooser moves before any selection-based training.</p>
+          <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
+            <article className="finding-step sensitivity-step">
+              <p className="finding-step-label"><span>01</span><b>Sensitivity</b></p>
+              <h3>Presentation already matters</h3>
+              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with a prompt rewriter"><span><b>17.1%</b><small>Original</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Prompt rewrite</small></span></div>
             </article>
-            <article>
-              <p className="finding-summary-kicker">Finding 2</p>
-              <h3>Learned advice produces strong, transferable selection strategies</h3>
-              <div className="finding-shift" aria-label="Target selection increases from 17.1 percent for the original target to 98.5 percent with the trained advisor"><span><b>17.1%</b><small>Original target</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
-              <p className="finding-summary-copy">The learned strategies remain effective across target agents, languages and document domains.</p>
+            <article className="finding-step optimization-step">
+              <p className="finding-step-label"><span>02</span><b>Optimization</b></p>
+              <h3>Training amplifies the effect</h3>
+              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 34.8 percent with a prompt rewriter to 98.5 percent with the trained advisor"><span><b>34.8%</b><small>Prompt rewrite</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
             </article>
-            <article>
-              <p className="finding-summary-kicker">Finding 3</p>
-              <h3>Selection success and source support can diverge</h3>
-              <div className="finding-equation" aria-label="More selected does not mean more faithful"><b>More selected</b><i aria-hidden="true">≠</i><b>more faithful</b></div>
-              <p className="finding-summary-copy">Unconstrained optimization can discover unsupported shortcuts rather than better content.</p>
+            <article className="finding-step transfer-step">
+              <p className="finding-step-label"><span>03</span><b>Transfer</b></p>
+              <h3>The learned advice generalizes</h3>
+              <ul className="finding-step-domains" aria-label="Generalizes across agents, languages, and document domains"><li>Agents</li><li>Languages</li><li>Domains</li></ul>
             </article>
-            <article>
-              <p className="finding-summary-kicker">Finding 4</p>
-              <h3>Constraints change what the advisor learns, not merely how its outputs are scored.</h3>
-              <div className="finding-equation" aria-label="Selection-reward training differs from training with both selection and source-support rewards"><b>Selection reward</b><i aria-hidden="true">≠</i><b>selection reward + source-support reward</b></div>
-              <p className="finding-summary-copy">Adding MiniCheck changes the learned strategy distribution, not merely how finished rewrites are scored.</p>
+            <article className="finding-step failure-step">
+              <p className="finding-step-label"><span>04</span><b>Failure mode</b></p>
+              <h3>Selection can outrun support</h3>
+              <div className="finding-step-metric finding-step-contrast" aria-label="The unconstrained trained advisor reaches 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
             </article>
           </div>
 
