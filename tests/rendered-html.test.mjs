@@ -108,6 +108,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.click-word\s*\{/);
   assert.match(globalStyles, /@keyframes click-letter-drop/);
   assert.match(globalStyles, /\.click-selected-note\s*\{/);
+  assert.match(globalStyles, /@keyframes click-selected-cycle/);
   assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
@@ -121,7 +122,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.match(pageSource, /function InteractiveClickWord/);
-  assert.match(pageSource, /onClick=\{\(\) => setCompleted\(true\)\}/);
+  assert.match(pageSource, /onClick=\{completeWord\}/);
+  assert.match(pageSource, /setTimeout\(\(\) => setSelectedVisible\(false\), 2600\)/);
   assert.match(pageSource, /className="click-letter"/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);

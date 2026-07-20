@@ -108,6 +108,19 @@ function TypewriterTitle({ text }: { text: string }) {
 
 function InteractiveClickWord() {
   const [completed, setCompleted] = useState(false);
+  const [selectedVisible, setSelectedVisible] = useState(false);
+  const hideSelectedTimer = useRef<number | null>(null);
+
+  useEffect(() => () => {
+    if (hideSelectedTimer.current !== null) window.clearTimeout(hideSelectedTimer.current);
+  }, []);
+
+  function completeWord() {
+    if (completed) return;
+    setCompleted(true);
+    setSelectedVisible(true);
+    hideSelectedTimer.current = window.setTimeout(() => setSelectedVisible(false), 2600);
+  }
 
   return (
     <span className={`click-completion ${completed ? "is-complete" : ""}`}>
@@ -116,7 +129,7 @@ function InteractiveClickWord() {
         className="click-word"
         aria-label={completed ? "Click, selected" : "Complete the word Click"}
         aria-pressed={completed}
-        onClick={() => setCompleted(true)}
+        onClick={completeWord}
       >
         <span aria-hidden="true">Cl</span>
         <span className="click-letter-slot" aria-hidden="true">
@@ -124,7 +137,7 @@ function InteractiveClickWord() {
         </span>
         <span aria-hidden="true">ck</span>
       </button>
-      <span className="click-selected-note" aria-live="polite">{completed ? "selected" : ""}</span>
+      <span className={`click-selected-note ${selectedVisible ? "is-visible" : ""}`} aria-live="polite">{selectedVisible ? "selected" : ""}</span>
     </span>
   );
 }

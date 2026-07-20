@@ -70,9 +70,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .click-word:hover .click-placeholder, .click-word:focus-visible .click-placeholder { color: var(--red); }
 .click-letter { display: inline-block; color: var(--navy); transform-origin: 50% 100%; animation: click-letter-drop .72s cubic-bezier(.2,.9,.25,1.18) both; }
 .click-selected-note { position: absolute; left: .12em; top: calc(100% + 8px); opacity: 0; color: var(--red); font-family: var(--mono); font-size: 9px; font-weight: 600; line-height: 1; letter-spacing: .09em; text-transform: uppercase; pointer-events: none; }
-.click-completion.is-complete .click-selected-note { opacity: 1; animation: click-selected-arrive .32s .45s ease both; }
+.click-selected-note.is-visible { animation: click-selected-cycle 2s .45s ease both; }
 @keyframes click-letter-drop { 0% { opacity: 0; color: var(--red); transform: translateY(-.8em); } 48% { opacity: 1; color: var(--red); transform: translateY(.05em); } 62% { opacity: .25; transform: translateY(0); } 76% { opacity: 1; color: var(--red); } 100% { opacity: 1; color: var(--navy); transform: translateY(0); } }
-@keyframes click-selected-arrive { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes click-selected-cycle { 0% { opacity: 0; transform: translateY(-3px); } 15%,75% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(2px); } }
 .subtitle { max-width: 1280px; margin: 17px 0 0; color: var(--navy); opacity: .82; font-family: var(--serif); font-size: clamp(24px, 2.2vw, 34px); font-style: italic; line-height: 1.12; letter-spacing: -.018em; }
 .standfirst { max-width: 870px; margin: 24px 0 0; font-family: var(--serif); font-size: clamp(18px, 1.35vw, 22px); line-height: 1.48; letter-spacing: -.008em; }
 .paper-identity { width: 100%; max-width: 870px; margin: 22px 0 0; display: grid; grid-template-columns: 1fr; gap: 0; align-items: center; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
@@ -637,4 +637,5 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  .click-selected-note.is-visible { opacity: 1; }
 }
