@@ -104,7 +104,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(settingText, /The candidate list has already been constructed\. Only the target presentation may change\./);
   assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
   assert.match(html, /data-graph-view="narrative"/);
-  assert.match(html, /\/narrative-method\.png/);
+  assert.match(html, /\/paper-method-transparent\.png/);
   assert.match(html, /AgentBait narrative pipeline: a target document is selected from a fixed candidate slate/);
   assert.match(html, /class="graph-view-toggle"/);
   assert.match(html, /Paper graph/);
@@ -245,7 +245,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /rewriter-hand-strings\.png/);
-  assert.match(pageSource, /narrative-method\.png/);
+  assert.match(pageSource, /paper-method-transparent\.png/);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
@@ -335,7 +335,7 @@ test("ships the manuscript and method figure", async () => {
   const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
-    readFile(new URL("../public/narrative-method.png", import.meta.url)),
+    readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),
     readFile(new URL("../public/rewriter-hand-strings.png", import.meta.url)),
     readFile(new URL("../public/advisor-scholar.png", import.meta.url)),

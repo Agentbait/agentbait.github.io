@@ -431,7 +431,7 @@ export default function Home() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="paper-method-artwork"
-                  src={assetUrl("/narrative-method.png")}
+                  src={assetUrl("/paper-method-transparent.png")}
                   alt="AgentBait narrative pipeline: a target document is selected from a fixed candidate slate, rewritten by a frozen rewriter under a learned advisor strategy, returned to the slate for target-agent selection, and the selection reward updates the advisor."
                   width={3782}
                   height={1416}
