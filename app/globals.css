@@ -609,7 +609,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .results-table tbody td:nth-child(2) { min-width: 130px; text-align: left; }
 .results-table tbody td:nth-child(n+3), .matrix-table td { background: linear-gradient(90deg, rgba(37,99,166,.13) var(--score), transparent var(--score)); }
 .score-bar-cell { --bar-fill: rgba(37,99,166,.13); background: linear-gradient(90deg, var(--bar-fill) var(--score), transparent var(--score)); }
-.score-bar-support, .support-table .constrained-row .score-bar-cell, .transfer-table .score-bar-cell:nth-last-child(-n+2), .academic-table .constrained-row .score-bar-cell { --bar-fill: rgba(54,113,90,.16); }
+.score-bar-support, .support-table .constrained-row .score-bar-cell, .academic-table .constrained-row .score-bar-cell { --bar-fill: rgba(54,113,90,.16); }
+.transfer-table td:nth-last-child(-n+2) { background: rgba(54,113,90,.07); }
 .results-table td span, .matrix-table td span { font-weight: 600; }
 .results-table td small, .matrix-table td small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
 .results-table .constrained-row { border-top: 1px dashed var(--green); }

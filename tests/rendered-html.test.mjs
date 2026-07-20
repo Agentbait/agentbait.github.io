@@ -223,10 +223,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.finding-summary\s*\{/);
   assert.match(globalStyles, /\.finding-summary\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
   assert.match(globalStyles, /\.score-bar-cell\s*\{[^}]*--bar-fill:[^}]*linear-gradient\(90deg, var\(--bar-fill\) var\(--score\), transparent var\(--score\)\)/s);
-  assert.match(globalStyles, /\.score-bar-support[^}]*\.transfer-table \.score-bar-cell:nth-last-child\(-n\+2\)[^}]*--bar-fill:\s*rgba\(54,113,90,\.16\)/s);
+  assert.match(globalStyles, /\.score-bar-support[^}]*\.academic-table \.constrained-row \.score-bar-cell[^}]*--bar-fill:\s*rgba\(54,113,90,\.16\)/s);
+  assert.match(globalStyles, /\.transfer-table td:nth-last-child\(-n\+2\)\s*\{[^}]*background:\s*rgba\(54,113,90,\.07\)/s);
   assert.match(pageSource, /supportResults\.map[\s\S]*?row\.selection\}%[\s\S]*?row\.support\}%/);
-  assert.match(pageSource, /languageResults\.map[\s\S]*?className="score-bar-cell"[\s\S]*?`\$\{value\}%`/);
-  assert.match(pageSource, /datasetResults\.map[\s\S]*?className="score-bar-cell"[\s\S]*?`\$\{value\}%`/);
+  assert.match(pageSource, /languageResults\.map[\s\S]*?row\.values\.map\(\(value,index\)=><td key=\{index\}><b>/);
+  assert.match(pageSource, /datasetResults\.map[\s\S]*?row\.values\.map\(\(value,index\)=><td key=\{index\}><b>/);
   assert.match(pageSource, /academicResults\.map[\s\S]*?`\$\{row\.selection\}%`[\s\S]*?`\$\{gain\}%`/);
   assert.doesNotMatch(globalStyles, /\.training-feedback\s*\{/);
   assert.match(globalStyles, /\.policy-feedback\s*\{/);
