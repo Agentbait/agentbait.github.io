@@ -214,6 +214,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.finding-summary\s*\{/);
   assert.doesNotMatch(globalStyles, /\.training-feedback\s*\{/);
   assert.match(globalStyles, /\.policy-feedback\s*\{/);
+  assert.match(globalStyles, /\.reward-node\s*\{[^}]*min-width:\s*88px[^}]*min-height:\s*42px/s);
+  assert.match(globalStyles, /\.reward-node b\s*\{[^}]*font-size:\s*23px/s);
+  assert.match(globalStyles, /\.policy-feedback > p\s*\{[^}]*font-size:\s*12px/s);
   assert.match(globalStyles, /\.feedback-return\s*\{/);
   assert.match(globalStyles, /@keyframes feedback-signal-return/);
   assert.match(globalStyles, /@keyframes advisor-policy-flash/);
