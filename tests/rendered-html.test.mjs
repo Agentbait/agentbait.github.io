@@ -232,6 +232,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
   assert.match(globalStyles, /\.process-spine\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.controlled-figure\s*\{[^}]*border-top/s);
   assert.match(globalStyles, /\.abstract-layout\s*\{/);
   assert.match(globalStyles, /\.finding-sequence\s*\{/);
   assert.match(globalStyles, /\.finding-step\s*\{[^}]*grid-template-columns:\s*150px minmax\(0, 1fr\) minmax\(300px, 360px\)/s);
