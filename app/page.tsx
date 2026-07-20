@@ -340,7 +340,7 @@ export default function Home() {
           <p className="hero-eyebrow">01 · Agent-legible presentation effects</p>
           <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
-          <p className="standfirst">We rewrite one target item&apos;s title and abstract, then ask the same LLM chooser to select again from the same candidate list.</p>
+          <p className="standfirst">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
           <div className="paper-identity">
             <div className="byline">
               <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
@@ -376,7 +376,6 @@ export default function Home() {
             </button>
           </div>
           <div className="demo-caption">
-            <p className="caption-question">Can rewriting a document make it more likely to be chosen over the same competitors?</p>
             <p className="caption-copy">A list of competing documents is shown to the target agent. We choose one target document from the list and generate a rewriting strategy for only that document. A separate rewriting model then revises the target document&apos;s title and abstract, while all other documents in the list remain exactly the same. The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor.</p>
           </div>
         </section>

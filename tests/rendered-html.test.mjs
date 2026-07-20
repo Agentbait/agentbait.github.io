@@ -53,7 +53,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(plainText, /01 · Agent-legible presentation effects/i);
   assert.doesNotMatch(plainText, /Does a better presentation become a different decision\?/);
   assert.match(plainText, /You Won't Believe This Cl\s+_\s+ck Content Rewriting for Agentic Choice/);
-  assert.match(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
+  assert.match(plainText, /Can changing only one item's presentation change the chooser's decision\?/);
+  assert.doesNotMatch(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
   assert.doesNotMatch(plainText, /Target selection with a learned advisor/);
   assert.doesNotMatch(plainText, /We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select/);
   assert.doesNotMatch(html, /Small textual rewrites can systematically manipulate LLM-based recommendation agents/);
@@ -190,7 +191,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
   assert.match(html, /Pause hero animation/);
-  assert.match(plainText, /Can rewriting a document make it more likely to be chosen over the same competitors\?/);
+  assert.doesNotMatch(plainText, /Can rewriting a document make it more likely to be chosen over the same competitors\?/);
+  assert.doesNotMatch(html, /caption-question/);
   assert.match(plainText, /A list of competing documents is shown to the target agent\. We choose one target document from the list and generate a rewriting strategy for only that document\./);
   assert.match(plainText, /A separate rewriting model then revises the target document's title and abstract, while all other documents in the list remain exactly the same\./);
   assert.match(plainText, /The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor\./);
@@ -204,6 +206,8 @@ test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.doesNotMatch(pageSource, /caption-question/);
+  assert.doesNotMatch(globalStyles, /\.caption-question/);
   assert.doesNotMatch(pageSource, /constant-ribbon/);
   assert.doesNotMatch(globalStyles, /\.constant-ribbon/);
   assert.doesNotMatch(pageSource, /transfer-strip/);
