@@ -50,7 +50,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Language and dataset transfer/);
   assert.match(html, /Target selection under original and rewritten presentations/);
   assert.doesNotMatch(html, /Cross-target-agent mismatch/);
-  assert.match(html, /Selection and source support move on different axes/);
+  assert.match(html, /Selection and source support under rewriting/);
+  assert.ok(html.indexOf("Finding 1") < html.indexOf("Target selection under original and rewritten presentations"));
+  assert.ok(html.indexOf("Finding 2") < html.indexOf("Selection and source support under rewriting"));
+  assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);

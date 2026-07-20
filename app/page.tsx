@@ -243,26 +243,8 @@ export default function Home() {
             <aside className="margin-note"><span>Reference</span><p>Row-wise random choice is 16.9%. The experimental control is original text under the same target agent.</p></aside>
           </div>
 
-          <div className="finding-spread">
-            <figure aria-labelledby="finding-one">
-              <header><span>Finding 1</span><h3 id="finding-one">Rewriting changes selection</h3></header>
-              <div className="finding-bars" role="img" aria-label="Selection rates: original 17.1, prompting advisor 43.9, constrained advisor 68.6, RL advisor 98.5 percent.">
-                {[{label:"Original",value:17.1},{label:"Prompt advisor",value:43.9},{label:"RL advisor + MC",value:68.6},{label:"RL advisor",value:98.5}].map((item) => <div key={item.label}><span>{item.label}</span><i style={{width:`${item.value}%`}} /><b>{item.value}%</b></div>)}
-              </div>
-              <figcaption><b>Selection rate · MIND-En · GPT-5-mini · n=1,000 · Table 1.</b> The full model comparison appears below.</figcaption>
-            </figure>
-            <figure aria-labelledby="finding-two">
-              <header><span>Finding 2</span><h3 id="finding-two">Selection can outrun support</h3></header>
-              <div className="finding-pairs">
-                <div><p>RL advisor</p><span><i style={{width:"98.5%"}} />Selection <b>98.5</b></span><span className="support"><i style={{width:"2%"}} />Support <b>2.0</b></span></div>
-                <div><p>RL advisor + MiniCheck</p><span><i style={{width:"68.6%"}} />Selection <b>68.6</b></span><span className="support"><i style={{width:"31.2%"}} />Support <b>31.2</b></span></div>
-              </div>
-              <figcaption><b>Target selection and MiniCheck sentence support · MIND-En · Table 1.</b> Metrics share a 0–100 scale but are not interchangeable.</figcaption>
-            </figure>
-          </div>
-
-          <details className="full-results" open>
-            <summary><span>Full experimental table</span><b>Table 1 · collapse / expand</b></summary>
+          <div className="finding-block">
+            <header className="finding-heading"><span>Finding 1</span><h3 id="finding-one">Rewriting changes selection</h3></header>
             <figure className="evidence-figure" aria-labelledby="main-results-caption">
               <div className="figure-heading"><div><p className="figure-number">Table 1</p><h3>Target selection under original and rewritten presentations</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
               <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Policy",value:"Qwen3.5-9B"},{label:"Rewriter",value:"GPT-5-mini"},{label:"Baseline",value:"Original; chance = 16.9%"}]} />
@@ -271,7 +253,17 @@ export default function Home() {
               </tbody></table></div>
               <figcaption id="main-results-caption"><b>Table 1 | Target selection on unseen English news impressions.</b> Small values are percentage-point changes from original text for the same evaluator. Target documents do not appear in training; transfer columns use no additional training.</figcaption>
             </figure>
-          </details>
+          </div>
+
+          <div className="finding-block">
+            <header className="finding-heading"><span>Finding 2</span><h3 id="finding-two">Selection can outrun source support</h3></header>
+            <figure className="evidence-figure" aria-labelledby="support-results-caption">
+              <div className="figure-heading"><div><p className="figure-number">Table 2</p><h3>Selection and source support under rewriting</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
+              <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Chooser",value:"GPT-5-mini"},{label:"Support",value:"MiniCheck-Flan"},{label:"Baseline",value:"Original selection = 17.1%"}]} />
+              <div className="table-scroll"><table className="support-table"><thead><tr><th>Condition</th><th>Target selected (%)</th><th>MiniCheck support (%)</th><th>Constraint</th></tr></thead><tbody>{supportResults.map(row=><tr key={row.method} className={row.constrained?"constrained-row":""}><th>{row.method}</th><td><b>{row.selection.toFixed(1)}</b></td><td><b>{row.support.toFixed(1)}</b></td><td>{row.constrained?"MiniCheck":"None"}</td></tr>)}</tbody></table></div>
+              <figcaption id="support-results-caption"><b>Table 2 | Factuality tradeoff on MIND-English.</b> Unconstrained RL produces the highest selection and lowest source support. MiniCheck recovers support while reducing selection.</figcaption>
+            </figure>
+          </div>
         </section>
 
         <section className="story-section setting" id="setting" aria-labelledby="setting-title">
@@ -329,17 +321,10 @@ export default function Home() {
           <div className="story-grid"><div className="prose"><h2 id="transfer-title">Transfer is broad, but not uniform</h2><p>Display language, dataset and factuality constraint all change the observed effect. Reporting only 98.5% would hide those differences.</p></div><aside className="margin-note"><span>Interpretation</span><p>MiniCheck improves source support while reducing the selection effect; the two metrics should be read together.</p></aside></div>
 
           <figure className="evidence-figure robustness-figure" aria-labelledby="robustness-caption">
-            <div className="figure-heading"><div><p className="figure-number">Table 2</p><h3>Language and dataset transfer</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <div className="figure-heading"><div><p className="figure-number">Table 3</p><h3>Language and dataset transfer</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
             <MetaLine items={[{label:"Training",value:"English MIND only"},{label:"Sample",value:"1,000 impressions per evaluation"},{label:"Advisor",value:"Qwen3.5-9B"},{label:"Rewriter / chooser",value:"GPT-5-mini"}]} />
             <div className="table-scroll"><table className="robustness-table"><thead><tr><th>Transfer axis</th><th>Evaluation setting</th><th>RL advisor</th><th>RL advisor + MiniCheck</th><th>Constraint cost</th></tr></thead><tbody>{robustnessResults.map(row=><tr key={row.label}><th>{row.setting}</th><td>{row.label}</td><td><b>{row.advisor.toFixed(1)}</b></td><td className="constraint-cell"><b>{row.constrained.toFixed(1)}</b></td><td>{(row.constrained-row.advisor).toFixed(1)} pp</td></tr>)}</tbody></table></div>
-            <figcaption id="robustness-caption"><b>Table 2 | Zero-shot language and dataset transfer.</b> Translated MIND variants preserve rows, targets, candidate order and slate structure. EB-NeRD is a distinct Danish news dataset; English is a translated version of the same EB-NeRD slates.</figcaption>
-          </figure>
-
-          <figure className="evidence-figure tradeoff-figure" aria-labelledby="tradeoff-caption">
-            <div className="figure-heading"><div><p className="figure-number">Figure 4</p><h3>Selection and source support move on different axes</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
-            <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Chooser",value:"GPT-5-mini"},{label:"Support",value:"MiniCheck-Flan"},{label:"Baseline",value:"Original selection = 17.1%"}]} />
-            <div className="paired-chart" role="img" aria-label="Paired bars compare selection and MiniCheck source support across six rewriting conditions."><div className="chart-legend"><span className="selection-key">Selection</span><span className="support-key">Source support</span></div><div className="axis-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>{supportResults.map(row=><div className={`paired-row ${row.constrained?"is-constrained":""}`} key={row.method}><div className="paired-name">{row.method}</div><div className="paired-bars"><div className="bar-track"><i className="selection-bar" style={{width:`${row.selection}%`}}/><b style={{left:`${row.selection}%`}}>{row.selection.toFixed(1)}</b></div><div className="bar-track"><i className="support-bar" style={{width:`${row.support}%`}}/><b style={{left:`${row.support}%`}}>{row.support.toFixed(1)}</b></div></div></div>)}</div>
-            <figcaption id="tradeoff-caption"><b>Figure 4 | Factuality tradeoff on MIND-English.</b> Unconstrained RL produces the highest selection and lowest source support. MiniCheck recovers support while reducing selection.</figcaption>
+            <figcaption id="robustness-caption"><b>Table 3 | Zero-shot language and dataset transfer.</b> Translated MIND variants preserve rows, targets, candidate order and slate structure. EB-NeRD is a distinct Danish news dataset; English is a translated version of the same EB-NeRD slates.</figcaption>
           </figure>
         </section>
 
