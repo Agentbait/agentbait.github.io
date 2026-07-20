@@ -6,12 +6,12 @@ const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
 
 const storyboardCandidates = [
-  { id: 1, title: "Calibrating Language Models for Document Choice", abstract: "A controlled study of confidence estimates when agents select one document from a fixed candidate set." },
-  { id: 2, title: "Measuring Position Bias in Ranked Interfaces", abstract: "We separate display position from document relevance across repeated recommendation decisions." },
-  { id: 3, title: "Source Signals for Reliable Information Access", abstract: "An evaluation of evidence cues and their effect on model-mediated information selection." },
-  { id: 4, title: "Understanding Preference Effects in Content Selection", abstract: "We isolate how a document's presentation affects selection while its underlying content and candidate context stay fixed.", target: true },
-  { id: 5, title: "Evaluating Chooser Stability Under Prompt Variation", abstract: "A matched analysis of chooser decisions under small changes to instructions and presentation." },
+  { id: "A", title: "Marshawn playing in charity soccer game went exactly as you'd expect.", target: true },
+  { id: "B", title: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary: 'Mi Amor!'" },
+  { id: "C", title: "The Coolest And Craziest McDonald's Across The Country" },
 ];
+
+const rewrittenMarshawnTitle = "When Marshawn Lynch Took the Pitch: An Inside Look …";
 
 const mainResults = [
   { group: "Reference", method: "Original text", values: [17.1, 17.1, 17.1, 17.3, 17.6, 17.5] },
@@ -58,7 +58,7 @@ const bibtex = `@article{jin2026agentbait,
   year    = {2026}
 }`;
 
-type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "original-selected" | "focus" | "rewrite-title" | "rewrite-abstract" | "return" | "rescan" | "selected" | "final";
+type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "original-selected" | "focus" | "rewrite-title" | "rewrite-complete" | "return" | "rescan" | "selected" | "final";
 
 function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   return (
@@ -71,16 +71,16 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
 }
 
 function CandidateStoryboard({ stage }: { stage: AttackStage }) {
-  const rewritten = ["return", "rescan", "selected", "final"].includes(stage);
-  const focused = ["focus", "rewrite-title", "rewrite-abstract"].includes(stage);
-  const inspectedId = stage === "scan-a" ? 2 : stage === "scan-b" ? 5 : stage === "rescan" ? 3 : null;
-  const selectedId = stage === "original-selected" ? 1 : ["selected", "final"].includes(stage) ? 4 : null;
+  const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
+  const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
+  const inspectedId = stage === "scan-a" ? "A" : stage === "scan-b" ? "C" : stage === "rescan" ? "B" : null;
+  const selectedId = stage === "original-selected" ? "B" : ["selected", "final"].includes(stage) ? "A" : null;
 
   return (
-    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${["selected", "final"].includes(stage) ? "has-output" : ""}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison">
+    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
       <section className="candidate-set" aria-labelledby="candidate-set-title">
         <header>
-          <div><span>Candidate Set</span><b id="candidate-set-title">Five fixed documents</b></div>
+          <div><span>Candidate Set</span><b id="candidate-set-title">Three fixed MIND snippets</b></div>
           <small>{rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
         </header>
         <ol>
@@ -89,10 +89,9 @@ function CandidateStoryboard({ stage }: { stage: AttackStage }) {
             const inspected = item.id === inspectedId;
             return (
               <li key={item.id} className={`candidate-card ${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""} ${inspected ? "is-inspected" : ""}`}>
-                <span className="paper-rank">#{item.id}</span>
+                <span className="paper-rank">{item.id}.</span>
                 <span className="paper-copy">
-                  <b>{item.target && rewritten ? "How Rewriting Changes Which Content Gets Chosen" : item.title}</b>
-                  <small>{item.target && rewritten ? "We test clearer framing and stronger relevance cues while preserving the same underlying content." : item.abstract}</small>
+                  <b>{item.target && rewritten ? rewrittenMarshawnTitle : item.title}</b>
                 </span>
                 {selected && <span className="decision-label">Selected</span>}
                 {item.target && stage === "original-selected" && <span className="not-selected-label">Not selected</span>}
@@ -102,32 +101,22 @@ function CandidateStoryboard({ stage }: { stage: AttackStage }) {
         </ol>
       </section>
 
-      <section className="rewrite-focus" aria-label="Target title and abstract rewriting">
-        <header><span>Target document · #4</span>{["rewrite-abstract", "return", "rescan", "selected", "final"].includes(stage) && <b>Rewritten</b>}</header>
+      <section className="rewrite-focus" aria-label="Target title rewriting">
+        <header><span>Target snippet · A</span>{rewritten && <b>Rewritten</b>}</header>
         <div className="rewrite-field title-field">
           <small>Title</small>
           {stage === "rewrite-title" ? (
-            <h3 className="editing-title"><del>Understanding <span className="selection-highlight">Preference Effects in Content Selection</span></del><span className="typed-title">How Rewriting Changes Which Content Gets Chosen</span><i className="text-cursor" aria-hidden="true" /></h3>
+            <h3 className="editing-title"><del><span className="selection-highlight">Marshawn playing in charity soccer game went exactly as you&apos;d expect.</span></del><span className="typed-title">{rewrittenMarshawnTitle}</span><i className="text-cursor" aria-hidden="true" /></h3>
           ) : (
-            <h3>{stage === "rewrite-abstract" ? "How Rewriting Changes Which Content Gets Chosen" : "Understanding Preference Effects in Content Selection"}{stage === "focus" && <i className="text-cursor" aria-hidden="true" />}</h3>
-          )}
-        </div>
-        <div className="rewrite-field abstract-field">
-          <small>Abstract</small>
-          {stage === "rewrite-abstract" ? (
-            <p>We test <mark>clearer framing</mark> and <mark>stronger relevance</mark> cues while preserving the <mark>same underlying content</mark>.<i className="text-cursor" aria-hidden="true" /></p>
-          ) : (
-            <p>We isolate how a document&apos;s presentation affects selection while its underlying content and candidate context stay fixed.</p>
+            <h3>{stage === "rewrite-complete" ? rewrittenMarshawnTitle : "Marshawn playing in charity soccer game went exactly as you'd expect."}{stage === "focus" && <i className="text-cursor" aria-hidden="true" />}</h3>
           )}
         </div>
         {stage === "focus" && <span className="focus-not-selected">Not selected</span>}
       </section>
 
-      <aside className={`selected-output ${["selected", "final"].includes(stage) ? "is-visible" : ""}`} aria-label="Chooser selected output">
-        <header><span>Chooser output</span><b>Selected</b></header>
-        <p><span>#4</span><b>How Rewriting Changes Which Content Gets Chosen</b></p>
-        <dl><div><dt>Before rewrite</dt><dd>17.1%</dd></div><i aria-hidden="true">→</i><div><dt>After rewrite</dt><dd>98.5%</dd></div></dl>
-        <small>Source slot remains #4 · selection output shown separately</small>
+      <aside className={`choice-summary ${["selected", "final"].includes(stage) ? "is-visible" : ""}`} aria-label="Chooser decision before and after rewriting">
+        <p><span>Before</span><b>Click B</b><i aria-hidden="true">→</i><span>After</span><b>Click A</b></p>
+        <small>Same candidate set. Only the target snippet was rewritten.</small>
       </aside>
     </div>
   );
@@ -156,7 +145,7 @@ export default function Home() {
         window.setTimeout(() => setStage("original-selected"), 2000),
         window.setTimeout(() => setStage("focus"), 3200),
         window.setTimeout(() => setStage("rewrite-title"), 4000),
-        window.setTimeout(() => setStage("rewrite-abstract"), 6200),
+        window.setTimeout(() => setStage("rewrite-complete"), 6200),
         window.setTimeout(() => setStage("return"), 8000),
         window.setTimeout(() => setStage("rescan"), 8700),
         window.setTimeout(() => setStage("selected"), 9600),
@@ -245,16 +234,16 @@ export default function Home() {
 
           <CandidateStoryboard stage={stage} />
           <p className="demo-status">
-            {["candidate-set", "scan-a", "scan-b"].includes(stage) && "Scene 1 · The chooser scans five fixed candidates; the target remains in source slot #4."}
-            {stage === "original-selected" && "Scene 2 · The original target is not selected; the chooser stops on candidate #1."}
+            {["candidate-set", "scan-a", "scan-b"].includes(stage) && "Scene 1 · The chooser scans three fixed MIND snippets; target A stays in place."}
+            {stage === "original-selected" && "Scene 2 · Before rewriting, the chooser stops on B; A is not selected."}
             {stage === "focus" && "Scene 3 · The view isolates the unselected target before any text changes."}
             {stage === "rewrite-title" && "Scene 4 · A visible editing cursor rewrites the target title."}
-            {stage === "rewrite-abstract" && "Scene 4 · The cursor moves into the abstract and marks the changed framing cues."}
+            {stage === "rewrite-complete" && "Scene 4 · The real Figure 1 rewrite is now complete; no other candidate text changes."}
             {["return", "rescan"].includes(stage) && "Scene 5 · The same candidate set returns with only the target presentation changed."}
-            {stage === "selected" && "Scene 6 · The chooser now selects target #4; a copy lifts into the separate selection output."}
-            {stage === "final" && "Scene 7 · Same content. Different presentation. Different outcome."}
+            {stage === "selected" && "Scene 6 · The chooser now stops on A. Candidate positions remain unchanged."}
+            {stage === "final" && "Scene 7 · Before: Click B. After: Click A."}
           </p>
-          <p className="demo-caption"><b>Interactive Figure 1 | Didactic replay of a fixed-candidate intervention.</b> The example document text is schematic; aggregate selection rates are paper-reported for MIND-English (n=1,000, Table 1). The target remains in source slot #4—the upward motion represents the chooser&apos;s selected output, not a new ranking.</p>
+          <p className="demo-caption"><b>Interactive Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A. The animation depicts selection, not an explicit reranking step.</p>
         </section>
         </section>
 
