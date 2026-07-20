@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
+import { flushSync } from "react-dom";
+
+type MorphViewTransition = { finished: Promise<void> };
+type MorphDocument = Document & { startViewTransition?: (update: () => void) => MorphViewTransition };
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
@@ -283,6 +287,21 @@ export default function Home() {
   const [heroPlaying, setHeroPlaying] = useState(true);
   const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
   const [copied, setCopied] = useState(false);
+  const [paperGraph, setPaperGraph] = useState(false);
+
+  const togglePaperGraph = () => {
+    const updateGraph = () => setPaperGraph((current) => !current);
+    const morphDocument = document as MorphDocument;
+
+    if (!morphDocument.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      updateGraph();
+      return;
+    }
+
+    document.documentElement.classList.add("is-native-graph-morph");
+    const transition = morphDocument.startViewTransition(() => flushSync(updateGraph));
+    transition.finished.finally(() => document.documentElement.classList.remove("is-native-graph-morph"));
+  };
 
   useEffect(() => {
     const animationSurface = heroAnimationRef.current;
@@ -383,8 +402,23 @@ export default function Home() {
               <p>The candidate list has already been constructed. Only the target presentation may change.</p>
             </div>
           </div>
-          <figure className="slate-figure controlled-figure" aria-labelledby="setting-figure-title slate-caption">
-            <h3 className="experiment-thesis" id="setting-figure-title">Only the target text changes. The candidate set and chooser conditions remain fixed.</h3>
+          <figure className={`slate-figure controlled-figure ${paperGraph ? "is-paper-graph" : ""}`} data-graph-view={paperGraph ? "paper" : "narrative"} aria-labelledby="setting-figure-title slate-caption">
+            <div className="controlled-figure-head">
+              <h3 className="experiment-thesis morph-copy" id="setting-figure-title">
+                <span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Only the target text changes. The candidate set and chooser conditions remain fixed.</span>
+                <span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Advisor–rewriter setting</span>
+              </h3>
+              <button
+                type="button"
+                className="graph-view-toggle"
+                aria-label={paperGraph ? "Show narrative figure" : "Show paper graph"}
+                aria-pressed={paperGraph}
+                onClick={togglePaperGraph}
+              >
+                <span>{paperGraph ? "Narrative view" : "Paper graph"}</span>
+                <i aria-hidden="true">⇄</i>
+              </button>
+            </div>
             <div className="constant-ribbon">
               <div className="constant-ribbon-title"><span aria-hidden="true">×</span><b>Held constant across conditions</b></div>
               <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
@@ -400,7 +434,7 @@ export default function Home() {
               <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
-                <header><div className="panel-heading-line"><span>01 · Read</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p>Reads the slate and proposes an explicit rewriting strategy.</p></header>
+                <header><div className="panel-heading-line"><span>01 · Read</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Reads the slate and proposes an explicit rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Policy πθ proposes strategy s</span></p></header>
                 <div className="advisor-visual">
                   <span className="arch-fragment" aria-hidden="true" />
                   <div className="scholar-fragment" aria-hidden="true">
@@ -413,17 +447,18 @@ export default function Home() {
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                 </div>
-                <p className="strategy-note"><span>Strategy note</span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Policy updated: sharpen specificity and narrative tension</span></b></p>
+                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Policy updated: sharpen specificity and narrative tension</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
-                <header><div className="panel-heading-line"><span>02 · Edit</span><em className="training-state">Frozen</em></div><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p>Applies the strategy to the target title and abstract only.</p></header>
+                <header><div className="panel-heading-line"><span>02 · Edit</span><em className="training-state">Frozen</em></div><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Applies the strategy to the target title and abstract only.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Rewrites target xB under s</span></p></header>
                 <div className="rewriter-visual">
                   <div className="paper-fragment">
                     <small>Original title</small>
                     <p>A study of <del>news recommendation</del></p>
                     <small>Rewritten title</small>
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
+                    <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
                   <span className="ink-bottle" aria-hidden="true" />
                   <div className="rewrite-puppet" aria-hidden="true">
@@ -440,12 +475,12 @@ export default function Home() {
               </section>
 
               <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 id="selection-panel-title">Same Chooser</h4><p>Selects one item from the unchanged candidate slate.</p></header>
+                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 className="morph-copy" id="selection-panel-title"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Same Chooser</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Chooser</span></h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selects one item from the unchanged candidate slate.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Selects y from candidate slate C</span></p></header>
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
                     <li><b>A</b><span>Candidate A</span></li>
-                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em><i className="feedback-origin" aria-hidden="true" /></li>
+                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em className="morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em><i className="feedback-origin" aria-hidden="true" /></li>
                     <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                   <span className="selector-hand-motion" aria-hidden="true">
@@ -463,7 +498,7 @@ export default function Home() {
               <span className="feedback-ascent" aria-hidden="true"><i /></span>
               <p><span>Selection outcome defines the reward</span><b>GRPO updates the advisor policy.</b></p>
             </div>
-            <figcaption id="slate-caption"><b>Figure 2 | AgentBait system schematic.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</figcaption>
+            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> Candidate identity, order, list size, non-target text and chooser prompt are paired across conditions. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our advisor–rewriter setting.</span></figcaption>
           </figure>
         </section>
 
