@@ -163,7 +163,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
-  assert.doesNotMatch(html, /\/agentbait-method\.png/);
+  assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
   assert.match(html, /Pause hero animation/);
@@ -228,7 +228,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /\["final", 12600\]/);
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
   assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
-  assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 15000/);
+  assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);
+  assert.match(pageSource, /elapsed >= 14600 && elapsed < 19000/);
   assert.match(pageSource, /requestAnimationFrame\(update\)/);
   assert.match(pageSource, /heroPlaying/);
   assert.match(pageSource, /className="playback-toggle"/);
@@ -238,8 +239,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /toggleHeroFigure|handleHeroFigureKeyDown|flip-cue|scheduleCycle/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
-  assert.match(pageSource, /hero-player-card/);
-  assert.doesNotMatch(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
+  assert.match(pageSource, /hero-flip-card/);
+  assert.match(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
   assert.match(globalStyles, /\.playback-toggle\s*\{/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);

@@ -197,12 +197,13 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: boolean) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void, playing: boolean) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const elapsedRef = useRef(0);
   const stageRef = useRef<AttackStage>("candidate-set");
+  const flippedRef = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -227,6 +228,8 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
         setShowEditorHand(false);
         stageRef.current = "final";
         setStage("final");
+        flippedRef.current = false;
+        setFlipped(false);
       });
       return () => window.cancelAnimationFrame(reducedMotionFrame);
     }
@@ -240,7 +243,7 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
     const update = (now: number) => {
       if (lastFrameTime !== null) {
         const frameDelta = Math.min(now - lastFrameTime, 100);
-        elapsedRef.current = (elapsedRef.current + frameDelta) % 15000;
+        elapsedRef.current = (elapsedRef.current + frameDelta) % 20000;
       }
       lastFrameTime = now;
       const elapsed = elapsedRef.current;
@@ -255,12 +258,18 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
         setStage(nextStage);
       }
 
+      const nextFlipped = elapsed >= 14600 && elapsed < 19000;
+      if (flippedRef.current !== nextFlipped) {
+        flippedRef.current = nextFlipped;
+        setFlipped(nextFlipped);
+      }
+
       animationFrame = window.requestAnimationFrame(update);
     };
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [isVisible, playing]);
+  }, [isVisible, playing, setFlipped]);
 
   return { stage, showEditorHand };
 }
@@ -268,8 +277,9 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
   const heroAnimationRef = useRef<HTMLDivElement>(null);
+  const [heroFlipped, setHeroFlipped] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(true);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -330,10 +340,16 @@ export default function Home() {
           </div>
         </header>
 
-        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay">
-          <div className={`hero-player-card ${heroPlaying ? "" : "is-paused"}`}>
-            <div ref={heroAnimationRef} className="hero-player-surface">
-              <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
+        <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
+          <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
+            <div ref={heroAnimationRef} className="hero-flip-inner">
+              <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
+                <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
+              </div>
+              <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
+              </div>
             </div>
             <button
               type="button"
@@ -344,7 +360,7 @@ export default function Home() {
               <span className={`playback-icon ${heroPlaying ? "is-pause" : "is-play"}`} aria-hidden="true" />
             </button>
           </div>
-          <p className="demo-caption"><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</p>
+          <p className="demo-caption">{heroFlipped ? <><b>Advisor–rewriter training loop.</b> The advisor proposes strategy; the frozen rewriter edits the target; the chooser supplies selection reward, optionally with MiniCheck support.</> : <><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</>}</p>
         </section>
         </section>
 
