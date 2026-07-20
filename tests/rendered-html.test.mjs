@@ -100,17 +100,21 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
-  assert.match(pageSource, /text-cursor/);
-  assert.match(pageSource, /selection-highlight/);
-  assert.match(pageSource, /setStage\("final"\), 11000/);
+  assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title/);
+  assert.match(pageSource, /editor-hand\.png/);
+  assert.match(pageSource, /ink-rewritten-title/);
+  assert.match(pageSource, /\["final", 12600\]/);
+  assert.match(pageSource, /completedFullEdit/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /hero-flip-card/);
   assert.match(pageSource, /rotateY\(180deg\)|heroFlipped/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
 
-  await Promise.all([
+  const [, , editorHand] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
+    readFile(new URL("../public/editor-hand.png", import.meta.url)),
   ]);
+  assert.equal(editorHand[25], 6, "editor hand must be an RGBA PNG");
 });

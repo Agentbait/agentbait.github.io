@@ -77,14 +77,14 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
-function CandidateStoryboard({ stage, instanceId }: { stage: AttackStage; instanceId: string }) {
+function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: AttackStage; instanceId: string; showEditorHand: boolean }) {
   const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
   const inspectedId = stage === "scan-a" ? "A" : stage === "scan-b" ? "C" : stage === "rescan" ? "B" : null;
   const selectedId = stage === "original-selected" ? "B" : ["selected", "final"].includes(stage) ? "A" : null;
 
   return (
-    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
+    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${showEditorHand ? "full-edit" : "quick-edit"}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
       <section className="candidate-set" aria-labelledby={`${instanceId}-candidate-set-title`}>
         <header>
           <div><span>Candidate Set</span><b id={`${instanceId}-candidate-set-title`}>Three fixed MIND snippets</b></div>
@@ -111,13 +111,16 @@ function CandidateStoryboard({ stage, instanceId }: { stage: AttackStage; instan
       <section className="rewrite-focus" aria-label="Target title rewriting">
         <header><span>Target snippet · A</span>{rewritten && <b>Rewritten</b>}</header>
         <div className="rewrite-field title-field">
-          <small>Title</small>
-          {stage === "rewrite-title" ? (
-            <h3 className="editing-title"><del><span className="selection-highlight">Marshawn playing in charity soccer game went exactly as you&apos;d expect.</span></del><span className="typed-title">{rewrittenMarshawnTitle}</span><i className="text-cursor" aria-hidden="true" /></h3>
-          ) : (
-            <h3>{stage === "rewrite-complete" ? rewrittenMarshawnTitle : "Marshawn playing in charity soccer game went exactly as you'd expect."}{stage === "focus" && <i className="text-cursor" aria-hidden="true" />}</h3>
-          )}
+          <small>Original → Rewritten</small>
+          <div className="editorial-title">
+            <p className="original-edit-line">Marshawn playing in charity soccer game <del className="weak-expression">went exactly as you&apos;d expect.</del></p>
+            <h3 className="ink-rewritten-title"><span>{rewrittenMarshawnTitle}</span></h3>
+          </div>
         </div>
+        {showEditorHand && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="editor-hand" src="/editor-hand.png" alt="" aria-hidden="true" fetchPriority="high" />
+        )}
         {stage === "focus" && <span className="focus-not-selected">Not selected</span>}
       </section>
 
@@ -131,6 +134,8 @@ function CandidateStoryboard({ stage, instanceId }: { stage: AttackStage; instan
 
 function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
+  const [showEditorHand, setShowEditorHand] = useState(true);
+  const completedFullEdit = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -141,21 +146,20 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
     const schedulePlayback = () => {
       clearTimers();
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setShowEditorHand(false);
+        completedFullEdit.current = true;
         timers = [window.setTimeout(() => setStage("final"), 0)];
         return;
       }
-      timers = [
-        window.setTimeout(() => setStage("scan-a"), 500),
-        window.setTimeout(() => setStage("scan-b"), 1200),
-        window.setTimeout(() => setStage("original-selected"), 2000),
-        window.setTimeout(() => setStage("focus"), 3200),
-        window.setTimeout(() => setStage("rewrite-title"), 4000),
-        window.setTimeout(() => setStage("rewrite-complete"), 6200),
-        window.setTimeout(() => setStage("return"), 8000),
-        window.setTimeout(() => setStage("rescan"), 8700),
-        window.setTimeout(() => setStage("selected"), 9600),
-        window.setTimeout(() => setStage("final"), 11000),
-      ];
+      const fullEdit = !completedFullEdit.current;
+      setShowEditorHand(fullEdit);
+      const timeline: Array<[AttackStage, number]> = fullEdit
+        ? [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]]
+        : [["scan-a", 300], ["scan-b", 700], ["original-selected", 1200], ["focus", 1800], ["rewrite-title", 2300], ["rewrite-complete", 3600], ["return", 4300], ["rescan", 4700], ["selected", 5300], ["final", 6100]];
+      timers = timeline.map(([nextStage, delay]) => window.setTimeout(() => {
+        setStage(nextStage);
+        if (nextStage === "final") completedFullEdit.current = true;
+      }, delay));
     };
 
     if (typeof IntersectionObserver === "undefined") {
@@ -181,12 +185,12 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
     };
   }, [ref]);
 
-  return stage;
+  return { stage, showEditorHand };
 }
 
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
-  const stage = useStoryboardPlayback(demoRef);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef);
   const [heroFlipped, setHeroFlipped] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -256,7 +260,7 @@ export default function Home() {
           >
             <div className="hero-flip-inner">
               <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
-                <CandidateStoryboard stage={stage} instanceId="hero" />
+                <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
                 <span className="flip-cue">Click to reveal training loop ↻</span>
               </div>
               <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
