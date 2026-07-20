@@ -56,8 +56,8 @@ del { color: #817d75; text-decoration-color: var(--red); text-decoration-thickne
 .site-header nav a:hover { color: var(--red); border-bottom-color: var(--red); }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
 
-.hero-feature { min-height: calc(100svh - 62px); display: grid; grid-template-columns: minmax(360px, .72fr) minmax(680px, 1.28fr); align-items: stretch; background: #f0eee8; border-bottom: 1px solid var(--rule-dark); }
-.article-header { min-width: 0; padding: 38px clamp(28px, 4vw, 64px) 32px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--rule-dark); }
+.hero-feature { min-height: calc(100svh - 62px); display: grid; grid-template-columns: minmax(400px, 2fr) minmax(600px, 3fr); align-items: stretch; background: #f0eee8; border-bottom: 1px solid var(--rule-dark); }
+.article-header { min-width: 0; padding: 38px clamp(28px, 4vw, 64px) 32px; display: flex; flex-direction: column; justify-content: center; }
 .rubric { max-width: 1280px; margin: 0 auto 38px; padding-bottom: 11px; display: flex; justify-content: space-between; gap: 18px; border-bottom: 2px solid var(--navy); color: var(--red); font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .rubric span { color: var(--muted); }
 .article-header h1 { max-width: 1280px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(52px, 4.5vw, 76px); font-weight: 500; line-height: .92; letter-spacing: -.04em; }

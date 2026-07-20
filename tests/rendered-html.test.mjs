@@ -61,7 +61,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
   assert.match(globalStyles, /font-size:\s*clamp\(52px, 4\.5vw, 76px\)/);
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
-  assert.match(globalStyles, /grid-template-columns:\s*minmax\(360px, \.72fr\) minmax\(680px, 1\.28fr\)/);
+  assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.match(pageSource, /text-cursor/);
