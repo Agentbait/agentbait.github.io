@@ -103,7 +103,7 @@ test("server-renders the AgentBait research feature", async () => {
 
   assert.match(settingText, /Same slate\. One rewrite\. Can the decision change\?/);
   assert.match(settingText, /The candidate list has already been constructed\. Only the target presentation may change\./);
-  assert.match(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
+  assert.doesNotMatch(html, /Only the target text changes\. The candidate set and chooser conditions remain fixed\./);
   assert.match(html, /data-graph-view="narrative"/);
   assert.match(html, /\/paper-method-transparent\.png/);
   assert.match(html, /AgentBait narrative pipeline: a target document is selected from a fixed candidate slate/);

@@ -404,7 +404,6 @@ export default function Home() {
           <figure className={`slate-figure controlled-figure ${paperGraph ? "is-paper-graph" : ""}`} data-graph-view={paperGraph ? "paper" : "narrative"} aria-labelledby="setting-figure-title slate-caption">
             <div className="controlled-figure-head">
               <h3 className="experiment-thesis morph-copy" id="setting-figure-title">
-                <span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Only the target text changes. The candidate set and chooser conditions remain fixed.</span>
                 <span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Advisor–rewriter setting</span>
               </h3>
               <button
