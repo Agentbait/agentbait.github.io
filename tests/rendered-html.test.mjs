@@ -43,11 +43,15 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Agent-mediated information access|Working paper · July 2026/);
   assert.doesNotMatch(html, /class="margin-note numbered-note"/);
   assert.match(html, /Examples as editorial redlines/);
+  assert.ok(html.indexOf("Research question") < html.indexOf("Key findings"));
+  assert.ok(html.indexOf("Key findings") < html.indexOf("Experimental setting"));
+  assert.ok(html.indexOf("Experimental setting") < html.indexOf("Examples as editorial redlines"));
+  assert.ok(html.indexOf("Examples as editorial redlines") < html.indexOf("Robustness, transfer and failure"));
   assert.match(html, /Language and dataset transfer/);
   assert.match(html, /Target selection under original and rewritten presentations/);
-  assert.match(html, /Cross-target-agent mismatch/);
+  assert.doesNotMatch(html, /Cross-target-agent mismatch/);
   assert.match(html, /Selection and source support move on different axes/);
-  assert.match(html, /What the experiment does not establish/);
+  assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
