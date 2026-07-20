@@ -100,9 +100,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
-  assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title/);
+  assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
-  assert.match(pageSource, /ink-rewritten-title/);
+  assert.match(pageSource, /TypewriterTitle/);
+  assert.match(pageSource, /typewriter-char/);
   assert.match(pageSource, /\["final", 12600\]/);
   assert.match(pageSource, /completedFullEdit/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);

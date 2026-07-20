@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from "react";
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
@@ -77,6 +77,35 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
+function TypewriterTitle({ text }: { text: string }) {
+  let characterOffset = 0;
+  const words = text.split(" ");
+
+  return words.map((word, wordIndex) => {
+    const wordStart = characterOffset;
+    characterOffset += word.length + 1;
+    return (
+      <span key={`${word}-${wordIndex}`}>
+        <span className="typewriter-word">
+          {Array.from(word).map((character, characterIndex) => {
+            const index = wordStart + characterIndex;
+            return (
+              <span
+                className="typewriter-char"
+                key={`${character}-${index}`}
+                style={{ "--key-delay": `${index * 28}ms`, "--key-delay-fast": `${index * 10}ms` } as CSSProperties}
+              >
+                {character}
+              </span>
+            );
+          })}
+        </span>
+        {wordIndex < words.length - 1 && " "}
+      </span>
+    );
+  });
+}
+
 function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: AttackStage; instanceId: string; showEditorHand: boolean }) {
   const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
@@ -114,7 +143,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
           <small>Original → Rewritten</small>
           <div className="editorial-title">
             <p className="original-edit-line">Marshawn playing in charity soccer game <del className="weak-expression">went exactly as you&apos;d expect.</del></p>
-            <h3 className="ink-rewritten-title"><span>{rewrittenMarshawnTitle}</span></h3>
+            <h3 className="typewriter-title"><TypewriterTitle text={rewrittenMarshawnTitle} /></h3>
           </div>
         </div>
         {showEditorHand && (
