@@ -233,6 +233,15 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
+  assert.match(pageSource, /className="rewrite-puppet"/);
+  assert.match(pageSource, /Advisor strategy/);
+  assert.match(pageSource, /puppet-string puppet-string-one/);
+  assert.match(pageSource, /puppet-string puppet-string-two/);
+  assert.match(pageSource, /puppet-string puppet-string-three/);
+  assert.match(globalStyles, /@keyframes rewriter-hand-left/);
+  assert.match(globalStyles, /@keyframes strategy-control-signal/);
+  assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
+  assert.doesNotMatch(globalStyles, /@keyframes strategy-travel/);
   assert.match(pageSource, /className="rewrite-transfer"/);
   assert.match(pageSource, /className="cross-panel-path strategy-path"/);
   assert.match(pageSource, /className="cross-panel-path rewrite-path"/);

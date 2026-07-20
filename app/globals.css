@@ -295,7 +295,10 @@ blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2v
 .advisor-visual, .rewriter-visual, .selection-visual { min-height: 385px; position: relative; overflow: hidden; }
 .cross-panel-path { width: 102px; height: 12px; position: absolute; z-index: 20; opacity: 0; border-top: 2px dashed var(--red); pointer-events: none; transform: scaleX(0); transform-origin: left; }
 .cross-panel-path i { width: 0; height: 0; position: absolute; right: -1px; top: -6px; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid var(--red); }
-.strategy-path { left: calc(33.333% - 66px); top: 84%; animation: strategy-travel 9s ease-in-out infinite; }
+.strategy-path { width: 22%; height: 62%; left: 29%; top: 22%; opacity: .28; border-top: 0; border-right: 1px dashed var(--red); border-bottom: 1px dashed var(--red); transform: none; animation: strategy-path-reveal 9s ease-in-out infinite; }
+.strategy-path::before { content: "Strategy signal"; position: absolute; left: 10px; bottom: 6px; padding: 1px 4px; color: var(--red); background: var(--paper); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+.strategy-path::after { content: ""; width: 0; height: 0; position: absolute; right: -4px; top: -6px; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid var(--red); }
+.strategy-path i { width: 7px; height: 7px; position: absolute; left: -3px; right: auto; top: auto; bottom: -3px; opacity: 0; background: var(--red); border: 0; border-radius: 50%; box-shadow: 0 0 10px rgba(188,73,63,.72); animation: strategy-control-signal 9s ease-in-out infinite; }
 .rewrite-path { left: calc(66.666% - 66px); top: 78%; animation: rewrite-travel 9s ease-in-out infinite; }
 
 .arch-fragment { width: 138px; height: 82px; position: absolute; left: -35px; top: 19px; opacity: .48; border: 11px solid #7f5637; border-bottom: 0; border-radius: 80px 80px 0 0; box-shadow: inset 0 0 0 1px rgba(240,238,232,.28); }
@@ -319,12 +322,20 @@ blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2v
 
 .rewriter-panel { border-top-color: var(--red); }
 .paper-fragment { width: 88%; min-height: 290px; padding: 19px 18px; position: absolute; left: 0; top: 20px; z-index: 2; background: #e9e2d5; border: 1px solid #bcb09e; box-shadow: 8px 9px 0 rgba(110,83,55,.09); clip-path: polygon(0 2%, 97% 0, 100% 93%, 6% 100%); transform: rotate(-.7deg); }
-.paper-fragment::after { content: ""; width: 62%; height: 1px; position: absolute; left: 18px; bottom: 86px; background: var(--red); opacity: 0; transform: scaleX(0); transform-origin: left; animation: rewrite-trace 9s ease-in-out infinite; }
+.paper-fragment::after { content: ""; width: 62%; height: 1px; position: absolute; right: 18px; bottom: 86px; background: var(--red); opacity: 0; transform: scaleX(0); transform-origin: right; animation: rewrite-trace 9s ease-in-out infinite; }
 .paper-fragment small { display: block; margin-bottom: 8px; color: var(--muted); font-family: var(--mono); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; }
 .paper-fragment p { margin: 0 0 25px; font-family: var(--serif); font-size: 14px; line-height: 1.35; }
 .paper-fragment del { color: var(--muted); text-decoration-color: var(--red); text-decoration-thickness: 1px; }
 .paper-fragment .rewritten-line { margin-bottom: 0; color: var(--red); font-family: "Courier New", Courier, var(--mono); font-size: 14px; font-weight: 600; text-shadow: 1px 0 rgba(188,73,63,.1); }
-.triptych-quill { width: 278px; max-width: none; position: absolute; left: 49%; top: 104px; z-index: 6; transform: rotate(-2deg); transform-origin: 2% 74%; }
+.rewrite-puppet { width: 300px; height: 355px; position: absolute; left: 43%; top: 4px; z-index: 6; pointer-events: none; animation: rewriter-hand-left 9s ease-in-out infinite; }
+.strategy-control-tag { min-width: 91px; padding: 3px 6px 2px; position: absolute; left: 42px; top: 0; z-index: 3; color: var(--red); background: rgba(240,238,232,.92); border: 1px solid rgba(188,73,63,.56); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .07em; line-height: 1; text-align: center; text-transform: uppercase; animation: strategy-controller-pulse 9s ease-in-out infinite; }
+.strategy-control-tag::before { content: ""; width: 42px; position: absolute; right: 100%; top: 50%; opacity: .48; border-top: 1px dashed var(--red); }
+.puppet-crossbar { width: 118px; height: 2px; position: absolute; left: 28px; top: 31px; z-index: 2; background: var(--navy); box-shadow: -5px 0 0 -1px var(--red), 5px 0 0 -1px var(--red); transform: rotate(-3deg); animation: puppet-crossbar-pull 9s ease-in-out infinite; }
+.puppet-string { width: 1px; position: absolute; top: 32px; z-index: 1; opacity: .22; background: linear-gradient(var(--red), rgba(23,52,79,.66)); transform-origin: top; animation: puppet-string-tension 9s ease-in-out infinite; }
+.puppet-string-one { height: 144px; left: 45px; transform: rotate(-5deg); }
+.puppet-string-two { height: 169px; left: 88px; transform: rotate(6deg); }
+.puppet-string-three { height: 139px; left: 131px; transform: rotate(15deg); }
+.triptych-quill { width: 278px; max-width: none; position: absolute; left: 0; top: 70px; z-index: 2; filter: saturate(.86) contrast(1.03); transform: rotate(-2deg); transform-origin: 2% 74%; }
 .ink-bottle { width: 37px; height: 44px; position: absolute; right: 10px; bottom: 16px; z-index: 5; background: #1f2b32; border: 1px solid #0f171b; border-radius: 5px 5px 9px 9px; box-shadow: inset 7px 0 0 rgba(79,113,138,.25); }
 .ink-bottle::before { content: ""; width: 24px; height: 9px; position: absolute; left: 5px; top: -8px; background: #171d20; border: 1px solid #0f171b; }
 .rewrite-transfer { width: 68%; min-height: 58px; display: flex; align-items: center; gap: 8px; position: absolute; left: 17px; bottom: 14px; z-index: 7; color: var(--muted); font-family: var(--mono); opacity: 0; animation: ghost-drift 9s ease-in-out infinite; }
@@ -375,7 +386,12 @@ blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2v
 @keyframes strategy-initial-copy { 0%,9%,86% { opacity: 1; } 93%,100% { opacity: 0; } }
 @keyframes strategy-updated-copy { 0%,8%,86% { opacity: 0; } 93%,100% { opacity: 1; } }
 @keyframes advisor-policy-flash { 0%,9%,88% { border-color: var(--rule-dark); border-top-color: var(--navy); } 94%,100% { border-color: rgba(188,73,63,.66); border-top-color: var(--red); } }
-@keyframes strategy-travel { 0%,22% { opacity: 0; transform: scaleX(0); } 27%,33% { opacity: 1; transform: scaleX(1); } 38%,100% { opacity: 0; transform: scaleX(1); } }
+@keyframes strategy-path-reveal { 0%,18%,42%,100% { opacity: .2; } 23%,37% { opacity: .58; } }
+@keyframes strategy-control-signal { 0%,20% { left: -3px; bottom: -3px; opacity: 0; } 23% { left: -3px; bottom: -3px; opacity: 1; } 29% { left: calc(100% - 4px); bottom: -3px; opacity: 1; } 36% { left: calc(100% - 4px); bottom: calc(100% - 4px); opacity: 1; } 39%,100% { left: calc(100% - 4px); bottom: calc(100% - 4px); opacity: 0; } }
+@keyframes strategy-controller-pulse { 0%,29%,42%,100% { color: var(--red); border-color: rgba(188,73,63,.56); box-shadow: none; } 34%,39% { color: #8f2f29; border-color: var(--red); box-shadow: 0 0 12px rgba(188,73,63,.22); } }
+@keyframes puppet-crossbar-pull { 0%,30%,68%,100% { transform: rotate(-3deg); } 38%,60% { transform: rotate(-7deg); } }
+@keyframes puppet-string-tension { 0%,28%,67%,100% { opacity: .18; } 35%,61% { opacity: .52; } }
+@keyframes rewriter-hand-left { 0%,29%,100% { transform: translateX(34px) rotate(.4deg); } 36% { transform: translateX(27px) rotate(0); } 45% { transform: translateX(3px) rotate(-.35deg); } 56%,61% { transform: translateX(-21px) rotate(-.7deg); } 70% { transform: translateX(22px) rotate(.2deg); } }
 @keyframes rewrite-trace { 0%,36% { transform: scaleX(0); opacity: 0; } 43%,56% { transform: scaleX(1); opacity: .5; } 62%,100% { transform: scaleX(1); opacity: 0; } }
 @keyframes ghost-drift { 0%,56% { opacity: 0; transform: translateX(0); } 62%,70% { opacity: .78; transform: translateX(6px); } 76%,100% { opacity: 0; transform: translateX(13px); } }
 @keyframes rewrite-travel { 0%,62% { opacity: 0; transform: scaleX(0); } 67%,74% { opacity: 1; transform: scaleX(1); } 79%,100% { opacity: 0; transform: scaleX(1); } }

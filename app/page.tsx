@@ -426,8 +426,15 @@ export default function Home() {
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
                   </div>
                   <span className="ink-bottle" aria-hidden="true" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="triptych-quill" src={assetUrl("/editor-hand.png")} alt="" aria-hidden="true" />
+                  <div className="rewrite-puppet" aria-hidden="true">
+                    <span className="strategy-control-tag">Advisor strategy</span>
+                    <span className="puppet-crossbar" />
+                    <span className="puppet-string puppet-string-one" />
+                    <span className="puppet-string puppet-string-two" />
+                    <span className="puppet-string puppet-string-three" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className="triptych-quill" src={assetUrl("/editor-hand.png")} alt="" />
+                  </div>
                   <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
                 </div>
               </section>
