@@ -88,9 +88,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Copy BibTeX/);
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
-  assert.match(html, /Auto flip after replay · inspect now/);
-  assert.match(html, /Auto return · replay again/);
-  assert.match(html, /Show the advisor-rewriter training loop/);
+  assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
+  assert.match(html, /Pause hero animation/);
+  assert.equal((html.match(/class="playback-toggle"/g) || []).length, 1);
   assert.match(html, /id="hero-candidate-set-title"/);
   assert.doesNotMatch(html, /id="method-candidate-set-title"|interactive-method-figure|method-flip-card/);
   assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
@@ -144,14 +144,23 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /typewriter-char/);
   assert.match(pageSource, /\["final", 12600\]/);
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
-  assert.match(pageSource, /setFlipped\(true\), 14600/);
-  assert.match(pageSource, /setFlipped\(false\), 19000/);
-  assert.match(pageSource, /setTimeout\(scheduleCycle, 20000\)/);
+  assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
+  assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);
+  assert.match(pageSource, /elapsed >= 14600 && elapsed < 19000/);
+  assert.match(pageSource, /requestAnimationFrame\(update\)/);
+  assert.match(pageSource, /heroPlaying/);
+  assert.match(pageSource, /className="playback-toggle"/);
+  assert.match(pageSource, /getAnimations\(\{ subtree: true \}\)/);
+  assert.match(pageSource, /animation\.pause\(\)/);
+  assert.match(pageSource, /animation\.play\(\)/);
+  assert.doesNotMatch(pageSource, /toggleHeroFigure|handleHeroFigureKeyDown|flip-cue|scheduleCycle/);
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /hero-flip-card/);
   assert.match(pageSource, /rotateY\(180deg\)|heroFlipped/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
+  assert.match(globalStyles, /\.playback-toggle\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
   const [, , editorHand, advisorScholar, selectorHand] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),

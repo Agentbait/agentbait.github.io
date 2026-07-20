@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
@@ -197,76 +197,99 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void, playing: boolean) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const elapsedRef = useRef(0);
+  const stageRef = useRef<AttackStage>("candidate-set");
+  const flippedRef = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
-    let timers: number[] = [];
-    const clearTimers = () => timers.forEach((timer) => window.clearTimeout(timer));
-    const scheduleCycle = () => {
-      clearTimers();
-      setFlipped(false);
-      setStage("candidate-set");
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setShowEditorHand(false);
-        timers = [window.setTimeout(() => setStage("final"), 0)];
-        return;
-      }
-      setShowEditorHand(true);
-      const timeline: Array<[AttackStage, number]> = [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]];
-      timers = timeline.map(([nextStage, delay]) => window.setTimeout(() => setStage(nextStage), delay));
-      timers.push(window.setTimeout(() => setFlipped(true), 14600));
-      timers.push(window.setTimeout(() => setFlipped(false), 19000));
-      timers.push(window.setTimeout(scheduleCycle, 20000));
-    };
-
     if (typeof IntersectionObserver === "undefined") {
-      scheduleCycle();
-      return clearTimers;
+      const visibilityFrame = window.requestAnimationFrame(() => setIsVisible(true));
+      return () => window.cancelAnimationFrame(visibilityFrame);
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          scheduleCycle();
-        } else {
-          clearTimers();
-          setFlipped(false);
-          setStage("candidate-set");
-        }
-      },
+      ([entry]) => setIsVisible(entry.isIntersecting),
       { threshold: 0.25, rootMargin: "-8% 0px" },
     );
     observer.observe(node);
-    return () => {
-      clearTimers();
-      observer.disconnect();
+    return () => observer.disconnect();
+  }, [ref]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const reducedMotionFrame = window.requestAnimationFrame(() => {
+        setShowEditorHand(false);
+        stageRef.current = "final";
+        setStage("final");
+        flippedRef.current = false;
+        setFlipped(false);
+      });
+      return () => window.cancelAnimationFrame(reducedMotionFrame);
+    }
+
+    if (!isVisible || !playing) return;
+
+    let animationFrame = 0;
+    let lastFrameTime: number | null = null;
+    const timeline: Array<[AttackStage, number]> = [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]];
+
+    const update = (now: number) => {
+      if (lastFrameTime !== null) {
+        const frameDelta = Math.min(now - lastFrameTime, 100);
+        elapsedRef.current = (elapsedRef.current + frameDelta) % 20000;
+      }
+      lastFrameTime = now;
+      const elapsed = elapsedRef.current;
+
+      let nextStage: AttackStage = "candidate-set";
+      for (const [candidateStage, delay] of timeline) {
+        if (elapsed >= delay) nextStage = candidateStage;
+        else break;
+      }
+      if (stageRef.current !== nextStage) {
+        stageRef.current = nextStage;
+        setStage(nextStage);
+      }
+
+      const nextFlipped = elapsed >= 14600 && elapsed < 19000;
+      if (flippedRef.current !== nextFlipped) {
+        flippedRef.current = nextFlipped;
+        setFlipped(nextFlipped);
+      }
+
+      animationFrame = window.requestAnimationFrame(update);
     };
-  }, [ref, setFlipped]);
+
+    animationFrame = window.requestAnimationFrame(update);
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [isVisible, playing, setFlipped]);
 
   return { stage, showEditorHand };
 }
 
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
+  const heroAnimationRef = useRef<HTMLDivElement>(null);
   const [heroFlipped, setHeroFlipped] = useState(false);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped);
+  const [heroPlaying, setHeroPlaying] = useState(true);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
   const [copied, setCopied] = useState(false);
 
-  function toggleHeroFigure() {
-    setHeroFlipped((current) => !current);
-  }
-
-  function handleHeroFigureKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      toggleHeroFigure();
-    }
-  }
+  useEffect(() => {
+    const animationSurface = heroAnimationRef.current;
+    if (!animationSurface || typeof animationSurface.getAnimations !== "function") return;
+    animationSurface.getAnimations({ subtree: true }).forEach((animation) => {
+      if (heroPlaying) animation.play();
+      else animation.pause();
+    });
+  }, [heroPlaying]);
 
   async function copyCitation() {
     try {
@@ -312,27 +335,25 @@ export default function Home() {
         </header>
 
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
-          <div
-            className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""}`}
-            role="button"
-            tabIndex={0}
-            aria-pressed={heroFlipped}
-            aria-label={heroFlipped ? "Show the chooser replay" : "Show the advisor-rewriter training loop"}
-            onClick={toggleHeroFigure}
-            onKeyDown={handleHeroFigureKeyDown}
-          >
-            <div className="hero-flip-inner">
+          <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
+            <div ref={heroAnimationRef} className="hero-flip-inner">
               <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
                 <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
-                <span className="flip-cue">Auto flip after replay · inspect now ↻</span>
               </div>
               <div className="hero-flip-face hero-flip-back" aria-hidden={!heroFlipped}>
                 {/* The source is the publication-resolution figure exported with the manuscript. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/agentbait-method.png" alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
-                <span className="flip-cue">Auto return · replay again ↻</span>
               </div>
             </div>
+            <button
+              type="button"
+              className="playback-toggle"
+              aria-label={heroPlaying ? "Pause hero animation" : "Play hero animation"}
+              onClick={() => setHeroPlaying((current) => !current)}
+            >
+              <span className={`playback-icon ${heroPlaying ? "is-pause" : "is-play"}`} aria-hidden="true" />
+            </button>
           </div>
           <p className="demo-caption">{heroFlipped ? <><b>Advisor–rewriter training loop.</b> The advisor proposes strategy; the frozen rewriter edits the target; the chooser supplies selection reward, optionally with MiniCheck support.</> : <><b>Figure 1 | MIND example reproduced from the paper.</b> The candidate set and order remain fixed. Only target snippet A is rewritten; the chooser changes from B to A.</>}</p>
         </section>
