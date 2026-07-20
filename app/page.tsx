@@ -308,7 +308,8 @@ export default function Home() {
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
           <p className="hero-eyebrow">01 · Agent-legible presentation effects</p>
-          <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord />: Content Rewriting for Agentic Choice</h1>
+          <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
+          <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">We rewrite one target item&apos;s title and abstract, then ask the same LLM chooser to select again from the same candidate list.</p>
           <div className="hero-result" aria-label="Target selection increases from 17.1 percent to 98.5 percent with a learned advisor">
             <p><b>17.1%</b><i aria-hidden="true">→</i><b>98.5%</b></p>

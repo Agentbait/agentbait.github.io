@@ -74,7 +74,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .click-selected-note.is-visible { animation: click-selected-cycle 2s .45s ease both; }
 @keyframes click-letter-drop { 0% { opacity: 0; color: var(--red); transform: translateY(-.8em); } 48% { opacity: 1; color: var(--red); transform: translateY(.05em); } 62% { opacity: .25; transform: translateY(0); } 76% { opacity: 1; color: var(--red); } 100% { opacity: 1; color: var(--navy); transform: translateY(0); } }
 @keyframes click-selected-cycle { 0% { opacity: 0; transform: translateY(-3px); } 15%,75% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(2px); } }
-.subtitle { max-width: 1280px; margin: 17px 0 0; color: var(--navy); opacity: .82; font-family: var(--serif); font-size: clamp(24px, 2.2vw, 34px); font-style: italic; line-height: 1.12; letter-spacing: -.018em; }
+.subtitle { max-width: 760px; margin: 17px 0 0; color: var(--navy); opacity: .82; font-family: var(--serif); font-size: clamp(24px, 2.2vw, 34px); font-style: italic; line-height: 1.12; letter-spacing: -.018em; }
 .standfirst { max-width: 650px; margin: 22px 0 0; font-family: var(--serif); font-size: clamp(17px, 1.25vw, 20px); line-height: 1.52; letter-spacing: -.008em; }
 .hero-result { max-width: 650px; margin-top: 22px; padding: 13px 0 12px; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--navy); border-bottom: 1px solid var(--rule-dark); }
 .hero-result p { margin: 0; display: flex; align-items: baseline; gap: 14px; color: var(--navy); font-family: var(--mono); font-size: clamp(30px, 3vw, 44px); font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.055em; }
@@ -549,7 +549,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .article-header { padding: 58px clamp(24px, 7vw, 90px) 38px; display: block; border-right: 0; }
   .article-header h1 { max-width: 850px; margin-inline: auto; font-size: clamp(52px, 7vw, 76px); }
   .hero-eyebrow, .hero-result { margin-left: auto; margin-right: auto; }
-  .subtitle { max-width: 1280px; margin-inline: auto; }
+  .subtitle { max-width: 850px; margin-inline: auto; }
   .standfirst, .paper-identity { margin-left: auto; margin-right: auto; }
   .paper-identity { grid-template-columns: 1fr auto; gap: 28px; }
   .paper-links { padding: 0 0 0 24px; border-top: 0; border-left: 1px solid var(--rule); }

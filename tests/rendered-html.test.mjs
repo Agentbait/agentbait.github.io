@@ -51,7 +51,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Click, selected/);
   assert.match(plainText, /01 · Agent-legible presentation effects/i);
   assert.doesNotMatch(plainText, /Does a better presentation become a different decision\?/);
-  assert.match(plainText, /You Won't Believe This Cl\s+_\s+ck\s+: Content Rewriting for Agentic Choice/);
+  assert.match(plainText, /You Won't Believe This Cl\s+_\s+ck Content Rewriting for Agentic Choice/);
   assert.match(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
   assert.match(plainText, /17\.1% → 98\.5%/);
   assert.match(plainText, /Target selection with a learned advisor/);
