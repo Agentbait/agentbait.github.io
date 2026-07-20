@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
+import sharp from "sharp";
 
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -343,6 +344,18 @@ test("ships the manuscript and method figure", async () => {
   assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");
+  const { data: methodPixels, info: methodInfo } = await sharp(narrativeMethod)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  let transparentMethodPixels = 0;
+  for (let offset = 3; offset < methodPixels.length; offset += methodInfo.channels) {
+    if (methodPixels[offset] === 0) transparentMethodPixels += 1;
+  }
+  assert.ok(
+    transparentMethodPixels / (methodInfo.width * methodInfo.height) > 0.5,
+    "paper method figure must contain a genuinely transparent page background",
+  );
   assert.equal(editorHand[25], 6, "editor hand must be an RGBA PNG");
   assert.equal(rewriterHand[25], 6, "rewriter hand with strings must be an RGBA PNG");
   assert.equal(advisorScholar[25], 6, "advisor scholar must be an RGBA PNG");
