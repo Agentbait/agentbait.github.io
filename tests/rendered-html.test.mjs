@@ -138,19 +138,17 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(settingText, /RL feedback loop|Rewriter · Frozen|Chooser · Frozen|Advisor · Trained/);
   assert.match(html, /\/advisor-scholar\.png/);
   assert.match(html, /\/selector-hand\.png/);
-  assert.match(html, /Cross-lingual transfer on fixed MIND slates/);
-  assert.match(html, /Transfer across news datasets/);
-  assert.match(html, /Transfer to academic document selection/);
+  assert.match(html, /The learned advisor transfers across languages/);
+  assert.match(html, /The effect extends beyond the training dataset/);
+  assert.match(html, /Cross-domain transfer is harder, but remains substantial/);
   assert.match(html, /SciRepEval-derived scientific documents/);
   assert.match(html, /63\.6/);
   assert.match(html, /47\.3/);
-  assert.match(html, /Target selection under original and rewritten presentations/);
   assert.doesNotMatch(html, /Cross-target-agent mismatch/);
-  assert.match(html, /Selection and source support under rewriting/);
   const sensitivity = sliceBetween(findingsText, "01 Sensitivity", "02 Optimization");
   const optimization = sliceBetween(findingsText, "02 Optimization", "03 Transfer");
   const transfer = sliceBetween(findingsText, "03 Transfer", "04 Failure mode");
-  const failureMode = sliceBetween(findingsText, "04 Failure mode", "Evidence table 1");
+  const failureMode = sliceBetween(findingsText, "04 Failure mode", "Table 1 · Target-agent transfer");
   assert.match(findingsText, /How presentation becomes a decision signal/);
   assert.match(findingsText, /A controlled sequence of effects, transfer, and failure\./);
   assert.match(sensitivity, /Presentation already matters/);
@@ -174,13 +172,20 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(failureMode, /Supported/);
   assert.doesNotMatch(findingsText, /Four conclusions from the controlled comparison|Finding [1-4]|Presentation alone changes agent decisions|Constraints change what the advisor learns/i);
   assert.doesNotMatch(findingsText, /The effect travels|Across agents|Across languages|From news to scientific-paper selection/i);
-  assert.ok(findingsText.indexOf("Evidence table 1") < findingsText.indexOf("Target selection under original and rewritten presentations"));
-  assert.ok(findingsText.indexOf("Evidence table 2") < findingsText.indexOf("Selection and source support under rewriting"));
+  assert.doesNotMatch(html, /Evidence table [12]|Complete target-agent comparison|Target selection under original and rewritten presentations|Selection and source support under rewriting|Cross-lingual transfer on fixed MIND slates|Transfer across news datasets|Transfer to academic document selection/);
+  const tableTakeaways = [
+    "Prompt-only rewriting raises target selection from 17.1% to 34.8%, while the RL-trained advisor reaches 98.5%. Gains remain positive across all held-out target agents, although transfer strength varies.",
+    "The unconstrained advisor reaches 98.5% target selection with only 2.0% MiniCheck support. Adding a source-support reward partially recovers support while reducing selection.",
+    "Trained only on English MIND, the advisor remains above 93% selection in every evaluated language without additional training. Direct rewriter training is less stable, falling to 27.8% in Swahili.",
+    "Without additional training, the advisor reaches 98.1% on EB-NeRD English and 98.2% on EB-NeRD Danish. The result therefore extends beyond translation of the original MIND evaluation set.",
+    "On scientific-document selection, the MIND-trained advisor reaches 63.6%, compared with 42.7% for the prompt-only advisor and 32.7% for the RL-trained direct rewriter.",
+  ];
+  for (const takeaway of tableTakeaways) assert.ok(plainText.includes(takeaway), `Table takeaway is missing or altered: ${takeaway.slice(0, 70)}…`);
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
   assert.match(html, /Unconstrained strategy/);
   assert.match(html, /Support-aware strategy/);
-  assert.match(html, /Table 2 \| Source-support tradeoff on MIND-English\./);
+  assert.match(html, /Table 2 \| Source-support tradeoff on 1,000 unseen MIND-English impressions\./);
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
@@ -214,6 +219,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.constant-ribbon/);
   assert.doesNotMatch(pageSource, /transfer-strip/);
   assert.doesNotMatch(globalStyles, /\.transfer-strip/);
+  assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
+  assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
+  assert.match(globalStyles, /\.table-takeaway\s*\{/);
   assert.doesNotMatch(pageSource, /resource-links|<summary>|<details className="citation"/);
   assert.doesNotMatch(globalStyles, /\.resource-links|\.citation summary/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

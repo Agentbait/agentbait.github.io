@@ -73,16 +73,6 @@ const bibtex = `@article{jin2026agentbait,
 
 type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "original-selected" | "focus" | "rewrite-title" | "rewrite-complete" | "return" | "rescan" | "selected" | "final";
 
-function MetaLine({ items }: { items: { label: string; value: string }[] }) {
-  return (
-    <dl className="figure-meta">
-      {items.map((item) => (
-        <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>
-      ))}
-    </dl>
-  );
-}
-
 function TypewriterTitle({ text }: { text: string }) {
   let characterOffset = 0;
   const words = text.split(" ");
@@ -554,24 +544,22 @@ export default function Home() {
           </div>
 
           <div className="finding-block">
-            <header className="finding-heading"><span>Evidence table 1</span><h3 id="finding-one">Complete target-agent comparison</h3></header>
-            <figure className="evidence-figure" aria-labelledby="main-results-caption">
-              <div className="figure-heading"><div><p className="figure-number">Table 1</p><h3>Target selection under original and rewritten presentations</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
-              <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Policy",value:"Qwen3.5-9B"},{label:"Rewriter",value:"GPT-5-mini"},{label:"Baseline",value:"Original; chance = 16.9%"}]} />
+            <figure className="evidence-figure" aria-labelledby="table-one-title main-results-caption">
+              <div className="figure-heading"><div><p className="figure-number">Table 1 · Target-agent transfer</p><h3 id="table-one-title">Optimization amplifies the presentation effect</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+              <p className="table-takeaway">Prompt-only rewriting raises target selection from 17.1% to 34.8%, while the RL-trained advisor reaches 98.5%. Gains remain positive across all held-out target agents, although transfer strength varies.</p>
               <div className="table-scroll"><table className="results-table"><thead><tr><th>Condition</th><th>Method</th><th>GPT-5-mini<small>train target</small></th><th>GPT-5.5</th><th>Gemini 3 Flash</th><th>Gemini 3.1 Pro</th><th>Sonnet 4.6</th><th>Opus 4.8</th></tr></thead><tbody>
                 {mainResults.map((row,rowIndex)=><tr key={`${row.group}-${row.method}`} className={row.method.includes("MiniCheck")?"constrained-row":""}><th>{row.group}</th><td>{row.method}</td>{row.values.map((value,index)=><td key={index} style={{"--score":`${value}%`} as React.CSSProperties}><span>{value.toFixed(1)}</span>{rowIndex>0&&<small>{value-mainResults[0].values[index]>=0?"+":""}{(value-mainResults[0].values[index]).toFixed(1)}</small>}</td>)}</tr>)}
               </tbody></table></div>
-              <figcaption id="main-results-caption"><b>Table 1 | Target selection on unseen English news impressions.</b> Small values are percentage-point changes from original text for the same evaluator. Target documents do not appear in training; transfer columns use no additional training.</figcaption>
+              <figcaption id="main-results-caption"><b>Table 1 | Target selection on 1,000 unseen MIND-English news impressions.</b> GPT-5-mini is the training target and frozen rewriter; Qwen3.5-9B is the advisor policy. Row-wise chance is 16.9%. Small values are percentage-point changes from original text for the same evaluator. Target documents do not appear in training; transfer columns use no additional training.</figcaption>
             </figure>
           </div>
 
           <div className="finding-block">
-            <header className="finding-heading"><span>Evidence table 2</span><h3 id="finding-two">Selection can outrun source support</h3></header>
-            <figure className="evidence-figure" aria-labelledby="support-results-caption">
-              <div className="figure-heading"><div><p className="figure-number">Table 2</p><h3>Selection and source support under rewriting</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
-              <MetaLine items={[{label:"Dataset",value:"MIND · English"},{label:"Sample",value:"1,000 unseen impressions"},{label:"Chooser",value:"GPT-5-mini"},{label:"Support",value:"MiniCheck-Flan"},{label:"Baseline",value:"Original selection = 17.1%"}]} />
+            <figure className="evidence-figure" aria-labelledby="table-two-title support-results-caption">
+              <div className="figure-heading"><div><p className="figure-number">Table 2 · Source-support tradeoff</p><h3 id="table-two-title">Selection can outrun source support</h3></div><p className="metric-definition"><b>Metrics</b> Selection and support (0–100) ↑</p></div>
+              <p className="table-takeaway">The unconstrained advisor reaches 98.5% target selection with only 2.0% MiniCheck support. Adding a source-support reward partially recovers support while reducing selection.</p>
               <div className="table-scroll"><table className="support-table"><thead><tr><th>Condition</th><th>Target selected (%)</th><th>MiniCheck support (%)</th><th>Constraint</th></tr></thead><tbody>{supportResults.map(row=><tr key={row.method} className={row.constrained?"constrained-row":""}><th>{row.method}</th><td className="score-bar-cell" style={{"--score":`${row.selection}%`} as React.CSSProperties}><b>{row.selection.toFixed(1)}</b></td><td className="score-bar-cell score-bar-support" style={{"--score":`${row.support}%`} as React.CSSProperties}><b>{row.support.toFixed(1)}</b></td><td>{row.constrained?"MiniCheck":"None"}</td></tr>)}</tbody></table></div>
-              <figcaption id="support-results-caption"><b>Table 2 | Source-support tradeoff on MIND-English.</b> Unconstrained RL produces the highest selection and lowest source support. MiniCheck recovers support while reducing selection.</figcaption>
+              <figcaption id="support-results-caption"><b>Table 2 | Source-support tradeoff on 1,000 unseen MIND-English impressions.</b> Target selection uses the GPT-5-mini chooser; source support is scored with MiniCheck-Flan. The original target-selection baseline is 17.1%.</figcaption>
             </figure>
           </div>
         </section>
@@ -580,25 +568,25 @@ export default function Home() {
           <div className="section-label">05 · Robustness, transfer and failure</div>
           <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
 
-          <figure className="evidence-figure robustness-figure" aria-labelledby="language-caption">
-            <div className="figure-heading"><div><p className="figure-number">Table 3</p><h3>Cross-lingual transfer on fixed MIND slates</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
-            <MetaLine items={[{label:"Training",value:"English MIND only"},{label:"Sample",value:"1,000 aligned impressions per language"},{label:"Advisor",value:"Qwen3.5-9B"},{label:"Rewriter / chooser",value:"GPT-5-mini"}]} />
+          <figure className="evidence-figure robustness-figure" aria-labelledby="table-three-title language-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 3 · Language transfer</p><h3 id="table-three-title">The learned advisor transfers across languages</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <p className="table-takeaway">Trained only on English MIND, the advisor remains above 93% selection in every evaluated language without additional training. Direct rewriter training is less stable, falling to 27.8% in Swahili.</p>
             <div className="table-scroll"><table className="transfer-table language-table"><thead><tr><th>Language</th><th>Original</th><th>Prompt rewriter</th><th>Prompt advisor</th><th>RL rewriter</th><th>RL advisor</th><th>RL rewriter + MC</th><th>RL advisor + MC</th></tr></thead><tbody>{languageResults.map(row=><tr key={row.label} className={row.label==="Average"?"summary-row":""}><th>{row.label}</th>{row.values.map((value,index)=><td key={index}><b>{value.toFixed(1)}</b>{index>0&&<small>+{(value-row.values[0]).toFixed(1)}</small>}</td>)}</tr>)}</tbody></table></div>
-            <figcaption id="language-caption"><b>Table 3 | Language transfer; paper Table 4.</b> The English row is the training language. Arabic, Spanish, Swahili, Turkish and Chinese preserve the same MIND rows, targets, candidate order and slate structure.</figcaption>
+            <figcaption id="language-caption"><b>Table 3 | Language transfer; paper Table 4.</b> The English row is the training language. Each language uses 1,000 aligned impressions; Arabic, Spanish, Swahili, Turkish and Chinese preserve the same MIND rows, targets, candidate order and slate structure. Advisor: Qwen3.5-9B; frozen rewriter and chooser: GPT-5-mini.</figcaption>
           </figure>
 
-          <figure className="evidence-figure robustness-figure" aria-labelledby="dataset-caption">
-            <div className="figure-heading"><div><p className="figure-number">Table 4</p><h3>Transfer across news datasets</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
-            <MetaLine items={[{label:"Training dataset",value:"MIND · English"},{label:"Evaluation",value:"1,000 impressions per setting"},{label:"Out-of-domain dataset",value:"EB-NeRD"},{label:"Protocol",value:"No additional training"}]} />
+          <figure className="evidence-figure robustness-figure" aria-labelledby="table-four-title dataset-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 4 · Dataset transfer</p><h3 id="table-four-title">The effect extends beyond the training dataset</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <p className="table-takeaway">Without additional training, the advisor reaches 98.1% on EB-NeRD English and 98.2% on EB-NeRD Danish. The result therefore extends beyond translation of the original MIND evaluation set.</p>
             <div className="table-scroll"><table className="transfer-table dataset-table"><thead><tr><th>Dataset</th><th>Language</th><th>Original</th><th>Prompt rewriter</th><th>Prompt advisor</th><th>RL rewriter</th><th>RL advisor</th><th>RL rewriter + MC</th><th>RL advisor + MC</th></tr></thead><tbody>{datasetResults.map(row=><tr key={`${row.dataset}-${row.language}`}><th>{row.dataset}</th><td>{row.language}</td>{row.values.map((value,index)=><td key={index}><b>{value.toFixed(1)}</b>{index>0&&<small>+{(value-row.values[0]).toFixed(1)}</small>}</td>)}</tr>)}</tbody></table></div>
-            <figcaption id="dataset-caption"><b>Table 4 | News-dataset transfer; paper Table 5.</b> MIND-Danish changes display language. EB-NeRD is a distinct Danish news dataset; the English version translates the same EB-NeRD slates.</figcaption>
+            <figcaption id="dataset-caption"><b>Table 4 | News-dataset transfer; paper Table 5.</b> Every setting contains 1,000 impressions and receives no additional training. MIND-Danish changes display language. EB-NeRD is a distinct Danish news dataset; the English version translates the same EB-NeRD slates.</figcaption>
           </figure>
 
-          <figure className="evidence-figure robustness-figure" aria-labelledby="academic-caption">
-            <div className="figure-heading"><div><p className="figure-number">Table 5</p><h3>Transfer to academic document selection</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
-            <MetaLine items={[{label:"Dataset",value:"SciRepEval-derived scientific documents"},{label:"Sample",value:"1,000 impressions"},{label:"Mean / max slate",value:"9.29 / 10 candidates"},{label:"Target agent",value:"GPT-5-mini"},{label:"Training",value:"English MIND only"}]} />
+          <figure className="evidence-figure robustness-figure" aria-labelledby="table-five-title academic-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 5 · Domain transfer</p><h3 id="table-five-title">Cross-domain transfer is harder, but remains substantial</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <p className="table-takeaway">On scientific-document selection, the MIND-trained advisor reaches 63.6%, compared with 42.7% for the prompt-only advisor and 32.7% for the RL-trained direct rewriter.</p>
             <div className="table-scroll"><table className="academic-table"><thead><tr><th>Condition</th><th>Method</th><th>Selection rate</th><th>Gain over original</th></tr></thead><tbody>{academicResults.map(row=>{const gain=Math.max(0,row.selection-9.9);return <tr key={`${row.group}-${row.method}`} className={row.method.includes("MiniCheck")?"constrained-row":""}><th>{row.group}</th><td>{row.method}</td><td className="score-bar-cell" style={{"--score":`${row.selection}%`} as React.CSSProperties}><b>{row.selection.toFixed(1)}</b></td><td className="score-bar-cell gain-score" style={{"--score":`${gain}%`} as React.CSSProperties}>{row.selection===9.9?"—":`+${gain.toFixed(1)} pp`}</td></tr>})}</tbody></table></div>
-            <figcaption id="academic-caption"><b>Table 5 | Cross-domain academic transfer; paper Table 6.</b> The MIND-trained advisor reaches 63.6% selection without further academic-domain training; MiniCheck reduces selection to 47.3% while retaining a +37.4 point gain over original text.</figcaption>
+            <figcaption id="academic-caption"><b>Table 5 | Cross-domain academic transfer; paper Table 6.</b> Evaluation uses 1,000 impressions drawn from SciRepEval-derived scientific documents, with mean / maximum slate sizes of 9.29 / 10. The target agent is GPT-5-mini; all learned policies are trained only on English MIND, with no additional academic-domain training.</figcaption>
           </figure>
         </section>
 
