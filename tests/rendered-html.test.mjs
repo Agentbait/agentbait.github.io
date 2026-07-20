@@ -293,6 +293,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.paper-method-view\s*\{[^}]*grid-template-rows:\s*1fr/s);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.system-graph-view\s*\{[^}]*grid-template-rows:\s*0fr/s);
   assert.match(globalStyles, /\.paper-method-artwork\s*\{[^}]*min-width:\s*880px/s);
+  assert.match(globalStyles, /\.paper-method-figure\s*\{[^}]*background:\s*transparent[^}]*border:\s*0[^}]*box-shadow:\s*none/s);
   assert.match(globalStyles, /animation-play-state:\s*paused/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.triptych-panel/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.selection-candidates/);
@@ -336,7 +337,7 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/advisor-scholar.png", import.meta.url)),
     readFile(new URL("../public/selector-hand.png", import.meta.url)),
   ]);
-  assert.equal(narrativeMethod[25], 2, "narrative method figure must be an RGB PNG");
+  assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");
   assert.equal(editorHand[25], 6, "editor hand must be an RGBA PNG");

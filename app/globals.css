@@ -307,7 +307,7 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .controlled-figure.is-paper-graph .paper-method-view { grid-template-rows: 1fr; opacity: 1; visibility: visible; pointer-events: auto; transform: scale(1); }
 .controlled-figure.is-paper-graph .system-graph-view { grid-template-rows: 0fr; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); }
 .controlled-figure.is-paper-graph .system-graph-view *, .controlled-figure.is-paper-graph .system-graph-view *::before, .controlled-figure.is-paper-graph .system-graph-view *::after { animation-play-state: paused !important; }
-.paper-method-figure { overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; background: #fff; border: 1px solid var(--rule-dark); box-shadow: 8px 9px 0 rgba(23,52,79,.06); -webkit-overflow-scrolling: touch; }
+.paper-method-figure { overflow-x: auto; overflow-y: hidden; overscroll-behavior-inline: contain; background: transparent; border: 0; box-shadow: none; -webkit-overflow-scrolling: touch; }
 .paper-method-figure:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .paper-method-artwork { width: 100%; min-width: 880px; max-width: none; height: auto; display: block; aspect-ratio: 1891 / 708; }
 
