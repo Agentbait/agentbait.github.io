@@ -25,7 +25,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Complete the word Click/);
   assert.match(html, /class="click-placeholder">_<\/span>/);
   assert.doesNotMatch(html, /Click, selected/);
-  assert.match(html, /We train an advisor to guide a frozen rewriter toward texts that an LLM chooser is more likely to select\. Selection rate: 17\.1% → 98\.5%/);
+  assert.match(html, /We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select\. Selection rate: 17\.1% → 98\.5%/);
+  assert.doesNotMatch(html, /an LLM chooser/);
   assert.doesNotMatch(html, /Small textual rewrites can systematically manipulate LLM-based recommendation agents/);
   assert.doesNotMatch(html, /Interactive Figure 1|Eleven-second fixed-set chooser replay|Auto play/);
   assert.doesNotMatch(html, /Scene [1-7] ·/);

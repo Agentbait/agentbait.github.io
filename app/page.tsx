@@ -319,7 +319,7 @@ export default function Home() {
         <header className="article-header">
           <h1 id="paper-title" aria-label="You Won't Believe This Click">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
-          <p className="standfirst">We train an advisor to guide a frozen rewriter toward texts that an LLM chooser is more likely to select. Selection rate: 17.1% → 98.5%</p>
+          <p className="standfirst">We train an advisor to guide a frozen rewriter toward texts that an LLM agent is more likely to select. Selection rate: 17.1% → 98.5%</p>
           <div className="paper-identity">
             <div className="byline">
               <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
