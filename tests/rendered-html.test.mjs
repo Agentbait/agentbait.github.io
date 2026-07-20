@@ -59,7 +59,9 @@ test("ships the manuscript and method figure", async () => {
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
-  assert.match(globalStyles, /font-size:\s*clamp\(52px, 6\.5vw, 94px\)/);
+  assert.match(globalStyles, /font-size:\s*clamp\(52px, 4\.5vw, 76px\)/);
+  assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
+  assert.match(globalStyles, /grid-template-columns:\s*minmax\(360px, \.72fr\) minmax\(680px, 1\.28fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.match(pageSource, /text-cursor/);
