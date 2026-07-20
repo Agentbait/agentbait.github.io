@@ -85,8 +85,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok(plainText.indexOf("03 · Interactive setting") < plainText.indexOf("04 · Key findings"));
   assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Robustness, transfer and failure"));
   assert.ok(plainText.indexOf("05 · Robustness, transfer and failure") < plainText.indexOf("06 · Examples as editorial redlines"));
-  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · Methods"));
-  assert.ok(plainText.indexOf("07 · Methods") < plainText.indexOf("08 · Paper resources and citation"));
+  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · Paper resources and citation"));
+  assert.doesNotMatch(plainText, /07 · Methods/);
+  assert.doesNotMatch(plainText, /How to read|Struck text is displaced source framing/);
+  assert.doesNotMatch(plainText, /Strategy audit|unfaithful technical pivot/);
 
   const formalAbstractParts = [
     "Language models are increasingly used as agents to help humans decide what information is surfaced. This usage incentivizes content creators to optimize content in ways that appeal not only to humans, but also to agents that mediate access to them. In this paper, we study selection shifts induced by rewriting in agentic decision-making. Given a set of competing content snippets, we rewrite only one snippet while leaving the rest unchanged, and then measure how it impacts the agent's choice.",

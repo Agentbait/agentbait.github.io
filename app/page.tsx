@@ -308,7 +308,6 @@ export default function Home() {
         <nav aria-label="Reading navigation">
           <a href="/paper.pdf">Paper</a>
           <a href="#results">Results</a>
-          <a href="#methods">Methods</a>
           <a href="#examples">Examples</a>
           <a href={codeUrl} target="_blank" rel="noreferrer">Code</a>
         </nav>
@@ -535,9 +534,8 @@ export default function Home() {
 
         <section className="story-section case-study" id="examples" aria-labelledby="example-title">
           <div className="section-label">06 · Examples as editorial redlines</div>
-          <div className="story-grid">
+          <div className="story-grid solo-grid">
             <div className="prose"><h2 id="example-title">One airport story, two ways to win selection</h2><p>Both learned rewrites make the target selectable. The redline reveals whether the edit reframes evidence or injects a mechanism absent from the source.</p></div>
-            <aside className="margin-note"><span>How to read</span><p><del>Struck text</del> is displaced source framing. <mark>Red text</mark> is introduced by the rewrite.</p></aside>
           </div>
           <figure className="example-figure" aria-labelledby="example-caption">
             <div className="example-source"><span>Original target</span><p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p><small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small></div>
@@ -563,13 +561,8 @@ export default function Home() {
           </figure>
         </section>
 
-        <section className="story-section methods" id="methods" aria-labelledby="methods-title">
-          <div className="section-label">07 · Methods</div>
-          <div className="story-grid"><div className="prose"><h2 id="methods-title">The advisor learns strategy; the rewriter supplies prose</h2><p>The Qwen3.5-9B advisor samples high-level strategies. GPT-5-mini, frozen in the advisor setting, turns each strategy into a revised title and abstract. GRPO reinforces strategies that lead the target agent to select the treated item.</p><p>The factuality-constrained variant adds the minimum sentence-level MiniCheck score, allowing one unsupported sentence to reduce the support reward.</p></div><aside className="margin-note"><span>Strategy audit</span><p>Unconstrained GPT-5-mini training produces an unfaithful technical pivot in 96.2% of audited outputs; with MiniCheck, 0.1%.</p></aside></div>
-        </section>
-
         <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
-          <div className="section-label">08 · Paper resources and citation</div>
+          <div className="section-label">07 · Paper resources and citation</div>
           <div className="resource-links"><a href="/paper.pdf"><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
           <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
         </section>
