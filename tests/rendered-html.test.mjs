@@ -271,6 +271,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
   assert.match(pageSource, /className="rewrite-hand-motion"/);
+  assert.doesNotMatch(pageSource, /ink-bottle/);
+  assert.doesNotMatch(globalStyles, /\.ink-bottle/);
   assert.match(pageSource, /Advisor strategy/);
   assert.doesNotMatch(pageSource, /rewrite-puppet|puppet-crossbar|puppet-string/);
   assert.doesNotMatch(globalStyles, /puppet-crossbar|puppet-string/);

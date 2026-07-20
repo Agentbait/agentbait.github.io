@@ -383,8 +383,6 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .strategy-control-tag { min-width: 91px; padding: 3px 6px 2px; position: absolute; left: 66px; top: 7px; z-index: 3; color: var(--red); background: rgba(240,238,232,.92); border: 1px solid rgba(188,73,63,.56); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .07em; line-height: 1; text-align: center; text-transform: uppercase; animation: strategy-controller-pulse 9s ease-in-out infinite; }
 .strategy-control-tag::before { content: ""; width: 42px; position: absolute; right: 100%; top: 50%; opacity: .48; border-top: 1px dashed var(--red); }
 .triptych-quill { width: 300px; max-width: none; position: absolute; left: 0; top: 0; z-index: 2; filter: saturate(.86) contrast(1.03); transform-origin: 50% 44%; }
-.ink-bottle { width: 37px; height: 44px; position: absolute; right: 10px; bottom: 16px; z-index: 5; background: #1f2b32; border: 1px solid #0f171b; border-radius: 5px 5px 9px 9px; box-shadow: inset 7px 0 0 rgba(79,113,138,.25); }
-.ink-bottle::before { content: ""; width: 24px; height: 9px; position: absolute; left: 5px; top: -8px; background: #171d20; border: 1px solid #0f171b; }
 .rewrite-transfer { width: 68%; min-height: 58px; display: flex; align-items: center; gap: 8px; position: absolute; left: 17px; bottom: 14px; z-index: 7; color: var(--muted); font-family: var(--mono); opacity: 0; animation: ghost-drift 9s ease-in-out infinite; }
 .rewrite-transfer span { flex: 1; min-width: 0; padding: 9px 10px; display: flex; align-items: center; gap: 8px; border: 1px dashed var(--red); background: rgba(240,238,232,.86); font-size: 9px; }
 .rewrite-transfer span b { width: 19px; height: 19px; display: grid; place-items: center; color: var(--red); border: 1px solid var(--red); }
@@ -433,7 +431,7 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .triptych-panel > header { transition: min-height 400ms var(--morph-ease) 100ms, border-color 240ms ease, padding 400ms var(--morph-ease); }
 .triptych-panel > header h4, .triptych-panel > header p { transition: margin 320ms var(--morph-ease), font-size 320ms var(--morph-ease), line-height 320ms var(--morph-ease); }
 .advisor-visual, .rewriter-visual, .selection-visual { transition: min-height 420ms var(--morph-ease) 100ms; }
-.arch-fragment, .scholar-fragment, .advisor-intake-animation, .rewrite-hand-motion, .ink-bottle, .rewrite-transfer, .selection-beam, .selector-hand-motion, .selection-visual::after { transition: opacity 150ms ease, filter 220ms ease; }
+.arch-fragment, .scholar-fragment, .advisor-intake-animation, .rewrite-hand-motion, .rewrite-transfer, .selection-beam, .selector-hand-motion, .selection-visual::after { transition: opacity 150ms ease, filter 220ms ease; }
 .advisor-target-document, .selection-candidates, .selection-candidates li { transition: width 420ms var(--morph-ease), top 420ms var(--morph-ease), right 420ms var(--morph-ease), padding 420ms var(--morph-ease), min-height 420ms var(--morph-ease), gap 420ms var(--morph-ease), opacity 180ms ease, border-color 220ms ease, background 220ms ease, box-shadow 220ms ease, transform 420ms var(--morph-ease); }
 .strategy-note, .paper-fragment, .policy-feedback { transition: width 440ms var(--morph-ease), height 440ms var(--morph-ease), min-height 440ms var(--morph-ease), margin 440ms var(--morph-ease), padding 440ms var(--morph-ease), transform 440ms var(--morph-ease), opacity 180ms ease, border-color 220ms ease, box-shadow 220ms ease; }
 .paper-fragment > small, .paper-fragment > p { transition: opacity 150ms ease, transform 220ms var(--morph-ease); }
@@ -457,7 +455,7 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .controlled-figure.is-paper-graph .triptych-panel > header h4 { margin-top: 4px; font-size: 22px; }
 .controlled-figure.is-paper-graph .triptych-panel > header p { min-height: 23px; margin-top: 5px; font-family: var(--mono); font-size: 9px; line-height: 1.25; }
 .controlled-figure.is-paper-graph .advisor-visual, .controlled-figure.is-paper-graph .rewriter-visual, .controlled-figure.is-paper-graph .selection-visual { min-height: 96px; }
-.controlled-figure.is-paper-graph .arch-fragment, .controlled-figure.is-paper-graph .scholar-fragment, .controlled-figure.is-paper-graph .rewrite-hand-motion, .controlled-figure.is-paper-graph .ink-bottle, .controlled-figure.is-paper-graph .rewrite-transfer, .controlled-figure.is-paper-graph .selection-beam, .controlled-figure.is-paper-graph .selector-hand-motion { opacity: 0 !important; filter: blur(2px); pointer-events: none; }
+.controlled-figure.is-paper-graph .arch-fragment, .controlled-figure.is-paper-graph .scholar-fragment, .controlled-figure.is-paper-graph .rewrite-hand-motion, .controlled-figure.is-paper-graph .rewrite-transfer, .controlled-figure.is-paper-graph .selection-beam, .controlled-figure.is-paper-graph .selector-hand-motion { opacity: 0 !important; filter: blur(2px); pointer-events: none; }
 .controlled-figure.is-paper-graph .selection-visual::after { opacity: 0; }
 
 .controlled-figure.is-paper-graph .advisor-intake-animation { opacity: 0; }

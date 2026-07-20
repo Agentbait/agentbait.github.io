@@ -491,7 +491,6 @@ export default function Home() {
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
-                  <span className="ink-bottle" aria-hidden="true" />
                   <div className="rewrite-hand-motion" aria-hidden="true">
                     <span className="strategy-control-tag">Advisor strategy</span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
