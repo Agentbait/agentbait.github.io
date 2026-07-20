@@ -21,6 +21,10 @@ test("server-renders the AgentBait research feature", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
+  assert.match(html, /class="click-word"/);
+  assert.match(html, /Complete the word Click/);
+  assert.match(html, /class="click-placeholder">_<\/span>/);
+  assert.doesNotMatch(html, /Click, selected/);
   assert.doesNotMatch(html, /Interactive Figure 1|Eleven-second fixed-set chooser replay|Auto play/);
   assert.doesNotMatch(html, /Scene [1-7] ·/);
   assert.match(html, /Automatically animated AgentBait fixed-slate comparison/);
@@ -101,6 +105,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
+  assert.match(globalStyles, /\.click-word\s*\{/);
+  assert.match(globalStyles, /@keyframes click-letter-drop/);
+  assert.match(globalStyles, /\.click-selected-note\s*\{/);
   assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
@@ -113,6 +120,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
+  assert.match(pageSource, /function InteractiveClickWord/);
+  assert.match(pageSource, /onClick=\{\(\) => setCompleted\(true\)\}/);
+  assert.match(pageSource, /className="click-letter"/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('className="story-section question"'));
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);

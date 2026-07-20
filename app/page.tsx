@@ -106,6 +106,29 @@ function TypewriterTitle({ text }: { text: string }) {
   });
 }
 
+function InteractiveClickWord() {
+  const [completed, setCompleted] = useState(false);
+
+  return (
+    <span className={`click-completion ${completed ? "is-complete" : ""}`}>
+      <button
+        type="button"
+        className="click-word"
+        aria-label={completed ? "Click, selected" : "Complete the word Click"}
+        aria-pressed={completed}
+        onClick={() => setCompleted(true)}
+      >
+        <span aria-hidden="true">Cl</span>
+        <span className="click-letter-slot" aria-hidden="true">
+          {completed ? <span className="click-letter">i</span> : <span className="click-placeholder">_</span>}
+        </span>
+        <span aria-hidden="true">ck</span>
+      </button>
+      <span className="click-selected-note" aria-live="polite">{completed ? "selected" : ""}</span>
+    </span>
+  );
+}
+
 function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: AttackStage; instanceId: string; showEditorHand: boolean }) {
   const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
@@ -260,7 +283,7 @@ export default function Home() {
       <article>
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
-          <h1 id="paper-title">You Won&apos;t Believe This Click</h1>
+          <h1 id="paper-title" aria-label="You Won't Believe This Click">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">Small textual rewrites can systematically manipulate LLM-based recommendation agents.</p>
           <div className="paper-identity">
