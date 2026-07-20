@@ -212,14 +212,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .story-section:nth-of-type(even) { background: rgba(255,255,255,.12); }
 .section-label { max-width: 1140px; margin: 0 auto 42px; padding-bottom: 10px; border-bottom: 1px solid var(--navy); color: var(--red); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .story-grid { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 780px) minmax(190px, 250px); justify-content: space-between; gap: 68px; }
+.setting-grid { grid-template-columns: minmax(0, 780px); }
 .prose h2, .resources h2 { margin: 0 0 26px; color: var(--navy); font-family: var(--serif); font-size: clamp(36px, 4vw, 56px); font-weight: 500; line-height: 1.04; letter-spacing: -.03em; }
 .prose p { max-width: 710px; margin: 0 0 20px; font-family: var(--serif); font-size: 18px; line-height: 1.68; }
 .prose .lead { font-size: clamp(20px, 1.8vw, 24px); line-height: 1.5; }
 .margin-note { align-self: start; padding: 13px 0 0 16px; border-top: 3px solid var(--blue); border-left: 1px solid var(--rule); }
 .margin-note > span { color: var(--blue); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .margin-note p { margin: 11px 0 0; color: var(--muted); font-family: var(--serif); font-size: 14px; line-height: 1.55; }
-.numbered-note p { padding: 8px 0; margin: 0; border-bottom: 1px solid var(--rule); }
-.numbered-note b { display: inline-block; min-width: 62px; color: var(--ink); font-family: var(--mono); font-size: 17px; }
 blockquote { max-width: 960px; margin: 70px auto 0; padding: 8px 0 8px 32px; border-left: 4px solid var(--red); }
 blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-style: italic; line-height: 1.16; letter-spacing: -.02em; }
 

@@ -39,6 +39,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /clearer framing|stronger relevance|same underlying content/i);
   assert.doesNotMatch(html, /Original baseline|Rewriting outcomes with and without MiniCheck/);
   assert.match(html, /Research question/);
+  assert.doesNotMatch(html, /class="margin-note numbered-note"/);
   assert.match(html, /Examples as editorial redlines/);
   assert.match(html, /Language and dataset transfer/);
   assert.match(html, /Target selection under original and rewritten presentations/);

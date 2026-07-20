@@ -262,12 +262,11 @@ export default function Home() {
 
         <section className="story-section setting" id="setting" aria-labelledby="setting-title">
           <div className="section-label">02 · Experimental setting</div>
-          <div className="story-grid">
+          <div className="story-grid setting-grid">
             <div className="prose">
               <h2 id="setting-title">A controlled intervention after retrieval</h2>
               <p>The primary experiment uses held-out MIND news impressions. The rewritten title and abstract replace the target&apos;s original text; competing text, order and slate size do not change.</p>
             </div>
-            <aside className="margin-note numbered-note"><span>Protocol</span><p><b>8,000</b> training impressions</p><p><b>1,000</b> unseen test impressions</p><p><b>≤15</b> candidates per MIND slate</p></aside>
           </div>
           <figure className="slate-figure" aria-labelledby="slate-caption">
             <div className="slate-flow">
