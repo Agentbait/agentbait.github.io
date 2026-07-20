@@ -44,10 +44,15 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /class="margin-note numbered-note"/);
   assert.match(html, /Examples as editorial redlines/);
   assert.ok(html.indexOf("Research question") < html.indexOf("Key findings"));
-  assert.ok(html.indexOf("Key findings") < html.indexOf("Experimental setting"));
+  assert.ok(html.indexOf("Key findings") < html.indexOf("Robustness, transfer and failure"));
+  assert.ok(html.indexOf("Robustness, transfer and failure") < html.indexOf("Experimental setting"));
   assert.ok(html.indexOf("Experimental setting") < html.indexOf("Examples as editorial redlines"));
-  assert.ok(html.indexOf("Examples as editorial redlines") < html.indexOf("Robustness, transfer and failure"));
-  assert.match(html, /Language and dataset transfer/);
+  assert.match(html, /Cross-lingual transfer on fixed MIND slates/);
+  assert.match(html, /Transfer across news datasets/);
+  assert.match(html, /Transfer to academic document selection/);
+  assert.match(html, /SciRepEval-derived scientific documents/);
+  assert.match(html, /63\.6/);
+  assert.match(html, /47\.3/);
   assert.match(html, /Target selection under original and rewritten presentations/);
   assert.doesNotMatch(html, /Cross-target-agent mismatch/);
   assert.match(html, /Selection and source support under rewriting/);

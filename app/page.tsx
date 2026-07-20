@@ -23,16 +23,31 @@ const mainResults = [
   { group: "RL-trained advisor", method: "+ MiniCheck", values: [68.6, 53.2, 65.8, 37.5, 41.0, 68.8] },
 ];
 
-const robustnessResults = [
-  { setting: "Language", label: "English", advisor: 98.5, constrained: 68.6 },
-  { setting: "Language", label: "Arabic", advisor: 95.5, constrained: 64.5 },
-  { setting: "Language", label: "Spanish", advisor: 98.0, constrained: 66.5 },
-  { setting: "Language", label: "Swahili", advisor: 93.7, constrained: 62.2 },
-  { setting: "Language", label: "Turkish", advisor: 95.8, constrained: 59.9 },
-  { setting: "Language", label: "Chinese", advisor: 96.6, constrained: 67.4 },
-  { setting: "Dataset", label: "MIND-Danish", advisor: 97.9, constrained: 65.0 },
-  { setting: "Dataset", label: "EB-NeRD English", advisor: 98.1, constrained: 81.2 },
-  { setting: "Dataset", label: "EB-NeRD Danish", advisor: 98.2, constrained: 71.7 },
+const languageResults = [
+  { label: "English (en)", values: [17.1, 34.8, 43.9, 95.9, 98.5, 43.4, 68.6] },
+  { label: "Arabic (ar)", values: [16.1, 28.9, 39.9, 81.0, 95.5, 33.6, 64.5] },
+  { label: "Spanish (es)", values: [17.8, 31.2, 42.8, 85.8, 98.0, 35.7, 66.5] },
+  { label: "Swahili (sw)", values: [17.6, 23.8, 39.4, 27.8, 93.7, 27.2, 62.2] },
+  { label: "Turkish (tr)", values: [17.5, 30.3, 39.2, 86.7, 95.8, 31.1, 59.9] },
+  { label: "Chinese (zh-CN)", values: [17.3, 33.2, 43.4, 87.1, 96.6, 36.8, 67.4] },
+  { label: "Average", values: [17.3, 29.5, 40.9, 73.7, 95.9, 32.9, 64.1] },
+];
+
+const datasetResults = [
+  { dataset: "MIND", language: "English", values: [17.1, 34.8, 43.9, 95.9, 98.5, 43.4, 68.6] },
+  { dataset: "MIND", language: "Danish", values: [16.5, 31.1, 40.9, 95.0, 97.9, 35.6, 65.0] },
+  { dataset: "EB-NeRD", language: "English", values: [12.8, 43.8, 57.7, 93.1, 98.1, 50.2, 81.2] },
+  { dataset: "EB-NeRD", language: "Danish", values: [11.6, 32.2, 47.8, 86.1, 98.2, 40.4, 71.7] },
+];
+
+const academicResults = [
+  { group: "Reference", method: "Without rewriting", selection: 9.9 },
+  { group: "Prompting only", method: "Rewriter-only", selection: 33.7 },
+  { group: "Prompting only", method: "Advisor-rewriter", selection: 42.7 },
+  { group: "RL-trained rewriter", method: "Rewriter-only", selection: 32.7 },
+  { group: "RL-trained rewriter", method: "+ MiniCheck", selection: 24.8 },
+  { group: "RL-trained advisor", method: "Advisor-rewriter", selection: 63.6 },
+  { group: "RL-trained advisor", method: "+ MiniCheck", selection: 47.3 },
 ];
 
 const supportResults = [
@@ -266,8 +281,34 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="story-section transfer" aria-labelledby="transfer-title">
+          <div className="section-label">03 · Robustness, transfer and failure</div>
+          <div className="story-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div><aside className="margin-note"><span>Interpretation</span><p>All results remain fixed-slate target selection rates. Academic transfer uses SciRepEval-derived scientific-document candidate lists.</p></aside></div>
+
+          <figure className="evidence-figure robustness-figure" aria-labelledby="language-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 3</p><h3>Cross-lingual transfer on fixed MIND slates</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <MetaLine items={[{label:"Training",value:"English MIND only"},{label:"Sample",value:"1,000 aligned impressions per language"},{label:"Advisor",value:"Qwen3.5-9B"},{label:"Rewriter / chooser",value:"GPT-5-mini"}]} />
+            <div className="table-scroll"><table className="transfer-table language-table"><thead><tr><th>Language</th><th>Original</th><th>Prompt rewriter</th><th>Prompt advisor</th><th>RL rewriter</th><th>RL advisor</th><th>RL rewriter + MC</th><th>RL advisor + MC</th></tr></thead><tbody>{languageResults.map(row=><tr key={row.label} className={row.label==="Average"?"summary-row":""}><th>{row.label}</th>{row.values.map((value,index)=><td key={index}><b>{value.toFixed(1)}</b>{index>0&&<small>+{(value-row.values[0]).toFixed(1)}</small>}</td>)}</tr>)}</tbody></table></div>
+            <figcaption id="language-caption"><b>Table 3 | Language transfer; paper Table 4.</b> The English row is the training language. Arabic, Spanish, Swahili, Turkish and Chinese preserve the same MIND rows, targets, candidate order and slate structure.</figcaption>
+          </figure>
+
+          <figure className="evidence-figure robustness-figure" aria-labelledby="dataset-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 4</p><h3>Transfer across news datasets</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <MetaLine items={[{label:"Training dataset",value:"MIND · English"},{label:"Evaluation",value:"1,000 impressions per setting"},{label:"Out-of-domain dataset",value:"EB-NeRD"},{label:"Protocol",value:"No additional training"}]} />
+            <div className="table-scroll"><table className="transfer-table dataset-table"><thead><tr><th>Dataset</th><th>Language</th><th>Original</th><th>Prompt rewriter</th><th>Prompt advisor</th><th>RL rewriter</th><th>RL advisor</th><th>RL rewriter + MC</th><th>RL advisor + MC</th></tr></thead><tbody>{datasetResults.map(row=><tr key={`${row.dataset}-${row.language}`}><th>{row.dataset}</th><td>{row.language}</td>{row.values.map((value,index)=><td key={index}><b>{value.toFixed(1)}</b>{index>0&&<small>+{(value-row.values[0]).toFixed(1)}</small>}</td>)}</tr>)}</tbody></table></div>
+            <figcaption id="dataset-caption"><b>Table 4 | News-dataset transfer; paper Table 5.</b> MIND-Danish changes display language. EB-NeRD is a distinct Danish news dataset; the English version translates the same EB-NeRD slates.</figcaption>
+          </figure>
+
+          <figure className="evidence-figure robustness-figure" aria-labelledby="academic-caption">
+            <div className="figure-heading"><div><p className="figure-number">Table 5</p><h3>Transfer to academic document selection</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
+            <MetaLine items={[{label:"Dataset",value:"SciRepEval-derived scientific documents"},{label:"Sample",value:"1,000 impressions"},{label:"Mean / max slate",value:"9.29 / 10 candidates"},{label:"Target agent",value:"GPT-5-mini"},{label:"Training",value:"English MIND only"}]} />
+            <div className="table-scroll"><table className="academic-table"><thead><tr><th>Condition</th><th>Method</th><th>Selection rate</th><th>Gain over original</th></tr></thead><tbody>{academicResults.map(row=><tr key={`${row.group}-${row.method}`} className={row.method.includes("MiniCheck")?"constrained-row":""}><th>{row.group}</th><td>{row.method}</td><td><b>{row.selection.toFixed(1)}</b></td><td>{row.selection===9.9?"—":`+${(row.selection-9.9).toFixed(1)} pp`}</td></tr>)}</tbody></table></div>
+            <figcaption id="academic-caption"><b>Table 5 | Cross-domain academic transfer; paper Table 6.</b> The MIND-trained advisor reaches 63.6% selection without further academic-domain training; MiniCheck reduces selection to 47.3% while retaining a +37.4 point gain over original text.</figcaption>
+          </figure>
+        </section>
+
         <section className="story-section setting" id="setting" aria-labelledby="setting-title">
-          <div className="section-label">03 · Experimental setting</div>
+          <div className="section-label">04 · Experimental setting</div>
           <div className="story-grid setting-grid">
             <div className="prose">
               <h2 id="setting-title">A controlled intervention after retrieval</h2>
@@ -287,7 +328,7 @@ export default function Home() {
         </section>
 
         <section className="story-section case-study" id="examples" aria-labelledby="example-title">
-          <div className="section-label">04 · Examples as editorial redlines</div>
+          <div className="section-label">05 · Examples as editorial redlines</div>
           <div className="story-grid">
             <div className="prose"><h2 id="example-title">One airport story, two ways to win selection</h2><p>Both learned rewrites make the target selectable. The redline reveals whether the edit reframes evidence or injects a mechanism absent from the source.</p></div>
             <aside className="margin-note"><span>How to read</span><p><del>Struck text</del> is displaced source framing. <mark>Red text</mark> is introduced by the rewrite.</p></aside>
@@ -313,18 +354,6 @@ export default function Home() {
               </article>
             </div>
             <figcaption id="example-caption"><b>Figure 3 | Haneda qualitative comparison.</b> The list is fixed and only the target text changes. Model: GPT-5-mini target agent; metrics: target selection and MiniCheck support; example n=1.</figcaption>
-          </figure>
-        </section>
-
-        <section className="story-section transfer" aria-labelledby="transfer-title">
-          <div className="section-label">05 · Robustness, transfer and failure</div>
-          <div className="story-grid"><div className="prose"><h2 id="transfer-title">Transfer is broad, but not uniform</h2><p>Display language, dataset and factuality constraint all change the observed effect. Reporting only 98.5% would hide those differences.</p></div><aside className="margin-note"><span>Interpretation</span><p>MiniCheck improves source support while reducing the selection effect; the two metrics should be read together.</p></aside></div>
-
-          <figure className="evidence-figure robustness-figure" aria-labelledby="robustness-caption">
-            <div className="figure-heading"><div><p className="figure-number">Table 3</p><h3>Language and dataset transfer</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
-            <MetaLine items={[{label:"Training",value:"English MIND only"},{label:"Sample",value:"1,000 impressions per evaluation"},{label:"Advisor",value:"Qwen3.5-9B"},{label:"Rewriter / chooser",value:"GPT-5-mini"}]} />
-            <div className="table-scroll"><table className="robustness-table"><thead><tr><th>Transfer axis</th><th>Evaluation setting</th><th>RL advisor</th><th>RL advisor + MiniCheck</th><th>Constraint cost</th></tr></thead><tbody>{robustnessResults.map(row=><tr key={row.label}><th>{row.setting}</th><td>{row.label}</td><td><b>{row.advisor.toFixed(1)}</b></td><td className="constraint-cell"><b>{row.constrained.toFixed(1)}</b></td><td>{(row.constrained-row.advisor).toFixed(1)} pp</td></tr>)}</tbody></table></div>
-            <figcaption id="robustness-caption"><b>Table 3 | Zero-shot language and dataset transfer.</b> Translated MIND variants preserve rows, targets, candidate order and slate structure. EB-NeRD is a distinct Danish news dataset; English is a translated version of the same EB-NeRD slates.</figcaption>
           </figure>
         </section>
 

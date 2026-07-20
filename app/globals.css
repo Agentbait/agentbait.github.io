@@ -272,7 +272,7 @@ figcaption b { color: var(--ink); }
 .table-scroll { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .results-table { min-width: 1040px; }
-.results-table th, .results-table td, .matrix-table th, .matrix-table td, .robustness-table th, .robustness-table td, .support-table th, .support-table td { border-bottom: 1px solid var(--rule); }
+.results-table th, .results-table td, .matrix-table th, .matrix-table td, .robustness-table th, .robustness-table td, .support-table th, .support-table td, .transfer-table th, .transfer-table td, .academic-table th, .academic-table td { border-bottom: 1px solid var(--rule); }
 .results-table thead th { padding: 9px 10px 11px; border-bottom: 2px solid var(--navy); font-size: 9px; text-align: right; vertical-align: bottom; }
 .results-table thead th:first-child, .results-table thead th:nth-child(2) { text-align: left; }
 .results-table thead small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
@@ -292,6 +292,24 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .support-table tbody td:nth-child(3) { color: var(--green); }
 .support-table .constrained-row { background: rgba(54,113,90,.08); }
 .support-table .constrained-row th { color: var(--green); font-weight: 600; }
+.transfer-table { min-width: 1120px; }
+.transfer-table th, .transfer-table td { padding: 11px 10px; font-size: 10px; text-align: right; }
+.transfer-table thead th { border-bottom: 2px solid var(--navy); font-size: 9px; vertical-align: bottom; }
+.transfer-table th:first-child, .dataset-table th:nth-child(2), .dataset-table td:nth-child(2) { text-align: left; }
+.transfer-table tbody th { color: var(--muted); font-weight: 500; }
+.transfer-table td b { display: block; }
+.transfer-table td small { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; }
+.transfer-table td:nth-last-child(-n+2) { background: rgba(54,113,90,.07); }
+.transfer-table .summary-row { border-top: 2px solid var(--navy); }
+.transfer-table .summary-row th, .transfer-table .summary-row td { font-weight: 600; }
+.academic-table { min-width: 720px; }
+.academic-table th, .academic-table td { padding: 12px 14px; font-size: 10px; }
+.academic-table thead th { border-bottom: 2px solid var(--navy); text-align: left; }
+.academic-table tbody th { width: 190px; color: var(--muted); text-align: left; text-transform: uppercase; }
+.academic-table tbody td:nth-child(2) { text-align: left; }
+.academic-table tbody td:nth-child(n+3) { text-align: right; }
+.academic-table .constrained-row { background: rgba(54,113,90,.08); }
+.academic-table .constrained-row th, .academic-table .constrained-row td:nth-child(2) { color: var(--green); }
 
 .transfer { background: var(--paper-deep) !important; }
 .compact-figure { max-width: 900px; }
