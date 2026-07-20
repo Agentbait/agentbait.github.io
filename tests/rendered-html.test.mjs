@@ -87,7 +87,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok(plainText.indexOf("03 · Interactive setting") < plainText.indexOf("04 · Key findings"));
   assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Robustness, transfer and failure"));
   assert.ok(plainText.indexOf("05 · Robustness, transfer and failure") < plainText.indexOf("06 · Examples as editorial redlines"));
-  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · Paper resources and citation"));
+  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · BibTeX"));
   assert.doesNotMatch(plainText, /07 · Methods/);
   assert.doesNotMatch(plainText, /How to read|Struck text is displaced source framing/);
   assert.doesNotMatch(plainText, /Strategy audit|unfaithful technical pivot/);
@@ -184,7 +184,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
-  assert.match(html, /Paper resources and citation/);
+  assert.match(html, /07 · BibTeX/);
+  assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.match(html, /Copy BibTeX/);
@@ -213,6 +214,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.constant-ribbon/);
   assert.doesNotMatch(pageSource, /transfer-strip/);
   assert.doesNotMatch(globalStyles, /\.transfer-strip/);
+  assert.doesNotMatch(pageSource, /resource-links|<summary>|<details className="citation"/);
+  assert.doesNotMatch(globalStyles, /\.resource-links|\.citation summary/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
   assert.match(globalStyles, /--paper:\s*#f0eee8/);

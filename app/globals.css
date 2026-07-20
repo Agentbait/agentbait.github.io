@@ -678,18 +678,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 
 .resources { color: var(--paper); background: var(--navy) !important; }
 .resources .section-label { border-color: #718195; color: #dc8b82; }
-.resources h2 { color: var(--paper); }
-.resources .resource-links { max-width: 1140px; margin: 60px auto 0; border-top: 1px solid #718195; }
-.resource-links a { display: grid; grid-template-columns: 90px 1fr 20px; gap: 18px; padding: 15px 0; border-bottom: 1px solid #718195; font-family: var(--mono); }
-.resource-links a:hover span, .resource-links a:hover em { color: #efaaa1; }
-.resource-links span { color: #9fc3dd; font-size: 10px; font-weight: 600; text-transform: uppercase; }
-.resource-links b { font-size: 11px; }
-.resource-links em { font-style: normal; }
-.citation { max-width: 1140px; margin: 58px auto 0; border-top: 1px solid #718195; border-bottom: 1px solid #718195; }
-.citation summary { padding: 16px 0; display: flex; justify-content: space-between; cursor: pointer; list-style: none; font-family: var(--mono); font-size: 10px; font-weight: 600; text-transform: uppercase; }
-.citation summary::-webkit-details-marker { display: none; }
-.citation summary span { color: #9fc3dd; }
-.citation-body { padding-bottom: 20px; display: grid; grid-template-columns: 1fr auto; gap: 15px; align-items: start; }
+.citation { max-width: 1140px; margin: 40px auto 0; padding: 20px 0; border-top: 1px solid #718195; border-bottom: 1px solid #718195; }
+.citation-body { display: grid; grid-template-columns: 1fr auto; gap: 15px; align-items: start; }
 .citation pre { margin: 0; padding: 22px; overflow-x: auto; color: var(--ink); background: var(--paper); font-family: var(--mono); font-size: 10px; line-height: 1.6; }
 .citation-body button { min-width: 120px; height: 40px; padding: 0 14px; color: var(--navy); background: var(--paper); border-color: var(--paper); }
 

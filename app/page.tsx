@@ -632,10 +632,9 @@ export default function Home() {
           </figure>
         </section>
 
-        <section className="story-section resources" id="resources" aria-label="Paper resources and citation">
-          <div className="section-label">07 · Paper resources and citation</div>
-          <div className="resource-links"><a href={assetUrl("/paper.pdf")}><span>Paper</span><b>Full manuscript · PDF</b><em>↗</em></a><a href={codeUrl} target="_blank" rel="noreferrer"><span>Code</span><b>Implementation and evaluation</b><em>↗</em></a><a href={datasetUrl} target="_blank" rel="noreferrer"><span>Dataset</span><b>MIND source dataset</b><em>↗</em></a><a href="#demo"><span>Demo</span><b>Replay Figure 1</b><em>↑</em></a></div>
-          <details className="citation" open><summary><span>Citation</span><b>BibTeX</b></summary><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></details>
+        <section className="story-section resources" id="resources" aria-label="BibTeX citation">
+          <div className="section-label">07 · BibTeX</div>
+          <div className="citation"><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></div>
         </section>
       </article>
 
