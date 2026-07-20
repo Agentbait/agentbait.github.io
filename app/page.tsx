@@ -371,7 +371,6 @@ export default function Home() {
               <p>We operationalize this setup with AgentBait, an advisor-rewriter framework in which the advisor learns to propose rewriting strategies and the rewriter revises the snippet. While a rewriter with a fixed prompt improves target snippet selection from 17.1% to 34.8%, our AgentBait raises its selection to 98.5%. We further show that the advisor trained with AgentBait effectively transfers to setups with different agents, languages, and snippets in other domains (e.g., scientific papers).</p>
               <p>However, higher target selection can reflect unsupported rewrites rather than better content. Adding a reward for support from the original snippet redirects the advisor toward more supported rewriting strategies, revealing a trade-off between factuality and target selection. Together, our results show that once agents mediate access to information, content can be rewritten to be chosen by the agent, even when selection and usefulness diverge.</p>
             </div>
-            <aside className="abstract-margin"><span>Observed choice,<br />not intrinsic quality</span><p>“Preference” refers only to observed choices under the same prompt and candidate list, not to a belief, stable preference, or judgment that the rewritten item is better.</p></aside>
           </div>
         </section>
 

@@ -94,8 +94,8 @@ test("server-renders the AgentBait research feature", async () => {
     "However, higher target selection can reflect unsupported rewrites rather than better content. Adding a reward for support from the original snippet redirects the advisor toward more supported rewriting strategies, revealing a trade-off between factuality and target selection. Together, our results show that once agents mediate access to information, content can be rewritten to be chosen by the agent, even when selection and usefulness diverge.",
   ];
   for (const paragraph of formalAbstractParts) assert.ok(abstractText.includes(paragraph), `Formal Abstract paragraph is missing or altered: ${paragraph.slice(0, 70)}…`);
-  assert.match(abstractText, /"Preference" refers only to observed choices under the same prompt and candidate list, not to a belief, stable preference, or judgment that the rewritten item is better\./);
-  assert.match(abstractText, /Observed choice, not intrinsic quality/i);
+  assert.doesNotMatch(abstractText, /"Preference" refers only to observed choices under the same prompt and candidate list/);
+  assert.doesNotMatch(abstractText, /Observed choice, not intrinsic quality/i);
 
   assert.match(settingText, /Same slate\. One rewrite\. A different decision\./);
   assert.match(settingText, /The candidate list has already been constructed\. Only the target presentation may change\./);
