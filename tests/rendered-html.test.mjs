@@ -54,9 +54,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Rewriter/);
   assert.match(html, /Selection/);
   assert.match(html, /Strategy note/);
-  assert.match(html, /Proposes an editorial strategy/);
+  assert.match(html, /Ranks candidates and proposes a strategy/);
   assert.match(html, /Rewrites target B only/);
-  assert.match(html, /Selects one item from the same candidate set/);
+  assert.match(html, /Chooses one winner from the same fixed slate/);
+  assert.match(html, /AgentBait process: read, edit, then select/);
   assert.match(html, /MiniCheck sentence support/);
   assert.match(html, /\/advisor-scholar\.png/);
   assert.match(html, /\/selector-hand\.png/);
@@ -103,6 +104,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
+  assert.match(globalStyles, /\.process-spine\s*\{/);
+  assert.match(globalStyles, /\.cross-panel-path\s*\{/);
+  assert.match(globalStyles, /@keyframes selection-pulse/);
   assert.match(globalStyles, /\.selection-beam\s*\{/);
   assert.doesNotMatch(globalStyles, /\.experiment-diagram\s*\{|\.candidate-panel\s*\{|\.intervention-panel\s*\{|\.reward-panel\s*\{/);
   assert.match(globalStyles, /font-size:\s*clamp\(64px, 5\.2vw, 92px\)/);
@@ -117,6 +121,10 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
   assert.match(pageSource, /className="triptych-quill"/);
+  assert.match(pageSource, /className="rewrite-transfer"/);
+  assert.match(pageSource, /className="cross-panel-path strategy-path"/);
+  assert.match(pageSource, /className="cross-panel-path rewrite-path"/);
+  assert.match(pageSource, /className="selection-candidates"[\s\S]*Candidate A[\s\S]*className="selected-candidate"[\s\S]*Candidate B[\s\S]*Candidate C/);
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);
   assert.match(pageSource, /\["final", 12600\]/);

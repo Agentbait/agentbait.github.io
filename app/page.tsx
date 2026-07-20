@@ -382,13 +382,21 @@ export default function Home() {
           <figure className="slate-figure controlled-figure" aria-labelledby="setting-figure-title slate-caption">
             <h3 className="experiment-thesis" id="setting-figure-title">Only the target text changes. The candidate set and chooser conditions remain fixed.</h3>
             <div className="constant-ribbon">
-              <b>Held constant across conditions</b>
+              <div className="constant-ribbon-title"><span aria-hidden="true">×</span><b>Held constant across conditions</b></div>
               <ul><li>Candidate identity</li><li>Order</li><li>Slate size</li><li>Non-target text</li><li>Chooser prompt</li></ul>
             </div>
 
+            <ol className="process-spine" aria-label="AgentBait process: read, edit, then select">
+              <li><b>01</b><span>Read</span></li>
+              <li><b>02</b><span>Edit</span></li>
+              <li><b>03</b><span>Select</span></li>
+            </ol>
+
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
+              <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
+              <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
-                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4></header>
+                <header><span>01 · Read</span><h4 id="advisor-panel-title">Advisor</h4><p>Ranks candidates and proposes a strategy</p></header>
                 <div className="advisor-visual">
                   <span className="arch-fragment" aria-hidden="true" />
                   <div className="scholar-fragment" aria-hidden="true">
@@ -397,16 +405,15 @@ export default function Home() {
                   </div>
                   <ol className="advisor-candidates" aria-label="Candidate set read by the advisor">
                     <li><b>A</b><span>Candidate A</span><em>.21</em></li>
-                    <li className="advisor-target"><b>B</b><span>Candidate B</span><em>.17</em></li>
+                    <li className="advisor-target"><b>B</b><span>Target B</span><em>.17</em></li>
                     <li><b>C</b><span>Candidate C</span><em>.13</em></li>
                   </ol>
                 </div>
                 <p className="strategy-note"><span>Strategy note</span><b>Increase specificity and narrative tension</b></p>
-                <p className="panel-action">Proposes an editorial strategy</p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
-                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Rewriter</h4></header>
+                <header><span>02 · Edit</span><h4 id="rewriter-panel-title">Rewriter</h4><p>Rewrites target B only</p></header>
                 <div className="rewriter-visual">
                   <div className="paper-fragment">
                     <small>Original title</small>
@@ -417,23 +424,22 @@ export default function Home() {
                   <span className="ink-bottle" aria-hidden="true" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="triptych-quill" src="/editor-hand.png" alt="" aria-hidden="true" />
+                  <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
                 </div>
-                <p className="panel-action">Rewrites target B only</p>
               </section>
 
               <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><span>03 · Select</span><h4 id="selection-panel-title">Selection</h4></header>
+                <header><span>03 · Select</span><h4 id="selection-panel-title">Selection</h4><p>Chooses one winner from the same fixed slate</p></header>
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
                     <li><b>A</b><span>Candidate A</span></li>
-                    <li><b>C</b><span>Candidate C</span></li>
                     <li className="selected-candidate"><b>B</b><span>Candidate B</span><em>Selected</em></li>
+                    <li><b>C</b><span>Candidate C</span></li>
                   </ol>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className="selector-hand" src="/selector-hand.png" alt="" aria-hidden="true" />
                 </div>
-                <p className="panel-action">Selects one item from the same candidate set</p>
               </section>
             </div>
             <div className="triptych-objective"><span>Selection reward</span><b>Was target B selected?</b><i>+</i><span>Optional constraint</span><b>MiniCheck sentence support</b></div>
