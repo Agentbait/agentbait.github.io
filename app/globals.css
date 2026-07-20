@@ -82,7 +82,18 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .stage-advisor .autoplay-dot, .stage-rewriter .autoplay-dot, .stage-chooser .autoplay-dot, .stage-complete .autoplay-dot { background: var(--red); border-color: var(--red); }
 .stage-constrained .autoplay-dot { background: var(--green); border-color: var(--green); }
 .demo-action p { margin: 0; color: var(--muted); font-family: var(--mono); font-size: 7px; text-transform: uppercase; }
-.attack-stage { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, .9fr) 170px minmax(0, 1.8fr); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); }
+.attack-stage { max-width: 1380px; margin: 0 auto; display: grid; grid-template-columns: 170px minmax(0, 1fr); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); }
+.baseline-strip { grid-column: 1 / -1; display: grid; grid-template-columns: 170px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 13px 18px; border-bottom: 1px solid var(--rule-dark); }
+.baseline-strip header { display: flex; flex-direction: column; gap: 4px; }
+.baseline-strip header span { color: var(--blue); font-family: var(--mono); font-size: 7px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.baseline-strip header b { font-family: var(--serif); font-size: 13px; font-weight: 500; }
+.baseline-title { min-width: 0; margin: 0; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 9px; align-items: center; font-family: var(--serif); }
+.baseline-title span { color: var(--red); font-family: var(--mono); font-size: 8px; text-align: center; }
+.baseline-title b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 600; }
+.baseline-strip dl { margin: 0; display: flex; gap: 18px; font-family: var(--mono); }
+.baseline-strip dl div { min-width: 62px; }
+.baseline-strip dt { color: var(--muted); font-size: 6px; letter-spacing: .08em; text-transform: uppercase; }
+.baseline-strip dd { margin: 3px 0 0; color: var(--navy); font-size: 13px; font-weight: 600; }
 .slate-panel { padding: 16px 18px 17px; }
 .slate-panel > header { min-height: 38px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .slate-panel > header span, .pipeline-heading { color: var(--blue); font-family: var(--mono); font-size: 7px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
@@ -93,8 +104,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .result-window > header { min-height: 49px; display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .result-window > header span { min-width: 0; white-space: nowrap; }
 .result-window > header b { min-width: 0; margin: 0; text-align: right; }
-.original-panel { align-self: center; width: 100%; }
-.original-panel > header { align-items: baseline; }
 .without-minicheck { background: rgba(180, 67, 60, .035); }
 .with-minicheck { background: rgba(54, 113, 90, .055); }
 .news-slate { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
@@ -122,7 +131,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .demo-metrics dd { margin: 4px 0 0; color: var(--navy); font-size: 16px; font-weight: 600; }
 .demo-metrics .support-metric dd { color: var(--green); }
 .without-minicheck .demo-metrics .support-metric dd { color: var(--red); }
-.attack-pipeline { padding: 17px 14px; border-left: 1px solid var(--rule-dark); border-right: 1px solid var(--rule-dark); position: relative; }
+.attack-pipeline { padding: 17px 14px; border-right: 1px solid var(--rule-dark); position: relative; }
 .pipeline-heading { margin: 0 0 20px; text-align: center; }
 .attack-pipeline ol { margin: 0; padding: 0; list-style: none; position: relative; }
 .attack-pipeline ol::before { content: ""; position: absolute; top: 16px; bottom: 17px; left: 15px; width: 1px; background: var(--rule-dark); }
@@ -320,7 +329,7 @@ footer b { color: var(--paper); }
 footer a { justify-self: end; color: var(--paper); font-family: var(--mono); font-size: 8px; font-weight: 600; text-transform: uppercase; }
 
 @media (max-width: 1120px) {
-  .attack-stage { grid-template-columns: minmax(0, 1fr) 145px minmax(0, 2fr); }
+  .attack-stage { grid-template-columns: 145px minmax(0, 1fr); }
   .slate-flow { grid-template-columns: 1fr 1fr 1fr; }
   .slate-column { grid-row: span 2; }
   .flow-step:nth-child(3) { border-right: 0; }
@@ -334,11 +343,11 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .paper-links { padding: 14px 0; border-left: 0; border-top: 1px solid var(--rule); }
   .demo-heading { align-items: flex-start; flex-direction: column; }
   .demo-action { align-items: flex-start; }
-  .attack-stage { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
-  .attack-stage > .slate-panel:first-child { grid-column: 1; grid-row: 2; }
-  .result-windows { grid-column: 2; grid-row: 2; border-left: 1px solid var(--rule-dark); }
+  .attack-stage { grid-template-columns: minmax(0, 1fr); }
+  .baseline-strip { grid-column: 1; grid-row: 1; }
+  .result-windows { grid-column: 1; grid-row: 3; }
   .result-window .news-slate li { grid-template-columns: 23px minmax(0, 1fr); }
-  .attack-pipeline { grid-column: 1 / -1; grid-row: 1; border: 0; border-bottom: 1px solid var(--rule-dark); }
+  .attack-pipeline { grid-column: 1; grid-row: 2; border: 0; border-bottom: 1px solid var(--rule-dark); }
   .attack-pipeline ol { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
   .attack-pipeline ol::before { top: 15px; bottom: auto; left: 8%; right: 8%; width: auto; height: 1px; }
   .attack-pipeline li { min-height: 92px; display: block; text-align: center; }
@@ -369,6 +378,9 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .attack-demo { padding: 42px 12px 24px; }
   .demo-heading { padding-inline: 7px; }
   .demo-heading h2 { font-size: 38px; }
+  .baseline-strip { grid-template-columns: 1fr; gap: 9px; padding: 13px 12px; }
+  .baseline-strip header { flex-direction: row; justify-content: space-between; align-items: baseline; }
+  .baseline-strip dl { justify-content: flex-end; }
   .slate-panel { padding: 14px 8px; }
   .news-slate li { grid-template-columns: 22px minmax(0, 1fr); gap: 7px; }
   .news-copy b { font-size: 9px; }

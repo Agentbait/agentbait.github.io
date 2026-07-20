@@ -75,11 +75,9 @@ function MetaLine({ items }: { items: { label: string; value: string }[] }) {
   );
 }
 
-type SlateVariant = "original" | "without-minicheck" | "with-minicheck";
+type SlateVariant = "without-minicheck" | "with-minicheck";
 
 function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackStage }) {
-  const attacked = variant !== "original";
-  const visibleCandidates = variant === "original" ? candidates : demoCandidates;
   const selectedId = variant === "without-minicheck" && ["complete", "constrained"].includes(stage)
     ? 8
     : variant === "with-minicheck" && stage === "constrained"
@@ -87,8 +85,8 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
       : 3;
   const rewriteVisible = ["rewriter", "chooser", "complete", "constrained"].includes(stage);
   return (
-    <ol className="news-slate" aria-label={variant === "original" ? "Original fixed candidate slate" : `${variant} candidate slate after target rewriting`}>
-      {visibleCandidates.map((item) => {
+    <ol className="news-slate" aria-label={`${variant} candidate slate after target rewriting`}>
+      {demoCandidates.map((item) => {
         const selected = item.id === selectedId;
         return (
           <li key={item.id} className={`${item.target ? "is-target" : ""} ${selected ? "is-selected" : ""}`}>
@@ -100,7 +98,7 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
                   <>
                     <mark className="grounded-injection">How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights
                   </>
-                ) : item.target && attacked && rewriteVisible ? (
+                ) : item.target && rewriteVisible ? (
                   <>
                     <mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate
                   </>
@@ -111,11 +109,9 @@ function NewsSlate({ variant, stage }: { variant: SlateVariant; stage: AttackSta
           </li>
         );
       })}
-      {variant !== "original" && (
-        <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
-          <span>4 of 8 candidates shown · order unchanged</span>
-        </li>
-      )}
+      <li className="slate-omission" aria-label="Four of eight candidates are shown; omitted candidates remain fixed">
+        <span>4 of 8 candidates shown · order unchanged</span>
+      </li>
     </ol>
   );
 }
@@ -225,12 +221,12 @@ export default function Home() {
           </div>
 
           <div className="attack-stage" aria-label="Automatically animated AgentBait fixed-slate comparison">
-            <section className="slate-panel original-panel" aria-labelledby="before-title">
-              <header><span>Original recommendation</span><b id="before-title">Target remains unselected</b></header>
-              <NewsSlate variant="original" stage={stage} />
-              <dl className="demo-metrics">
-                <div><dt>Reported selection rate</dt><dd>17.1%</dd></div>
-                <div><dt>Candidate order</dt><dd>Fixed</dd></div>
+            <section className="baseline-strip" aria-labelledby="baseline-title">
+              <header><span>Original baseline</span><b id="baseline-title">Target unselected</b></header>
+              <p className="baseline-title"><span>08</span><b>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</b></p>
+              <dl>
+                <div><dt>Selection</dt><dd>17.1%</dd></div>
+                <div><dt>Order</dt><dd>Fixed</dd></div>
               </dl>
             </section>
 
