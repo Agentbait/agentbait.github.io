@@ -378,7 +378,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.feedback-return\s*\{/);
   assert.match(globalStyles, /@keyframes feedback-signal-return/);
   assert.match(globalStyles, /@keyframes advisor-policy-flash/);
-  assert.match(globalStyles, /\.controlled-figure\s*\{[^}]*--system-cycle:\s*12s/s);
+  assert.match(globalStyles, /\.controlled-figure\s*\{[^}]*--system-cycle:\s*15s/s);
   assert.match(globalStyles, /\.scholar-fragment img\s*\{[^}]*animation:\s*advisor-reward-glow var\(--system-cycle\) ease-in-out infinite/s);
   assert.match(globalStyles, /@keyframes advisor-reward-glow\s*\{[\s\S]*?0%,97%[\s\S]*?98%,100%[\s\S]*?rgba\(188,73,63,\.16\)[\s\S]*?rgba\(188,73,63,\.055\)/);
   assert.doesNotMatch(globalStyles, /\.cross-panel-path\s*\{/);

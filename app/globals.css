@@ -290,7 +290,7 @@ blockquote p { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3.2v
 .setting .prose h2 { margin-bottom: 17px; font-size: clamp(32px, 3.5vw, 48px); }
 .setting .prose p { margin-bottom: 0; }
 .setting .slate-figure { margin-top: 38px; }
-.controlled-figure { --morph-time: 760ms; --morph-ease: cubic-bezier(.2,.72,.2,1); --system-cycle: 12s; padding-top: 18px; }
+.controlled-figure { --morph-time: 760ms; --morph-ease: cubic-bezier(.2,.72,.2,1); --system-cycle: 15s; padding-top: 18px; }
 .controlled-figure-head { display: flex; align-items: end; justify-content: space-between; gap: 28px; }
 .controlled-figure-head .experiment-thesis { flex: 1; }
 .graph-view-toggle { min-width: 126px; min-height: 34px; padding: 7px 9px; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--navy); background: transparent; border: 1px solid var(--navy); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .07em; line-height: 1; text-transform: uppercase; cursor: pointer; transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease; }
