@@ -11,6 +11,7 @@
   --red-pale: #ecddd9;
   --green: #36715a;
   --green-pale: #dfeae4;
+  --gold: #8a6417;
   --muted: #6f6d68;
   --rule: #d3cfc6;
   --rule-dark: #9b9992;
@@ -81,6 +82,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .byline-copy { min-width: 0; }
 .byline p { margin: 0; font-size: 13px; line-height: 1.5; }
 .byline p:last-child { color: var(--muted); }
+.author-link { position: relative; color: inherit; cursor: pointer; transition: color 180ms ease; }
+.author-link::after { content: ""; height: 1px; position: absolute; left: 0; right: 0; bottom: -2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 180ms ease; }
+.author-link:hover, .author-link:focus-visible { color: var(--gold); }
+.author-link:hover::after, .author-link:focus-visible::after { transform: scaleX(1); }
 .affiliation-logos { display: flex; align-items: center; gap: 13px; }
 .affiliation-logos a { display: block; opacity: .78; line-height: 0; filter: brightness(0) saturate(100%) invert(18%) sepia(36%) saturate(992%) hue-rotate(169deg) brightness(91%) contrast(93%); transform: translateY(0); transition: filter 220ms ease, opacity 220ms ease, transform 220ms ease; }
 .affiliation-logos a:hover, .affiliation-logos a:focus-visible { opacity: 1; filter: none; transform: translateY(-2px); }

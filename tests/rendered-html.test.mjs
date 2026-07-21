@@ -337,6 +337,12 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /className="affiliation-logos" aria-label="Research affiliations"/);
   assert.match(pageSource, /const bairUrl = "https:\/\/bair\.berkeley\.edu\/"/);
   assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
+  assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
+  assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
+  assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
+  assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
+  assert.match(globalStyles, /--gold:\s*#8a6417/);
+  assert.match(globalStyles, /\.author-link:hover, \.author-link:focus-visible\s*\{[^}]*color:\s*var\(--gold\)/s);
   assert.match(pageSource, /href=\{bairUrl\} target="_blank" rel="noreferrer" aria-label="Visit Berkeley Artificial Intelligence Research"/);
   assert.match(pageSource, /href=\{skyUrl\} target="_blank" rel="noreferrer" aria-label="Visit Sky Computing Lab"/);
   assert.match(pageSource, /bair-logo\.png/);
