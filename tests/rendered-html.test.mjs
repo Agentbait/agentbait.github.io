@@ -405,6 +405,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.policy-feedback/);
   assert.match(globalStyles, /@keyframes morph-connector-grow/);
   assert.match(globalStyles, /@keyframes advisor-slate-arrive/);
+  assert.match(globalStyles, /@keyframes advisor-slate-arrive\s*\{[\s\S]*?24%,96%\s*\{\s*opacity:\s*\.32;\s*transform:\s*translate\(3%, 0\);\s*\}[\s\S]*?99%,100%\s*\{\s*opacity:\s*0;/);
+  assert.match(globalStyles, /@keyframes advisor-nontarget-recede\s*\{[\s\S]*?21%,96%\s*\{\s*opacity:\s*\.62;\s*transform:\s*translateX\(4px\);\s*\}/);
+  assert.match(globalStyles, /@keyframes advisor-source-target\s*\{[\s\S]*?23%,96%\s*\{\s*opacity:\s*\.5;[\s\S]*?box-shadow:\s*inset 3px 0 0 rgba\(188,73,63,\.45\);/);
   assert.match(globalStyles, /@keyframes advisor-target-extract/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.advisor-target-document/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor/);
