@@ -224,6 +224,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
+  assert.doesNotMatch(html, /Paper ↗|Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
   assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.match(plainText, /Visual Sources & Adaptations/);
   assert.match(plainText, /Saint Jerome in his Study/);
@@ -595,8 +596,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.playback-toggle|\.playback-icon|\.hero-flip-card\.is-paused/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
-  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
-    access(new URL("../public/paper.pdf", import.meta.url)),
+  await assert.rejects(access(new URL("../public/paper.pdf", import.meta.url)), { code: "ENOENT" });
+  const [, narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),

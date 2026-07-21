@@ -20,7 +20,7 @@ npm run build
 node --test tests/rendered-html.test.mjs
 ```
 
-The paper PDF and website images live in `public/`. The deployable site is built with vinext for Cloudflare Workers-compatible hosting.
+Website images live in `public/`. The deployable site is built with vinext for Cloudflare Workers-compatible hosting.
 
 ## GitHub Pages
 

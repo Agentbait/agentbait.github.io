@@ -7,7 +7,6 @@ type MorphViewTransition = { finished: Promise<void> };
 type MorphDocument = Document & { startViewTransition?: (update: () => void) => MorphViewTransition };
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
-const datasetUrl = "https://msnews.github.io/";
 const bairUrl = "https://bair.berkeley.edu/";
 const skyUrl = "https://sky.cs.berkeley.edu/";
 const ziruiUrl = "https://zwcolin.github.io/";
@@ -358,7 +357,6 @@ export default function Home() {
       <header className="site-header">
         <a className="wordmark" href="#paper" aria-label="AgentBait paper home"><span>AgentBait</span><small>Research feature</small></a>
         <nav aria-label="Reading navigation">
-          <a href={assetUrl("/paper.pdf")}>Paper</a>
           <a href="#results">Results</a>
           <a href="#examples">Examples</a>
           <a href={codeUrl} target="_blank" rel="noreferrer">Code</a>
@@ -390,9 +388,7 @@ export default function Home() {
               </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
-              <a href={assetUrl("/paper.pdf")}>Paper ↗</a>
               <a href={codeUrl} target="_blank" rel="noreferrer">Code ↗</a>
-              <a href={datasetUrl} target="_blank" rel="noreferrer">Dataset ↗</a>
               <a href="#demo">Demo ↓</a>
             </div>
           </div>
