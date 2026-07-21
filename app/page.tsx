@@ -482,10 +482,6 @@ export default function Home() {
             </ol>
 
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="cross-panel-path strategy-path" aria-hidden="true">
-                <i className="strategy-source-port" />
-                <span className="strategy-token">Strategy s</span>
-              </span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
                 <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
