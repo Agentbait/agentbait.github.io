@@ -82,12 +82,14 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Examples as editorial redlines/);
   const abstractText = sliceBetween(plainText, "02 · Abstract", "03 · Interactive setting");
   const settingText = sliceBetween(plainText, "03 · Interactive setting", "04 · Key findings");
-  const findingsText = sliceBetween(plainText, "04 · Key findings", "05 · Robustness, transfer and failure");
+  const findingsText = sliceBetween(plainText, "04 · Key findings", "05 · Examples as editorial redlines");
   assert.ok(plainText.indexOf("02 · Abstract") < plainText.indexOf("03 · Interactive setting"));
   assert.ok(plainText.indexOf("03 · Interactive setting") < plainText.indexOf("04 · Key findings"));
-  assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Robustness, transfer and failure"));
-  assert.ok(plainText.indexOf("05 · Robustness, transfer and failure") < plainText.indexOf("06 · Examples as editorial redlines"));
-  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · BibTeX"));
+  assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Examples as editorial redlines"));
+  assert.ok(plainText.indexOf("05 · Examples as editorial redlines") < plainText.indexOf("Table 1 · Target-agent transfer"));
+  assert.ok(plainText.indexOf("Table 2 · Source-support tradeoff") < plainText.indexOf("06 · Robustness, transfer and failure"));
+  assert.ok(plainText.indexOf("06 · Robustness, transfer and failure") < plainText.indexOf("Table 3 · Language transfer"));
+  assert.ok(plainText.indexOf("06 · Robustness, transfer and failure") < plainText.indexOf("07 · BibTeX"));
   assert.doesNotMatch(plainText, /07 · Methods/);
   assert.doesNotMatch(plainText, /How to read|Struck text is displaced source framing/);
   assert.doesNotMatch(plainText, /Strategy audit|unfaithful technical pivot/);
@@ -149,7 +151,7 @@ test("server-renders the AgentBait research feature", async () => {
   const sensitivity = sliceBetween(findingsText, "01 Sensitivity", "02 Optimization");
   const optimization = sliceBetween(findingsText, "02 Optimization", "03 Transfer");
   const transfer = sliceBetween(findingsText, "03 Transfer", "04 Failure mode");
-  const failureMode = sliceBetween(findingsText, "04 Failure mode", "Table 1 · Target-agent transfer");
+  const failureMode = findingsText.slice(findingsText.indexOf("04 Failure mode"));
   assert.match(findingsText, /How presentation becomes a decision signal/);
   assert.match(findingsText, /A controlled sequence of effects, transfer, and failure\./);
   assert.match(sensitivity, /Presentation already matters/);
@@ -324,6 +326,9 @@ test("ships the manuscript and method figure", async () => {
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('id="abstract"'));
   assert.ok(pageSource.indexOf('id="abstract"') < pageSource.indexOf('id="setting"'));
   assert.ok(pageSource.indexOf('id="setting"') < pageSource.indexOf('id="results"'));
+  assert.ok(pageSource.indexOf('id="results"') < pageSource.indexOf('id="examples"'));
+  assert.ok(pageSource.indexOf('id="examples"') < pageSource.indexOf('className="story-section results detailed-results"'));
+  assert.match(globalStyles, /\.detailed-results\s*\{[^}]*padding-top:\s*64px/s);
   assert.doesNotMatch(pageSource, /story-section question|id="question"/);
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);

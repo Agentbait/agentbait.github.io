@@ -561,6 +561,8 @@ figcaption b { color: var(--ink); }
 .grounded-mark { color: var(--green); border-color: var(--green); }
 
 .results { background: var(--paper) !important; }
+.detailed-results { padding-top: 64px; }
+.detailed-results .finding-block:first-child { margin-top: 0; }
 .finding-sequence { max-width: 1040px; margin: 50px auto 0; border-top: 3px solid var(--navy); border-bottom: 1px solid var(--navy); }
 .finding-step { min-height: 158px; padding: 24px 18px; display: grid; grid-template-columns: 150px minmax(0, 1fr) minmax(300px, 360px); gap: 30px; align-items: center; position: relative; }
 .finding-step + .finding-step { border-top: 1px solid var(--rule-dark); }
