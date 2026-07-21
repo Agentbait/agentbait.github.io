@@ -116,7 +116,7 @@ function TypewriterTitle({ text }: { text: string }) {
               <span
                 className="typewriter-char"
                 key={`${character}-${index}`}
-                style={{ "--key-delay": `${index * 28}ms`, "--key-delay-fast": `${index * 10}ms`, "--abstract-key-delay": `${index * 6}ms` } as CSSProperties}
+                style={{ "--key-delay": `${index * 28}ms`, "--key-delay-fast": `${index * 10}ms` } as CSSProperties}
               >
                 {character}
               </span>
@@ -204,18 +204,13 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
         </ol>
       </section>
 
-      <section className="rewrite-focus" aria-label="Target title and abstract rewriting">
+      <section className="rewrite-focus" aria-label="Target title rewriting">
         <header><span>Target snippet · A</span>{rewritten && <b>Rewritten</b>}</header>
         <div className="rewrite-field title-field">
           <small>Original → Rewritten</small>
           <div className="editorial-title">
             <p className="original-edit-line">Marshawn playing in charity soccer game <del className="weak-expression">went exactly as you&apos;d expect.</del></p>
             <h3 className="typewriter-title"><TypewriterTitle text={rewrittenMarshawnTitle} /></h3>
-          </div>
-          <div className="editorial-abstract">
-            <small>Abstract · Original → Rewritten</small>
-            {stage === "focus" && <p className="original-abstract-line">{storyboardCandidates[0].abstract}</p>}
-            <p className="typewriter-abstract"><TypewriterTitle text={rewrittenMarshawnAbstract} /></p>
           </div>
         </div>
         {showEditorHand && (

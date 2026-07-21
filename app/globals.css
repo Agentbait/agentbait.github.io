@@ -130,7 +130,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .not-selected-label { color: var(--muted); }
 
 .storyboard-board.is-focused .candidate-set { visibility: hidden; opacity: 0; filter: none; transform: scale(.985); }
-.rewrite-focus { width: min(720px, calc(100% - 40px)); min-height: 230px; padding: 18px 22px; position: absolute; left: 50%; top: 50%; z-index: 4; visibility: hidden; opacity: 0; pointer-events: none; background: var(--paper); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); transform: translate(-50%, -44%) scale(.94); transition: opacity .35s ease, transform .45s ease; }
+.rewrite-focus { width: min(720px, calc(100% - 40px)); min-height: 180px; padding: 18px 22px; position: absolute; left: 50%; top: 50%; z-index: 4; visibility: hidden; opacity: 0; pointer-events: none; background: var(--paper); border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); transform: translate(-50%, -44%) scale(.94); transition: opacity .35s ease, transform .45s ease; }
 .storyboard-board.is-focused .rewrite-focus { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
 .rewrite-focus > header { min-height: 38px; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule); }
 .rewrite-focus > header b { color: var(--red); font-family: var(--mono); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }
@@ -144,14 +144,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .weak-expression { display: inline-block; position: relative; color: var(--muted); text-decoration: none; white-space: nowrap; }
 .weak-expression::after { content: ""; height: 1px; position: absolute; left: -.04em; right: -.04em; top: 54%; background: var(--red); transform: scaleX(0); transform-origin: left center; }
 .typewriter-title { margin-top: 7px !important; color: #273746 !important; font-family: "Courier New", Courier, var(--mono) !important; font-size: 20px !important; letter-spacing: -.018em; }
-.editorial-abstract { min-height: 75px; position: relative; z-index: 2; }
-.editorial-abstract > small { display: block; margin-bottom: 5px; color: var(--muted); font-family: var(--mono); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; }
-.editorial-abstract > p { grid-area: 1 / 1; font-size: 12px; line-height: 1.42; }
-.editorial-abstract { display: grid; grid-template-rows: auto 1fr; }
-.editorial-abstract > small { grid-column: 1; grid-row: 1; }
-.original-abstract-line, .typewriter-abstract { grid-column: 1; grid-row: 2; }
-.original-abstract-line { transition: opacity .35s ease, transform .35s ease; }
-.typewriter-abstract { color: #273746 !important; font-family: "Courier New", Courier, var(--mono) !important; letter-spacing: -.01em; }
 .typewriter-word { display: inline-block; white-space: nowrap; }
 .typewriter-char { display: inline-block; opacity: 0; transform: translateY(-1px) rotate(-.2deg); text-shadow: .35px .2px 0 rgba(23,52,79,.18); }
 .typewriter-char:nth-child(4n) { color: #314252; transform: translateY(.35px) rotate(.16deg); }
@@ -160,18 +152,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .stage-rewrite-title .weak-expression { animation: weak-phrase-fade .5s 1.05s ease forwards; }
 .stage-rewrite-title .original-edit-line { animation: source-line-settle .5s 1.08s ease forwards; }
 .stage-rewrite-title .typewriter-char { animation: typewriter-key .09s steps(2, end) both; animation-delay: calc(1.05s + var(--key-delay)); }
-.stage-rewrite-title .original-abstract-line { animation: abstract-source-fade .24s 1.82s ease forwards; }
-.stage-rewrite-title .typewriter-abstract .typewriter-char { animation: typewriter-key .06s steps(2, end) both; animation-delay: calc(2.12s + var(--abstract-key-delay)); }
 .stage-rewrite-complete .original-edit-line { opacity: .24; }
-.stage-rewrite-complete .original-abstract-line { opacity: 0; transform: translateY(-2px); }
 .stage-rewrite-complete .weak-expression::after { transform: scaleX(1); }
 .stage-rewrite-complete .typewriter-char { opacity: 1; transform: none; }
 .storyboard-board.quick-edit .weak-expression::after { animation-duration: .32s; animation-delay: .05s; }
 .storyboard-board.quick-edit .weak-expression { animation-duration: .22s; animation-delay: .28s; }
 .storyboard-board.quick-edit .original-edit-line { animation-duration: .22s; animation-delay: .3s; }
 .storyboard-board.quick-edit .typewriter-char { animation-duration: .06s; animation-delay: calc(.18s + var(--key-delay-fast)); }
-.storyboard-board.quick-edit .original-abstract-line { animation-duration: .16s; animation-delay: .62s; }
-.storyboard-board.quick-edit .typewriter-abstract .typewriter-char { animation-duration: .04s; animation-delay: calc(.84s + var(--abstract-key-delay)); }
 .editor-hand { width: 430px; height: auto; position: absolute; left: 43%; top: -245px; z-index: 6; opacity: 0; pointer-events: none; transform-origin: 2% 74%; will-change: transform, opacity; }
 .stage-focus .editor-hand { animation: quill-enter 1.45s cubic-bezier(.18,.75,.2,1) forwards; }
 .stage-rewrite-title .editor-hand { animation: quill-write 2.75s cubic-bezier(.22,.65,.25,1) forwards; }
@@ -192,7 +179,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 @keyframes quill-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes weak-phrase-fade { from { opacity: 1; } to { opacity: .18; } }
 @keyframes source-line-settle { from { opacity: 1; } to { opacity: .28; } }
-@keyframes abstract-source-fade { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-2px); } }
 @keyframes typewriter-key { 0% { opacity: 0; transform: translateY(-1px) rotate(-.25deg); } 45% { opacity: .75; transform: translateY(1px) rotate(.18deg); } 100% { opacity: 1; transform: translateY(0) rotate(0); } }
 @keyframes quill-enter { 0% { opacity: 0; transform: translateX(360px) rotate(1.4deg); } 18% { opacity: .96; } 100% { opacity: .96; transform: translateX(0) rotate(-.5deg); } }
 @keyframes quill-write { 0% { opacity: .96; transform: translate(0,0) rotate(-.5deg); } 34% { opacity: .96; transform: translate(58px,0) rotate(.15deg); } 55% { opacity: .96; transform: translate(62px,8px) rotate(-.1deg); } 70% { opacity: .96; transform: translate(12px,72px) rotate(-.35deg); } 78% { opacity: .96; transform: translate(18px,72px) rotate(-.1deg); } 100% { opacity: .96; transform: translate(92px,72px) rotate(.1deg); } }
@@ -927,7 +913,7 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .paper-abstract { gap: 5px; font-size: 10px; }
   .paper-abstract-label { font-size: 9px; }
   .paper-abstract-copy { max-width: 32ch; }
-  .rewrite-focus { width: calc(100% - 20px); min-height: 260px; padding: 16px; }
+  .rewrite-focus { width: calc(100% - 20px); min-height: 210px; padding: 16px; }
   .rewrite-field h3 { font-size: 20px; }
   .rewrite-field p { font-size: 13px; }
   .editorial-title { min-height: 112px; }
