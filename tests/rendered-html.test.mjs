@@ -347,10 +347,14 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /@keyframes rewriter-hand-left/);
   assert.match(globalStyles, /@keyframes strategy-control-signal/);
   assert.match(pageSource, /className="cross-panel-path strategy-path" aria-hidden="true"><b \/><i \/><\/span>/);
-  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*21%[^}]*height:\s*64%[^}]*left:\s*32\.5%[^}]*top:\s*22%[^}]*border-right:\s*1\.25px dashed rgba\(188,73,63,\.82\)/s);
+  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*19%[^}]*height:\s*0[^}]*left:\s*31%[^}]*top:\s*27%[^}]*border-top:\s*1\.25px dashed rgba\(188,73,63,\.82\)[^}]*border-right:\s*0[^}]*border-bottom:\s*0/s);
   assert.match(globalStyles, /@keyframes strategy-path-reveal\s*\{[\s\S]*?opacity:\s*\.3;[\s\S]*?opacity:\s*\.78;[\s\S]*?\}/);
   assert.match(globalStyles, /\.strategy-path > b\s*\{[^}]*border:\s*2px solid var\(--red\)/s);
   assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*7px[^}]*box-shadow:\s*0 0 10px rgba\(188,73,63,\.72\)/s);
+  assert.match(globalStyles, /\.strategy-note\s*\{[^}]*position:\s*absolute[^}]*right:\s*16px[^}]*top:\s*105px/s);
+  assert.match(globalStyles, /\.strategy-control-tag\s*\{[^}]*left:\s*66px[^}]*top:\s*25px/s);
+  assert.match(globalStyles, /\.strategy-control-tag::before\s*\{\s*display:\s*none;\s*\}/);
+  assert.match(globalStyles, /@keyframes strategy-control-signal\s*\{[\s\S]*?left:\s*calc\(100% - 4px\); top:\s*-3px; opacity:\s*1;[\s\S]*?\}/);
   assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
   assert.doesNotMatch(globalStyles, /@keyframes strategy-travel/);
   assert.match(pageSource, /className="rewrite-transfer"/);
