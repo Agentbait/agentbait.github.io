@@ -476,7 +476,8 @@ test("ships the manuscript and method figure", async () => {
   assert.equal((advisorSourceTargetFrames.match(/transform:\s*translateX\(0\)/g) ?? []).length, 4);
   assert.doesNotMatch(advisorSourceTargetFrames, /translateX\((?!0\))/);
   assert.match(globalStyles, /@keyframes advisor-extraction-trace\s*\{[\s\S]*?0%,11%[^}]*scaleX\(0\)[\s\S]*?15%,20%[^}]*scaleX\(1\)[\s\S]*?25%,100%/);
-  assert.match(globalStyles, /@keyframes advisor-target-receive\s*\{[\s\S]*?0%,10%[^}]*translate\(46%, 129px\) scale\(\.58\)[\s\S]*?13%[^}]*translate\(28%, 80px\) scale\(\.7\)[\s\S]*?18%,24%[^}]*translate\(0, 0\) scale\(1\)[\s\S]*?28%,100%/);
+  assert.match(globalStyles, /@keyframes advisor-target-receive\s*\{[\s\S]*?0%,10%[^}]*translate\(46%, 129px\) scale\(\.58\)[\s\S]*?13%[^}]*translate\(28%, 80px\) scale\(\.7\)[\s\S]*?18%,99\.7%[^}]*opacity:\s*1[^}]*translate\(0, 0\) scale\(1\)[\s\S]*?100%/);
+  assert.match(globalStyles, /\.advisor-target-document\s*\{\s*opacity:\s*1;\s*transform:\s*none;\s*\}/);
   assert.doesNotMatch(globalStyles, /@keyframes advisor-target-extract/);
   assert.match(globalStyles, /\.rewriter-control-input\s*\{[^}]*left:\s*53%[^}]*top:\s*16px[^}]*animation:\s*rewriter-control-dock var\(--system-cycle\)/s);
   assert.doesNotMatch(globalStyles, /\.rewriter-control-input::before\s*\{/);
