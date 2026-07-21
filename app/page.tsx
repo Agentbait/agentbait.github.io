@@ -669,7 +669,14 @@ export default function Home() {
         </section>
       </article>
 
-      <footer><p><b>AgentBait</b> · UC Berkeley · 2026</p><p>This page is an editorial reading companion. Claims and numbers should be read with their stated experimental conditions.</p><a href="#paper">Back to top ↑</a></footer>
+      <footer>
+        <p><b>AgentBait</b> · UC Berkeley · 2026</p>
+        <div className="footer-notes">
+          <p>Claims and numerical results should be interpreted within their stated experimental conditions.</p>
+          <p><b>Visual sources:</b> Selected visual elements are adapted from public-domain artworks. Full image credits and modification details are available here.</p>
+        </div>
+        <a href="#paper">Back to top ↑</a>
+      </footer>
     </main>
   );
 }
