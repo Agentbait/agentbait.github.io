@@ -63,7 +63,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Automatically animated AgentBait fixed-slate comparison/);
   assert.doesNotMatch(html, /Run AgentBait|Replay AgentBait/);
   assert.match(html, /Candidate Set/);
-  assert.match(html, /Three fixed MIND snippets/);
+  assert.doesNotMatch(html, /Three fixed MIND snippets/);
   assert.match(html, /Marshawn playing in charity soccer game went exactly as you/);
   assert.match(html, /Sofia Vergara and Joe Manganiello Celebrate/);
   assert.match(html, /The Coolest And Craziest McDonald/);

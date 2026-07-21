@@ -177,7 +177,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
     <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${inspectedId ? "is-scanning" : ""} ${showEditorHand ? "full-edit" : "quick-edit"}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
       <section className="candidate-set" aria-labelledby={`${instanceId}-candidate-set-title`}>
         <header>
-          <div><span>Candidate Set</span><b id={`${instanceId}-candidate-set-title`}>Three fixed MIND snippets</b></div>
+          <div><span id={`${instanceId}-candidate-set-title`}>Candidate Set</span></div>
           <small>{inspectedId ? `Chooser scan ${inspectionIndex}/3 · Candidate ${inspectedId}` : rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
         </header>
         <ol>
