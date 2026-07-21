@@ -471,7 +471,7 @@ export default function Home() {
                     <em>Title + abstract</em>
                   </article>
                 </div>
-                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Advisor output · strategy s</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
+                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Advisor suggests</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">“Try a sharper, more specific framing.”</span><span className="strategy-updated">“Push the hook further, but keep it specific.”</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">

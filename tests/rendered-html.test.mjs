@@ -118,11 +118,12 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Advisor/);
   assert.match(html, /Rewriter/);
   assert.match(html, /Selection/);
-  assert.match(html, /Strategy note/);
+  assert.match(html, /Advisor suggests/);
   assert.match(settingText, /Receives only the extracted target document and proposes a rewriting strategy\./);
   assert.match(settingText, /Applies the strategy to the target title and abstract only\./);
   assert.match(settingText, /Selects from the same candidate identities and order, with only the target rewritten\./);
-  assert.match(settingText, /Advisor output · strategy s/);
+  assert.match(settingText, /Try a sharper, more specific framing\./);
+  assert.match(settingText, /Push the hook further, but keep it specific\./);
   assert.match(html, /AgentBait process: read the target, edit it, then select from the fixed slate/);
   assert.match(html, /Outside advisor · fixed slate/);
   assert.match(html, /Advisor input · target only/);
@@ -352,6 +353,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.strategy-path > b\s*\{[^}]*border:\s*2px solid var\(--red\)/s);
   assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*7px[^}]*box-shadow:\s*0 0 10px rgba\(188,73,63,\.72\)/s);
   assert.match(globalStyles, /\.strategy-note\s*\{[^}]*position:\s*absolute[^}]*right:\s*16px[^}]*top:\s*105px/s);
+  assert.match(globalStyles, /\.strategy-note::before\s*\{[^}]*left:\s*23px[^}]*bottom:\s*-18px[^}]*border-top:\s*18px solid var\(--rule-dark\)/s);
+  assert.match(globalStyles, /\.strategy-note::after\s*\{[^}]*left:\s*24px[^}]*bottom:\s*-15px[^}]*border-top:\s*16px solid var\(--paper\)/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.strategy-note::before, \.controlled-figure\.is-paper-graph \.strategy-note::after\s*\{\s*display:\s*none;\s*\}/);
   assert.match(globalStyles, /\.strategy-control-tag\s*\{[^}]*left:\s*53%[^}]*top:\s*25px/s);
   assert.match(globalStyles, /\.strategy-control-tag::before\s*\{\s*display:\s*none;\s*\}/);
   assert.match(globalStyles, /@keyframes strategy-control-signal\s*\{[\s\S]*?left:\s*calc\(100% - 4px\); top:\s*-3px; opacity:\s*1;[\s\S]*?\}/);

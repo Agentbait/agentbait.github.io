@@ -357,7 +357,9 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .advisor-target-document p b { width: 24px; height: 24px; display: grid; place-items: center; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 10px; }
 .advisor-target-document p span { font-family: var(--serif); font-size: 14px; font-weight: 600; }
 .advisor-target-document em { color: var(--muted); font-family: var(--mono); font-size: 9px; font-style: normal; letter-spacing: .04em; }
-.strategy-note { width: 72%; min-height: 69px; margin: 0; padding: 10px 12px; position: absolute; right: 16px; top: 105px; z-index: 4; color: var(--ink); background: var(--paper); border: 1px solid var(--rule-dark); box-shadow: 5px 6px 0 rgba(23,52,79,.06); transform: rotate(-.8deg); animation: note-emphasis 9s ease-in-out infinite; }
+.strategy-note { width: 72%; min-height: 69px; margin: 0; padding: 10px 12px; position: absolute; right: 16px; top: 105px; z-index: 4; overflow: visible; color: var(--ink); background: var(--paper); border: 1px solid var(--rule-dark); border-radius: 2px; box-shadow: 5px 6px 0 rgba(23,52,79,.06); transform: rotate(-.8deg); animation: note-emphasis 9s ease-in-out infinite; }
+.strategy-note::before { content: ""; width: 0; height: 0; position: absolute; left: 23px; bottom: -18px; border-top: 18px solid var(--rule-dark); border-right: 18px solid transparent; pointer-events: none; }
+.strategy-note::after { content: ""; width: 0; height: 0; position: absolute; left: 24px; bottom: -15px; border-top: 16px solid var(--paper); border-right: 16px solid transparent; pointer-events: none; }
 .strategy-note > span { display: block; color: var(--red); font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
 .strategy-note > b { min-height: 33px; margin-top: 6px; display: grid; align-items: start; font-family: var(--serif); font-size: 13px; font-weight: 500; font-style: italic; line-height: 1.25; }
 .strategy-note > b span { grid-area: 1 / 1; }
@@ -454,6 +456,7 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .controlled-figure.is-paper-graph .advisor-target-document p { margin: 6px 0 3px; }
 .controlled-figure.is-paper-graph .advisor-target-document p span { font-family: var(--mono); font-size: 10px; }
 .controlled-figure.is-paper-graph .strategy-note { width: 100%; min-height: 48px; margin: 0; padding: 7px 9px; position: relative; right: auto; top: auto; border-color: rgba(188,73,63,.7); box-shadow: none; transform: none; }
+.controlled-figure.is-paper-graph .strategy-note::before, .controlled-figure.is-paper-graph .strategy-note::after { display: none; }
 .controlled-figure.is-paper-graph .strategy-note > b { min-height: 20px; margin-top: 4px; font-size: 10px; }
 .controlled-figure.is-paper-graph .strategy-initial, .controlled-figure.is-paper-graph .strategy-updated { opacity: 0; transform: translateY(-5px); }
 .controlled-figure.is-paper-graph .paper-strategy-formula { opacity: 1; transform: translateY(0); transition-delay: 340ms; }
