@@ -335,8 +335,14 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /rewriter-hand-strings\.png/);
   assert.match(pageSource, /paper-method-transparent\.png/);
   assert.match(pageSource, /className="affiliation-logos" aria-label="Research affiliations"/);
+  assert.match(pageSource, /const bairUrl = "https:\/\/bair\.berkeley\.edu\/"/);
+  assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
+  assert.match(pageSource, /href=\{bairUrl\} target="_blank" rel="noreferrer" aria-label="Visit Berkeley Artificial Intelligence Research"/);
+  assert.match(pageSource, /href=\{skyUrl\} target="_blank" rel="noreferrer" aria-label="Visit Sky Computing Lab"/);
   assert.match(pageSource, /bair-logo\.png/);
   assert.match(pageSource, /sky-logo\.png/);
+  assert.match(globalStyles, /\.affiliation-logos a\s*\{[^}]*filter:\s*brightness\(0\) saturate\(100%\)/s);
+  assert.match(globalStyles, /\.affiliation-logos a:hover, \.affiliation-logos a:focus-visible\s*\{[^}]*filter:\s*none/s);
   assert.match(globalStyles, /\.affiliation-logos img\s*\{[^}]*height:\s*48px/s);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);

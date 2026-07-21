@@ -82,6 +82,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .byline p { margin: 0; font-size: 13px; line-height: 1.5; }
 .byline p:last-child { color: var(--muted); }
 .affiliation-logos { display: flex; align-items: center; gap: 13px; }
+.affiliation-logos a { display: block; opacity: .78; line-height: 0; filter: brightness(0) saturate(100%) invert(18%) sepia(36%) saturate(992%) hue-rotate(169deg) brightness(91%) contrast(93%); transform: translateY(0); transition: filter 220ms ease, opacity 220ms ease, transform 220ms ease; }
+.affiliation-logos a:hover, .affiliation-logos a:focus-visible { opacity: 1; filter: none; transform: translateY(-2px); }
 .affiliation-logos img { width: auto; height: 48px; display: block; object-fit: contain; }
 .paper-links { align-self: stretch; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding: 12px 0; border-top: 1px solid var(--rule); }
 .paper-links a { color: var(--navy); font-family: var(--mono); font-size: 10px; font-weight: 600; text-transform: uppercase; }

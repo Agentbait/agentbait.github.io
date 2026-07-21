@@ -8,6 +8,8 @@ type MorphDocument = Document & { startViewTransition?: (update: () => void) => 
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
+const bairUrl = "https://bair.berkeley.edu/";
+const skyUrl = "https://sky.cs.berkeley.edu/";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetUrl = (path: string) => `${basePath}${path}`;
 
@@ -334,10 +336,14 @@ export default function Home() {
                 <p>University of California, Berkeley</p>
               </div>
               <div className="affiliation-logos" aria-label="Research affiliations">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={assetUrl("/bair-logo.png")} width="205" height="146" alt="Berkeley Artificial Intelligence Research" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={assetUrl("/sky-logo.png")} width="264" height="243" alt="Sky Computing Lab" />
+                <a href={bairUrl} target="_blank" rel="noreferrer" aria-label="Visit Berkeley Artificial Intelligence Research">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={assetUrl("/bair-logo.png")} width="205" height="146" alt="Berkeley Artificial Intelligence Research" />
+                </a>
+                <a href={skyUrl} target="_blank" rel="noreferrer" aria-label="Visit Sky Computing Lab">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={assetUrl("/sky-logo.png")} width="264" height="243" alt="Sky Computing Lab" />
+                </a>
               </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
