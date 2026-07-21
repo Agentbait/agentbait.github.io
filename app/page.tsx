@@ -214,7 +214,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: boolean) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
@@ -248,7 +248,7 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
       return () => window.cancelAnimationFrame(reducedMotionFrame);
     }
 
-    if (!isVisible || !playing) return;
+    if (!isVisible) return;
 
     let animationFrame = 0;
     let lastFrameTime: number | null = null;
@@ -277,17 +277,15 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: bool
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [isVisible, playing]);
+  }, [isVisible]);
 
   return { stage, showEditorHand };
 }
 
 export default function Home() {
   const demoRef = useRef<HTMLElement>(null);
-  const heroAnimationRef = useRef<HTMLDivElement>(null);
   const [heroFlipped, setHeroFlipped] = useState(false);
-  const [heroPlaying, setHeroPlaying] = useState(true);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef);
   const [copied, setCopied] = useState(false);
   const [paperGraph, setPaperGraph] = useState(false);
   const [frontRewrite, setFrontRewrite] = useState<"a" | "b">("b");
@@ -310,15 +308,6 @@ export default function Home() {
     const transition = morphDocument.startViewTransition(() => flushSync(updateGraph));
     transition.finished.finally(() => document.documentElement.classList.remove("is-native-graph-morph"));
   };
-
-  useEffect(() => {
-    const animationSurface = heroAnimationRef.current;
-    if (!animationSurface || typeof animationSurface.getAnimations !== "function") return;
-    animationSurface.getAnimations({ subtree: true }).forEach((animation) => {
-      if (heroPlaying) animation.play();
-      else animation.pause();
-    });
-  }, [heroPlaying]);
 
   async function copyCitation() {
     try {
@@ -376,9 +365,8 @@ export default function Home() {
         </header>
 
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
-          <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
+          <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""}`}>
             <div
-              ref={heroAnimationRef}
               className="hero-flip-inner"
               role="button"
               tabIndex={0}
@@ -399,15 +387,7 @@ export default function Home() {
                 <img src={assetUrl("/agentbait-method.png")} alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
               </div>
             </div>
-            <span className="hero-flip-hint" aria-hidden="true">{heroFlipped ? "Click to return" : "Click to view graph"}<i>↻</i></span>
-            <button
-              type="button"
-              className="playback-toggle"
-              aria-label={heroPlaying ? "Pause hero animation" : "Play hero animation"}
-              onClick={() => setHeroPlaying((current) => !current)}
-            >
-              <span className={`playback-icon ${heroPlaying ? "is-pause" : "is-play"}`} aria-hidden="true" />
-            </button>
+            <span className="hero-flip-hint" aria-hidden="true">{heroFlipped ? "Click to return" : "View graph"}<i>↻</i></span>
           </div>
           <div className="demo-caption">
             <p className="caption-copy">A list of competing documents is shown to the target agent. We choose one target document from the list and generate a rewriting strategy for only that document. A separate rewriting model then revises the target document&apos;s title and abstract, while all other documents in the list remain exactly the same. The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor.</p>
@@ -477,7 +457,10 @@ export default function Home() {
             </ol>
 
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="cross-panel-path strategy-path" aria-hidden="true"><b /><i /></span>
+              <span className="cross-panel-path strategy-path" aria-hidden="true">
+                <i className="strategy-source-port" />
+                <span className="strategy-token">Strategy s</span>
+              </span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
                 <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
@@ -518,7 +501,7 @@ export default function Home() {
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
-                  <span className="strategy-control-tag" aria-hidden="true">Advisor strategy</span>
+                  <span className="rewriter-control-input" aria-hidden="true"><small>Control input</small><b>Strategy s</b></span>
                   <div className="rewrite-hand-motion" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
