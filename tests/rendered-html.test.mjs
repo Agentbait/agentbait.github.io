@@ -346,9 +346,11 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /puppet-crossbar|puppet-string/);
   assert.match(globalStyles, /@keyframes rewriter-hand-left/);
   assert.match(globalStyles, /@keyframes strategy-control-signal/);
-  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*18\.5%[^}]*border-right:\s*1px solid rgba\(188,73,63,\.26\)[^}]*border-bottom-right-radius:\s*14px/s);
-  assert.match(globalStyles, /@keyframes strategy-path-reveal\s*\{[\s\S]*?opacity:\s*\.1;[\s\S]*?opacity:\s*\.34;[\s\S]*?\}/);
-  assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*5px[^}]*box-shadow:\s*0 0 7px rgba\(188,73,63,\.38\)/s);
+  assert.match(pageSource, /className="cross-panel-path strategy-path" aria-hidden="true"><b \/><i \/><\/span>/);
+  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*21%[^}]*height:\s*64%[^}]*left:\s*32\.5%[^}]*top:\s*22%[^}]*border-right:\s*1\.25px dashed rgba\(188,73,63,\.82\)/s);
+  assert.match(globalStyles, /@keyframes strategy-path-reveal\s*\{[\s\S]*?opacity:\s*\.3;[\s\S]*?opacity:\s*\.78;[\s\S]*?\}/);
+  assert.match(globalStyles, /\.strategy-path > b\s*\{[^}]*border:\s*2px solid var\(--red\)/s);
+  assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*7px[^}]*box-shadow:\s*0 0 10px rgba\(188,73,63,\.72\)/s);
   assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
   assert.doesNotMatch(globalStyles, /@keyframes strategy-travel/);
   assert.match(pageSource, /className="rewrite-transfer"/);
