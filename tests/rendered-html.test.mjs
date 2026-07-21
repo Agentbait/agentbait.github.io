@@ -210,6 +210,15 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
+  assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
+  assert.match(plainText, /Visual Sources & Adaptations/);
+  assert.match(plainText, /Saint Jerome in his Study/);
+  assert.match(plainText, /Antonello da Messina · about 1475/);
+  assert.match(plainText, /Hand-and-quill visual/);
+  assert.match(plainText, /Pointing-hand asset/);
+  assert.match(plainText, /Source license unverified; no public-domain claim is made\./);
+  assert.match(html, /id="visual-sources-panel" aria-hidden="true"/);
+  assert.match(html, /aria-expanded="false" aria-controls="visual-sources-panel"/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.equal((html.match(/class="train-target-column"/g) || []).length, 8);
@@ -268,6 +277,12 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.results-table tbody td\.train-target-column\s*\{[^}]*rgba\(188,73,63,\.045\)[^}]*box-shadow/s);
   assert.doesNotMatch(pageSource, /resource-links|<summary>|<details className="citation"/);
   assert.doesNotMatch(globalStyles, /\.resource-links|\.citation summary/);
+  assert.match(pageSource, /const \[creditsOpen, setCreditsOpen\] = useState\(false\)/);
+  assert.match(pageSource, /className=\{`site-footer\$\{creditsOpen \? " is-credits-open" : ""\}`\}/);
+  assert.match(pageSource, /aria-controls="visual-sources-panel"/);
+  assert.match(globalStyles, /\.footer-credits-reveal\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.site-footer\.is-credits-open \.footer-credits-reveal\s*\{[^}]*grid-template-rows:\s*1fr/s);
+  assert.doesNotMatch(pageSource, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
   assert.match(globalStyles, /--paper:\s*#f0eee8/);

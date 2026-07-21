@@ -274,6 +274,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [paperGraph, setPaperGraph] = useState(false);
   const [frontRewrite, setFrontRewrite] = useState<"a" | "b">("b");
+  const [creditsOpen, setCreditsOpen] = useState(false);
 
   const toggleRewriteCards = () => {
     setFrontRewrite((current) => current === "a" ? "b" : "a");
@@ -669,13 +670,82 @@ export default function Home() {
         </section>
       </article>
 
-      <footer>
-        <p><b>AgentBait</b> · UC Berkeley · 2026</p>
-        <div className="footer-notes">
-          <p>Claims and numerical results should be interpreted within their stated experimental conditions.</p>
-          <p><b>Visual sources:</b> Selected visual elements are adapted from public-domain artworks. Full image credits and modification details are available here.</p>
+      <footer className={`site-footer${creditsOpen ? " is-credits-open" : ""}`}>
+        <div
+          className="footer-credits-reveal"
+          id="visual-sources-panel"
+          aria-hidden={!creditsOpen}
+        >
+          <div className="footer-credits-panel">
+            <div className="footer-credits-inner">
+              <header className="footer-credits-heading">
+                <p className="footer-credits-kicker">Image credits</p>
+                <h2>Visual Sources &amp; Adaptations</h2>
+                <p>Artwork records, rights notes, and the transformations used in the interactive method figure.</p>
+              </header>
+
+              <div className="visual-credits-grid">
+                <article className="visual-credit">
+                  <p className="visual-credit-role">01 · Advisor figure</p>
+                  <h3><cite>Saint Jerome in his Study</cite></h3>
+                  <p className="visual-credit-byline">Antonello da Messina · about 1475</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>The National Gallery, London · NG1418</dd></div>
+                    <div><dt>Rights</dt><dd>Public-domain artwork; source scan marked Public Domain.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Cropped and isolated from the architectural setting; surrounding objects removed and reconstructed; transparent background, mirrored orientation, tonal adjustment, and animation added.</dd></div>
+                  </dl>
+                  <a
+                    className="visual-credit-source"
+                    href="https://commons.wikimedia.org/wiki/File:Antonello_da_Messina_-_St_Jerome_in_his_study_-_National_Gallery_London.jpg"
+                    target="_blank"
+                    rel="noreferrer"
+                    tabIndex={creditsOpen ? 0 : -1}
+                  >View original source ↗</a>
+                </article>
+
+                <article className="visual-credit">
+                  <p className="visual-credit-role">02 · Rewriter hands</p>
+                  <h3>Hand-and-quill visual</h3>
+                  <p className="visual-credit-byline">Generated and edited with ChatGPT · 2026</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>Not applicable</dd></div>
+                    <div><dt>Rights</dt><dd>AI-assisted project visual; not presented as a public-domain artwork.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Background separated and tightly cropped; the second version adds puppet strings and ties, warmer color treatment, recomposition, and animation.</dd></div>
+                  </dl>
+                  <p className="visual-credit-source-unavailable">No external source record</p>
+                </article>
+
+                <article className="visual-credit">
+                  <p className="visual-credit-role">03 · Chooser hand</p>
+                  <h3>Pointing-hand asset</h3>
+                  <p className="visual-credit-byline">AI-assisted extraction from a user-supplied image · 2026</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>Original artwork and institution unverified</dd></div>
+                    <div><dt>Rights</dt><dd>Source license unverified; no public-domain claim is made.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Hand and sleeve isolated from the supplied image; background removed, edges retouched, tightly cropped, rotated, color-adjusted, and animated.</dd></div>
+                  </dl>
+                  <p className="visual-credit-source-unavailable">No reliable external source record</p>
+                </article>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="#paper">Back to top ↑</a>
+
+        <div className="footer-bar">
+          <p><b>AgentBait</b> · UC Berkeley · 2026</p>
+          <button
+            type="button"
+            className="footer-credits-toggle"
+            aria-expanded={creditsOpen}
+            aria-controls="visual-sources-panel"
+            aria-label={creditsOpen ? "Close visual source credits" : "Open visual source credits"}
+            onClick={() => setCreditsOpen((open) => !open)}
+          >
+            <span><b>Visual sources:</b> Selected visual elements are adapted from public-domain artworks. Full image credits and modification details are available <u>here</u>.</span>
+            <span className="footer-credits-toggle-mark" aria-hidden="true">↑</span>
+          </button>
+          <a href="#paper">Back to top ↑</a>
+        </div>
       </footer>
     </main>
   );
