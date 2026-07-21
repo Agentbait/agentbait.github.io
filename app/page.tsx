@@ -509,7 +509,6 @@ export default function Home() {
                         <li><b>C</b><span>Candidate C</span></li>
                       </ol>
                     </div>
-                    <span className="target-extraction-trace"><i>Extract B</i></span>
                   </div>
                   <article className="advisor-target-document">
                     <small>Advisor input · target only</small>
@@ -517,7 +516,7 @@ export default function Home() {
                     <em>Title + abstract</em>
                   </article>
                 </div>
-                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Advisor suggests</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">“Try a sharper, more specific framing.”</span><span className="strategy-updated">“Push the hook further, but keep it specific.”</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
+                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Advisor suggests</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy</span></span><b><span className="strategy-initial">“Try a sharper, more specific framing.”</span><span className="strategy-updated">“Push the hook further, but keep it specific.”</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
@@ -542,7 +541,7 @@ export default function Home() {
                     </div>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
-                  <span className="rewriter-control-input" aria-hidden="true"><small>Control input</small><b>Strategy s</b></span>
+                  <span className="rewriter-control-input" aria-hidden="true"><small>Control input</small><b>Strategy</b></span>
                   <div className="rewrite-hand-motion" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
@@ -551,10 +550,10 @@ export default function Home() {
               </section>
 
               <section className="triptych-panel selection-panel" aria-labelledby="selection-panel-title">
-                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 className="morph-copy" id="selection-panel-title"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Same Chooser</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Chooser</span></h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selects from the same candidate identities and order, with only the target rewritten.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Selects y from candidate slate C</span></p></header>
+                <header><div className="panel-heading-line"><span>03 · Select</span><em className="training-state">Frozen</em></div><h4 className="morph-copy" id="selection-panel-title"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Target Agent</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target Agent</span></h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selects from the same candidate identities and order, with only the target rewritten.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Selects y from candidate slate C</span></p></header>
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
-                  <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
+                  <ol className="selection-candidates" aria-label="Target agent selection from the fixed candidate set">
                     <li data-candidate-id="A"><b>A</b><span>Candidate A</span></li>
                     <li data-candidate-id="B" className="candidate-b-slot" aria-label="Candidate B remains in the same row while its title and status are rewritten, then selected.">
                       <b aria-hidden="true">B</b>
@@ -581,7 +580,7 @@ export default function Home() {
               </section>
             </div>
 
-            <div className="policy-feedback" aria-label="Chooser decision becomes a scalar reward; GRPO uses it to update only the advisor policy">
+            <div className="policy-feedback" aria-label="Target agent decision becomes a scalar reward; GRPO uses it to update only the advisor policy">
               <span className="feedback-descent" aria-hidden="true"><i /></span>
               <span className="reward-node"><small>Reward</small><b>r</b></span>
               <span className="feedback-return" aria-hidden="true"><i /></span>
@@ -591,7 +590,7 @@ export default function Home() {
             </div>
             </div>
             </div>
-            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the chooser sees the full fixed slate. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
+            <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the target agent sees the full fixed slate. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
           </figure>
         </section>
 
