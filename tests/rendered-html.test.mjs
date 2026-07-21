@@ -342,6 +342,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /className="paper-abstract-copy">\{item\.abstract\}<\/span>/);
   assert.match(pageSource, /aria-label="Target title and abstract rewriting"/);
   assert.match(pageSource, /className="editorial-abstract"[\s\S]*rewrittenMarshawnAbstract/);
+  assert.match(pageSource, /\{!rewritten && <p className="original-abstract-line">\{storyboardCandidates\[0\]\.abstract\}<\/p>\}/);
   assert.match(globalStyles, /\.stage-rewrite-title \.original-abstract-line\s*\{[^}]*animation:\s*abstract-source-fade \.24s 1\.82s/s);
   assert.match(globalStyles, /\.stage-rewrite-title \.typewriter-abstract \.typewriter-char\s*\{[^}]*animation-delay:\s*calc\(2\.12s \+ var\(--abstract-key-delay\)\)/s);
   assert.match(globalStyles, /\.storyboard-board\.quick-edit \.original-abstract-line\s*\{[^}]*animation-duration:\s*\.16s[^}]*animation-delay:\s*\.62s/s);

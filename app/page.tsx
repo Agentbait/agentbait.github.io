@@ -214,7 +214,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
           </div>
           <div className="editorial-abstract">
             <small>Abstract · Original → Rewritten</small>
-            <p className="original-abstract-line">{storyboardCandidates[0].abstract}</p>
+            {!rewritten && <p className="original-abstract-line">{storyboardCandidates[0].abstract}</p>}
             <p className="typewriter-abstract"><TypewriterTitle text={rewrittenMarshawnAbstract} /></p>
           </div>
         </div>
