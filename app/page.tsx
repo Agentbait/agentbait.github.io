@@ -35,6 +35,8 @@ const storyboardCandidates = [
 ];
 
 const rewrittenMarshawnTitle = "When Marshawn Lynch Took the Pitch: An Inside Look …";
+const rewrittenMarshawnAbstract =
+  "Marshawn Lynch steps onto the pitch for a charity soccer match, turning an unlikely sport-athlete pairing into a moment worth watching.";
 
 const mainResults = [
   { group: "Reference", method: "Original text", values: [17.1, 17.1, 17.1, 17.3, 17.6, 17.5] },
@@ -115,7 +117,7 @@ function TypewriterTitle({ text }: { text: string }) {
               <span
                 className="typewriter-char"
                 key={`${character}-${index}`}
-                style={{ "--key-delay": `${index * 28}ms`, "--key-delay-fast": `${index * 10}ms` } as CSSProperties}
+                style={{ "--key-delay": `${index * 28}ms`, "--key-delay-fast": `${index * 10}ms`, "--abstract-key-delay": `${index * 6}ms` } as CSSProperties}
               >
                 {character}
               </span>
@@ -189,7 +191,9 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
                   <b>{item.target && rewritten ? rewrittenMarshawnTitle : item.title}</b>
                   <small className="paper-abstract">
                     <span className="paper-abstract-label">Abstract</span>
-                    <span className="paper-abstract-copy">{item.abstract}</span>
+                    <span className="paper-abstract-copy">
+                      {item.target && rewritten ? rewrittenMarshawnAbstract : item.abstract}
+                    </span>
                   </small>
                 </span>
                 {inspected && <span className="inspection-label">Scanning</span>}
@@ -201,13 +205,18 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
         </ol>
       </section>
 
-      <section className="rewrite-focus" aria-label="Target title rewriting">
+      <section className="rewrite-focus" aria-label="Target title and abstract rewriting">
         <header><span>Target snippet · A</span>{rewritten && <b>Rewritten</b>}</header>
         <div className="rewrite-field title-field">
           <small>Original → Rewritten</small>
           <div className="editorial-title">
             <p className="original-edit-line">Marshawn playing in charity soccer game <del className="weak-expression">went exactly as you&apos;d expect.</del></p>
             <h3 className="typewriter-title"><TypewriterTitle text={rewrittenMarshawnTitle} /></h3>
+          </div>
+          <div className="editorial-abstract">
+            <small>Abstract · Original → Rewritten</small>
+            <p className="original-abstract-line">{storyboardCandidates[0].abstract}</p>
+            <p className="typewriter-abstract"><TypewriterTitle text={rewrittenMarshawnAbstract} /></p>
           </div>
         </div>
         {showEditorHand && (

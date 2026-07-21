@@ -334,6 +334,15 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.candidate-card\.is-inspected::after\s*\{[^}]*height:\s*3px[^}]*animation:\s*scan-card \.78s/s);
   assert.match(globalStyles, /\.paper-abstract-copy\s*\{[^}]*max-width:\s*48ch[^}]*white-space:\s*nowrap[^}]*text-overflow:\s*ellipsis/s);
   assert.match(globalStyles, /\.paper-abstract-label\s*\{[^}]*text-transform:\s*uppercase/s);
+  assert.match(pageSource, /const rewrittenMarshawnAbstract =\s*"Marshawn Lynch steps onto the pitch for a charity soccer match, turning an unlikely sport-athlete pairing into a moment worth watching\."/);
+  assert.match(pageSource, /item\.target && rewritten \? rewrittenMarshawnAbstract : item\.abstract/);
+  assert.doesNotMatch(pageSource, /className="paper-abstract-copy">\{item\.abstract\}<\/span>/);
+  assert.match(pageSource, /aria-label="Target title and abstract rewriting"/);
+  assert.match(pageSource, /className="editorial-abstract"[\s\S]*rewrittenMarshawnAbstract/);
+  assert.match(globalStyles, /\.stage-rewrite-title \.original-abstract-line\s*\{[^}]*animation:\s*abstract-source-fade \.35s 1\.85s/s);
+  assert.match(globalStyles, /\.stage-rewrite-title \.typewriter-abstract \.typewriter-char\s*\{[^}]*var\(--abstract-key-delay\)/s);
+  assert.match(globalStyles, /\.stage-rewrite-complete \.original-abstract-line\s*\{[^}]*opacity:\s*0/s);
+  assert.match(globalStyles, /@keyframes abstract-source-fade/);
   assert.match(globalStyles, /\.click-word\s*\{/);
   assert.match(globalStyles, /@keyframes click-letter-drop/);
   assert.match(globalStyles, /\.click-selected-note\s*\{/);
