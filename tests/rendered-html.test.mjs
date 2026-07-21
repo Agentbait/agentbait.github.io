@@ -184,6 +184,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
   assert.doesNotMatch(plainText, /Same slate · Both selected/);
+  assert.match(plainText, /One airport story, two routes to selection/);
+  assert.match(plainText, /Both rewrites win selection\. The redline shows the difference: one reframes the available evidence, while the other introduces a mechanism absent from the source\./);
+  assert.doesNotMatch(plainText, /One airport story, two ways to win selection|Both learned rewrites make the target selectable/);
   assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
   assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
   assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
