@@ -342,7 +342,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /className="paper-abstract-copy">\{item\.abstract\}<\/span>/);
   assert.match(pageSource, /aria-label="Target title and abstract rewriting"/);
   assert.match(pageSource, /className="editorial-abstract"[\s\S]*rewrittenMarshawnAbstract/);
-  assert.match(pageSource, /\{!rewritten && <p className="original-abstract-line">\{storyboardCandidates\[0\]\.abstract\}<\/p>\}/);
+  assert.match(pageSource, /\{stage === "focus" && <p className="original-abstract-line">\{storyboardCandidates\[0\]\.abstract\}<\/p>\}/);
   assert.match(globalStyles, /\.stage-rewrite-title \.original-abstract-line\s*\{[^}]*animation:\s*abstract-source-fade \.24s 1\.82s/s);
   assert.match(globalStyles, /\.stage-rewrite-title \.typewriter-abstract \.typewriter-char\s*\{[^}]*animation-delay:\s*calc\(2\.12s \+ var\(--abstract-key-delay\)\)/s);
   assert.match(globalStyles, /\.storyboard-board\.quick-edit \.original-abstract-line\s*\{[^}]*animation-duration:\s*\.16s[^}]*animation-delay:\s*\.62s/s);
@@ -360,6 +360,11 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.controlled-figure\s*\{[^}]*border-top/s);
   assert.match(globalStyles, /\.abstract-layout\s*\{/);
   assert.match(globalStyles, /\.abstract-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0, 960px\)/s);
+  assert.match(globalStyles, /\.storyboard-board\.is-focused \.candidate-set\s*\{[^}]*visibility:\s*hidden[^}]*opacity:\s*0[^}]*filter:\s*none/s);
+  assert.match(globalStyles, /\.rewrite-focus\s*\{[^}]*visibility:\s*hidden[^}]*background:\s*var\(--paper\)/s);
+  assert.match(globalStyles, /\.storyboard-board\.is-focused \.rewrite-focus\s*\{[^}]*visibility:\s*visible[^}]*opacity:\s*1/s);
+  assert.match(globalStyles, /\.choice-summary\s*\{[^}]*visibility:\s*hidden[^}]*opacity:\s*0/s);
+  assert.match(globalStyles, /\.choice-summary\.is-visible\s*\{[^}]*visibility:\s*visible[^}]*opacity:\s*1/s);
   assert.match(globalStyles, /\.story-grid\.solo-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1000px\)/s);
   assert.match(globalStyles, /\.prose p\s*\{[^}]*max-width:\s*840px/s);
   assert.match(globalStyles, /\.finding-sequence\s*\{/);
