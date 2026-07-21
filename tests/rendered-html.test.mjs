@@ -445,7 +445,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.strategy-note::after\s*\{[^}]*left:\s*24px[^}]*bottom:\s*-15px[^}]*border-top:\s*16px solid var\(--paper\)/s);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.strategy-note::before, \.controlled-figure\.is-paper-graph \.strategy-note::after\s*\{\s*display:\s*none;\s*\}/);
   assert.match(globalStyles, /\.rewriter-control-input\s*\{[^}]*left:\s*53%[^}]*top:\s*16px[^}]*animation:\s*rewriter-control-dock var\(--system-cycle\)/s);
-  assert.match(globalStyles, /\.rewriter-control-input::before\s*\{[^}]*border:\s*2px solid var\(--red\)/s);
+  assert.doesNotMatch(globalStyles, /\.rewriter-control-input::before\s*\{/);
   assert.match(globalStyles, /\.rewriter-control-input::after\s*\{[^}]*height:\s*76px[^}]*animation:\s*rewriter-control-tether var\(--system-cycle\)/s);
   assert.match(globalStyles, /@keyframes rewriter-hand-left\s*\{[\s\S]*?0%,35%,100%[\s\S]*?39%[\s\S]*?47%[\s\S]*?\}/);
   assert.doesNotMatch(globalStyles, /Strategy signal|strategy-control-signal|strategy-controller-pulse/);
