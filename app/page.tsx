@@ -482,7 +482,10 @@ export default function Home() {
             </ol>
 
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
+              <span className="rewrite-output-flight" aria-hidden="true">
+                <b>B</b>
+                <span><small>Rewrite complete</small><strong>Candidate B</strong></span>
+              </span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
                 <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
                 <div className="advisor-visual">
@@ -527,7 +530,6 @@ export default function Home() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
                   </div>
-                  <div className="rewrite-transfer" aria-hidden="true"><span><b>B</b>Candidate B</span><i>››</i></div>
                 </div>
               </section>
 
@@ -536,9 +538,17 @@ export default function Home() {
                 <div className="selection-visual">
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
-                    <li><b>A</b><span>Candidate A</span></li>
-                    <li className="selected-candidate"><b>B</b><span>Candidate B</span><em className="morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em><i className="feedback-origin" aria-hidden="true" /></li>
-                    <li><b>C</b><span>Candidate C</span></li>
+                    <li data-candidate-id="A"><b>A</b><span>Candidate A</span></li>
+                    <li data-candidate-id="B" className="selected-candidate candidate-b-slot">
+                      <b>B</b>
+                      <span className="candidate-b-copy">
+                        <span className="candidate-b-original"><strong>Candidate B</strong><small>Original · unselected</small></span>
+                        <span className="candidate-b-rewritten"><strong>Candidate B</strong><small>Rewritten target</small></span>
+                      </span>
+                      <em className="morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em>
+                      <i className="feedback-origin" aria-hidden="true" />
+                    </li>
+                    <li data-candidate-id="C"><b>C</b><span>Candidate C</span></li>
                   </ol>
                   <span className="selector-hand-motion" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
