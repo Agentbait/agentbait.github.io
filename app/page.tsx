@@ -597,22 +597,19 @@ export default function Home() {
           </div>
           <figure className="example-figure" aria-labelledby="example-caption">
             <div className="example-source"><span>Original target</span><p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p><small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small></div>
+            <p className="shared-selection">Both rewrites selected</p>
             <div className="redline-columns">
               <article className="unsupported">
-                <header><span>Unconstrained strategy</span><b>Technical authority · novelty</b></header>
-                <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
+                <header><b>A · Unconstrained</b><span>Technical authority · Novelty</span></header>
                 <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
-                <p>The rewrite attributes the result to proprietary predictive maintenance, sensor fusion, delay forecasting and reinforcement-learning scheduling.</p>
-                <dl><div><dt>Target selected</dt><dd>Yes</dd></div><div><dt>MiniCheck mean</dt><dd>0.014</dd></div><div><dt>Sentence minimum</dt><dd>0.006</dd></div></dl>
-                <p className="editorial-mark">Unsupported mechanism added</p>
+                <dl><div><dt>MiniCheck support ↑</dt><dd>0.014</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.006</dd></div></dl>
+                <p className="editorial-mark">Unsupported specificity</p>
               </article>
               <article className="supported">
-                <header><span>Support-aware strategy</span><b>Operational puzzle · stakes</b></header>
-                <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
+                <header><b>B · Support-aware</b><span>Operational puzzle · Stakes</span></header>
                 <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
-                <p>The rewrite asks which management choices, scheduling practices, ground operations and airport–airline coordination explain the result.</p>
-                <dl><div><dt>Target selected</dt><dd>Yes</dd></div><div><dt>MiniCheck mean</dt><dd>0.623</dd></div><div><dt>Sentence minimum</dt><dd>0.051</dd></div></dl>
-                <p className="editorial-mark grounded-mark">Factual core preserved</p>
+                <dl><div><dt>MiniCheck support ↑</dt><dd>0.623</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.051</dd></div></dl>
+                <p className="editorial-mark grounded-mark">Support-aware framing</p>
               </article>
             </div>
             <figcaption id="example-caption"><b>Figure 3 | Haneda qualitative comparison.</b> The list is fixed and only the target text changes. Model: GPT-5-mini target agent; metrics: target selection and MiniCheck support; example n=1.</figcaption>

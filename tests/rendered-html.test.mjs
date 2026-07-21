@@ -183,8 +183,15 @@ test("server-renders the AgentBait research feature", async () => {
   for (const takeaway of tableTakeaways) assert.ok(plainText.includes(takeaway), `Table takeaway is missing or altered: ${takeaway.slice(0, 70)}…`);
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
-  assert.match(html, /Unconstrained strategy/);
-  assert.match(html, /Support-aware strategy/);
+  assert.match(plainText, /Both rewrites selected/);
+  assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
+  assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
+  assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
+  assert.match(plainText, /MiniCheck support ↑ 0\.623 Worst-sentence ↑ 0\.051/);
+  assert.match(plainText, /Unsupported specificity/);
+  assert.match(plainText, /Support-aware framing/);
+  assert.equal((plainText.match(/Why Tokyo's Haneda is one of the world's most punctual airports/g) || []).length, 1);
+  assert.doesNotMatch(plainText, /Target selected Yes|The rewrite attributes the result|The rewrite asks which management choices|Unsupported mechanism added|Factual core preserved/);
   assert.match(html, /Table 2 \| Source-support tradeoff on 1,000 unseen MIND-English impressions\./);
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
@@ -223,6 +230,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
+  assert.match(globalStyles, /\.shared-selection\s*\{/);
+  assert.doesNotMatch(pageSource, /deleted-title|Target selected<\/dt>|The rewrite attributes the result|The rewrite asks which management choices/);
+  assert.doesNotMatch(globalStyles, /\.deleted-title/);
   assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
   assert.match(globalStyles, /\.results-table thead \.train-target-column\s*\{[^}]*var\(--red\)[^}]*rgba\(188,73,63,\.08\)/s);
   assert.match(globalStyles, /\.results-table tbody td\.train-target-column\s*\{[^}]*rgba\(188,73,63,\.045\)[^}]*box-shadow/s);
