@@ -486,7 +486,12 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /Strategy signal|strategy-control-signal|strategy-controller-pulse/);
   assert.match(pageSource, /paper-title-label-original[\s\S]*Original title[\s\S]*paper-title-label-rewritten[\s\S]*Rewritten title/);
   assert.match(pageSource, /original-title-line[\s\S]*A study of[\s\S]*news recommendation[\s\S]*rewritten-line[\s\S]*What Makes a Model Choose This\?/);
+  assert.match(pageSource, /paper-abstract-label-original[\s\S]*Original abstract[\s\S]*paper-abstract-label-rewritten[\s\S]*Rewritten abstract/);
+  assert.match(pageSource, /original-abstract-line[\s\S]*fixed slate of news candidates[\s\S]*rewritten-abstract-line[\s\S]*presentation cues redirect the same chooser/);
   assert.match(globalStyles, /\.original-title-line del::after\s*\{[^}]*animation:\s*rewriter-delete-strike/s);
+  assert.match(globalStyles, /\.original-title-line, \.original-abstract-line, \.paper-title-label-original, \.paper-abstract-label-original\s*\{[^}]*animation:\s*rewriter-original-title/s);
+  assert.match(globalStyles, /\.paper-fragment \.rewritten-line, \.paper-fragment \.rewritten-abstract-line, \.paper-title-label-rewritten, \.paper-abstract-label-rewritten\s*\{[^}]*animation:\s*rewriter-rewritten-title/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.paper-title-label, \.controlled-figure\.is-paper-graph \.paper-abstract-label, \.controlled-figure\.is-paper-graph \.rewrite-title-stack, \.controlled-figure\.is-paper-graph \.rewrite-abstract-stack\s*\{[^}]*opacity:\s*0/s);
   assert.match(globalStyles, /@keyframes rewriter-delete-strike/);
   assert.match(globalStyles, /@keyframes rewriter-original-title/);
   assert.match(globalStyles, /@keyframes rewriter-rewritten-title/);

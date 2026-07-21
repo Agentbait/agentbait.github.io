@@ -532,6 +532,14 @@ export default function Home() {
                       <p className="original-title-line">A study of <del>news recommendation</del></p>
                       <p className="rewritten-line">What Makes a Model Choose This?</p>
                     </div>
+                    <span className="paper-abstract-label">
+                      <small className="paper-abstract-label-original">Original abstract</small>
+                      <small className="paper-abstract-label-rewritten">Rewritten abstract</small>
+                    </span>
+                    <div className="rewrite-abstract-stack">
+                      <p className="original-abstract-line">We study how language models choose among a fixed slate of news candidates.</p>
+                      <p className="rewritten-abstract-line">A controlled rewrite reveals which presentation cues redirect the same chooser.</p>
+                    </div>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
                   <span className="rewriter-control-input" aria-hidden="true"><small>Control input</small><b>Strategy s</b></span>
