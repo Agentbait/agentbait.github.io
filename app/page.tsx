@@ -491,10 +491,7 @@ export default function Home() {
             </ol>
 
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="rewrite-output-flight" aria-hidden="true">
-                <b>B</b>
-                <span><small>Rewrite complete</small><strong>Candidate B</strong></span>
-              </span>
+              <span className="strategy-transfer-link" aria-hidden="true" />
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
                 <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
                 <div className="advisor-visual">
@@ -502,18 +499,6 @@ export default function Home() {
                   <div className="scholar-fragment" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={assetUrl("/advisor-scholar.png")} alt="" />
-                  </div>
-                  <div className="advisor-intake-animation" aria-hidden="true">
-                    <div className="upstream-slate">
-                      <span>Outside advisor · fixed slate</span>
-                      <ol>
-                        <li><b>A</b><span>Candidate A</span></li>
-                        <li className="upstream-target"><b>B</b><span>Target B</span></li>
-                        <li><b>C</b><span>Candidate C</span></li>
-                      </ol>
-                    </div>
-                    <span className="advisor-input-boundary" />
-                    <span className="target-extraction-trace"><i>Extract B</i></span>
                   </div>
                   <article className="advisor-target-document">
                     <small>Advisor input · target only</small>
@@ -528,10 +513,14 @@ export default function Home() {
                 <header><div className="panel-heading-line"><span>02 · Edit</span><em className="training-state">Frozen</em></div><h4 id="rewriter-panel-title">Frozen Rewriter</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Applies the strategy to the target title and abstract only.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Rewrites target xB under s</span></p></header>
                 <div className="rewriter-visual">
                   <div className="paper-fragment">
-                    <small>Original title</small>
-                    <p>A study of <del>news recommendation</del></p>
-                    <small>Rewritten title</small>
-                    <p className="rewritten-line">What Makes a Model Choose This?</p>
+                    <span className="paper-title-label">
+                      <small className="paper-title-label-original">Original title</small>
+                      <small className="paper-title-label-rewritten">Rewritten title</small>
+                    </span>
+                    <div className="rewrite-title-stack">
+                      <p className="original-title-line">A study of <del>news recommendation</del></p>
+                      <p className="rewritten-line">What Makes a Model Choose This?</p>
+                    </div>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
                   <span className="rewriter-control-input" aria-hidden="true"><small>Control input</small><b>Strategy s</b></span>
@@ -548,13 +537,19 @@ export default function Home() {
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
                     <li data-candidate-id="A"><b>A</b><span>Candidate A</span></li>
-                    <li data-candidate-id="B" className="selected-candidate candidate-b-slot" aria-label="Candidate B. The original target is replaced by the rewritten target, then selected.">
+                    <li data-candidate-id="B" className="candidate-b-slot" aria-label="Candidate B remains in the same row while its title and status are rewritten, then selected.">
                       <b aria-hidden="true">B</b>
                       <span className="candidate-b-copy" aria-hidden="true">
-                        <span className="candidate-b-original"><strong>Candidate B</strong><small>Original · unselected</small></span>
-                        <span className="candidate-b-rewritten"><strong>Candidate B</strong><small>Rewritten target</small></span>
+                        <strong className="candidate-b-title">
+                          <span className="candidate-b-title-original">A study of news recommendation</span>
+                          <span className="candidate-b-title-rewritten">What Makes a Model Choose This?</span>
+                        </strong>
+                        <small className="candidate-b-status">
+                          <span className="candidate-b-status-original">Original · unselected</span>
+                          <span className="candidate-b-status-rewritten">Rewritten target</span>
+                          <span className="candidate-b-status-selected">Rewritten · selected</span>
+                        </small>
                       </span>
-                      <em className="morph-copy" aria-hidden="true"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em>
                       <i className="feedback-origin" aria-hidden="true" />
                     </li>
                     <li data-candidate-id="C"><b>C</b><span>Candidate C</span></li>
