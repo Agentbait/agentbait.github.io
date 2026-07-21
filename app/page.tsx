@@ -539,13 +539,13 @@ export default function Home() {
                   <span className="selection-beam" aria-hidden="true" />
                   <ol className="selection-candidates" aria-label="Chooser selection from the fixed candidate set">
                     <li data-candidate-id="A"><b>A</b><span>Candidate A</span></li>
-                    <li data-candidate-id="B" className="selected-candidate candidate-b-slot">
-                      <b>B</b>
-                      <span className="candidate-b-copy">
+                    <li data-candidate-id="B" className="selected-candidate candidate-b-slot" aria-label="Candidate B. The original target is replaced by the rewritten target, then selected.">
+                      <b aria-hidden="true">B</b>
+                      <span className="candidate-b-copy" aria-hidden="true">
                         <span className="candidate-b-original"><strong>Candidate B</strong><small>Original · unselected</small></span>
                         <span className="candidate-b-rewritten"><strong>Candidate B</strong><small>Rewritten target</small></span>
                       </span>
-                      <em className="morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em>
+                      <em className="morph-copy" aria-hidden="true"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Selected</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Target · Selected</span></em>
                       <i className="feedback-origin" aria-hidden="true" />
                     </li>
                     <li data-candidate-id="C"><b>C</b><span>Candidate C</span></li>

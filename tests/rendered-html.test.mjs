@@ -450,6 +450,7 @@ test("ships the manuscript and method figure", async () => {
   assert.equal((chooserSlateSource.match(/<li\b/g) ?? []).length, 3);
   assert.match(chooserSlateSource, /data-candidate-id="A"[\s\S]*data-candidate-id="B"[\s\S]*data-candidate-id="C"/);
   assert.equal((chooserSlateSource.match(/data-candidate-id="B"/g) ?? []).length, 1);
+  assert.match(chooserSlateSource, /data-candidate-id="B"[\s\S]*aria-label="Candidate B\. The original target is replaced by the rewritten target, then selected\."/);
   assert.match(chooserSlateSource, /data-candidate-id="B"[\s\S]*candidate-b-original[\s\S]*candidate-b-rewritten[\s\S]*feedback-origin/);
   assert.match(globalStyles, /@keyframes candidate-b-original-exit/);
   assert.match(globalStyles, /@keyframes candidate-b-rewritten-arrive/);
