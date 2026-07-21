@@ -346,6 +346,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /puppet-crossbar|puppet-string/);
   assert.match(globalStyles, /@keyframes rewriter-hand-left/);
   assert.match(globalStyles, /@keyframes strategy-control-signal/);
+  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*18\.5%[^}]*border-right:\s*1px solid rgba\(188,73,63,\.26\)[^}]*border-bottom-right-radius:\s*14px/s);
+  assert.match(globalStyles, /@keyframes strategy-path-reveal\s*\{[\s\S]*?opacity:\s*\.1;[\s\S]*?opacity:\s*\.34;[\s\S]*?\}/);
+  assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*5px[^}]*box-shadow:\s*0 0 7px rgba\(188,73,63,\.38\)/s);
   assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
   assert.doesNotMatch(globalStyles, /@keyframes strategy-travel/);
   assert.match(pageSource, /className="rewrite-transfer"/);
