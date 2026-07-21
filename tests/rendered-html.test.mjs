@@ -244,6 +244,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
   assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
   assert.match(pageSource, /One airport story,<br \/>two routes to selection/);
+  assert.match(pageSource, /id="transfer-title">Transfer across languages,<br \/>news datasets and academic documents/);
+  assert.match(pageSource, /className="compact-section-title" id="results-title">How presentation becomes a decision signal/);
+  assert.match(globalStyles, /\.prose h2\.compact-section-title\s*\{[^}]*font-size:\s*clamp\(34px, 3\.15vw, 44px\)[^}]*white-space:\s*nowrap/s);
   assert.match(pageSource, /className=\{`rewrite-card-deck is-\$\{frontRewrite\}-front`\}/);
   assert.match(pageSource, /onClick=\{toggleRewriteCards\}/);
   assert.doesNotMatch(pageSource, /redline-columns/);

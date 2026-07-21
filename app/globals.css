@@ -240,6 +240,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .story-grid.solo-grid { grid-template-columns: minmax(0, 900px); justify-content: start; }
 .setting-grid { grid-template-columns: minmax(0, 780px); }
 .prose h2, .resources h2 { margin: 0 0 26px; color: var(--navy); font-family: var(--serif); font-size: clamp(36px, 4vw, 56px); font-weight: 500; line-height: 1.04; letter-spacing: -.03em; }
+.prose h2.compact-section-title { font-size: clamp(34px, 3.15vw, 44px); white-space: nowrap; }
 .prose p { max-width: 710px; margin: 0 0 20px; font-family: var(--serif); font-size: 18px; line-height: 1.68; }
 .prose .lead { font-size: clamp(20px, 1.8vw, 24px); line-height: 1.5; }
 .margin-note { align-self: start; padding: 13px 0 0 16px; border-top: 3px solid var(--rule-dark); border-left: 1px solid var(--rule); }
@@ -785,6 +786,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .demo-caption { padding-inline: 7px; }
   .section-label { margin-bottom: 34px; }
   .prose h2, .resources h2 { font-size: 36px; }
+  .prose h2.compact-section-title { font-size: 34px; white-space: normal; }
   .prose p, .prose .lead { font-size: 17px; }
   .margin-note { margin-left: 8%; }
   .abstract-copy p { font-size: 17px; line-height: 1.66; }

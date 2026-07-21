@@ -527,7 +527,7 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
+            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
           </div>
 
           <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
@@ -576,7 +576,7 @@ export default function Home() {
 
         <section className="story-section transfer" aria-labelledby="transfer-title">
           <div className="section-label">05 · Robustness, transfer and failure</div>
-          <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
+          <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages,<br />news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
 
           <figure className="evidence-figure robustness-figure" aria-labelledby="table-three-title language-caption">
             <div className="figure-heading"><div><p className="figure-number">Table 3 · Language transfer</p><h3 id="table-three-title">The learned advisor transfers across languages</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
