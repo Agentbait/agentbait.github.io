@@ -484,8 +484,8 @@ export default function Home() {
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
+                  <span className="strategy-control-tag" aria-hidden="true">Advisor strategy</span>
                   <div className="rewrite-hand-motion" aria-hidden="true">
-                    <span className="strategy-control-tag">Advisor strategy</span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
                   </div>
