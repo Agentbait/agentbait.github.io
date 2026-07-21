@@ -598,7 +598,7 @@ export default function Home() {
               <span>Original target</span>
               <div className="source-card-content">
                 <p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p>
-                <small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small>
+                <small><b>Abstract</b>Haneda, officially called Tokyo International Airport, is the world&apos;s fifth busiest airport. Yet it delivered 85.6% of its flights on time in 2018, making it the most punctual mega airport in the world.</small>
               </div>
             </aside>
             <div
@@ -617,12 +617,14 @@ export default function Home() {
               <article className="rewrite-card rewrite-card-a unsupported">
                 <header><b>A · Unconstrained</b><span>Technical authority · Novelty</span></header>
                 <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
+                <div className="rewrite-abstract"><span>Abstract</span><p>Tokyo International Airport achieved an 85.6% on-time performance in 2018, which the rewrite attributes to a proprietary AI-based predictive maintenance and dynamic scheduling system. It describes sensor fusion, delay forecasting, and reinforcement-learning runway scheduling as mechanisms behind the reported punctuality.</p></div>
                 <dl><div><dt>MiniCheck support ↑</dt><dd>0.014</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.006</dd></div></dl>
                 <p className="editorial-mark">Unsupported specificity</p>
               </article>
               <article className="rewrite-card rewrite-card-b supported">
                 <header><b>B · Support-aware</b><span>Operational puzzle · Stakes</span></header>
                 <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
+                <div className="rewrite-abstract"><span>Abstract</span><p>Tokyo International Airport is the world&apos;s fifth-busiest airport, yet in 2018 it achieved an 85.6% on-time rate. This feature probes the paradox: what management choices, scheduling practices, ground operations, and airport-airline coordination let Haneda run so punctually at massive scale?</p></div>
                 <dl><div><dt>MiniCheck support ↑</dt><dd>0.623</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.051</dd></div></dl>
                 <p className="editorial-mark grounded-mark">Support-aware framing</p>
               </article>

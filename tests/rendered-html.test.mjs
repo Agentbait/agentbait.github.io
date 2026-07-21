@@ -201,6 +201,11 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(plainText, /Unsupported specificity/);
   assert.match(plainText, /Support-aware framing/);
   assert.equal((plainText.match(/Why Tokyo's Haneda is one of the world's most punctual airports/g) || []).length, 1);
+  assert.match(plainText, /Haneda, officially called Tokyo International Airport, is the world's fifth busiest airport\. Yet it delivered 85\.6% of its flights on time in 2018, making it the most punctual mega airport in the world\./);
+  assert.match(plainText, /Tokyo International Airport achieved an 85\.6% on-time performance in 2018, which the rewrite attributes to a proprietary AI-based predictive maintenance and dynamic scheduling system\. It describes sensor fusion, delay forecasting, and reinforcement-learning runway scheduling as mechanisms behind the reported punctuality\./);
+  assert.match(plainText, /Tokyo International Airport is the world's fifth-busiest airport, yet in 2018 it achieved an 85\.6% on-time rate\. This feature probes the paradox: what management choices, scheduling practices, ground operations, and airport-airline coordination let Haneda run so punctually at massive scale\?/);
+  assert.equal((html.match(/class="rewrite-abstract"/g) || []).length, 2);
+  assert.match(html, /<small><b>Abstract<\/b>Haneda, officially called Tokyo International Airport/);
   assert.ok(plainText.indexOf("Original target") < plainText.indexOf("A · Unconstrained"));
   assert.match(html, /class="example-source" aria-label="Fixed original target"/);
   assert.match(html, /class="source-card-content"/);
@@ -246,8 +251,32 @@ test("server-renders the AgentBait research feature", async () => {
 
 test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
+  const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+  const analyticsSource = await readFile(new URL("../app/google-analytics.tsx", import.meta.url), "utf8");
+  const siteConfigSource = await readFile(new URL("../app/site-config.ts", import.meta.url), "utf8");
+  const robotsSource = await readFile(new URL("../app/robots.ts", import.meta.url), "utf8");
+  const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(layoutSource, /verification:\s*googleSiteVerification/);
+  assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
+  assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
+  assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
+  assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
+  assert.match(siteConfigSource, /\^G-\[A-Z0-9\]\+\$/);
+  assert.match(analyticsSource, /googletagmanager\.com\/gtag\/js\?id=/);
+  assert.match(analyticsSource, /strategy="afterInteractive"/);
+  assert.match(analyticsSource, /consent === "granted"/);
+  assert.match(analyticsSource, /allow_google_signals:\s*false/);
+  assert.match(analyticsSource, /allow_ad_personalization_signals:\s*false/);
+  assert.match(analyticsSource, /agentbait-analytics-consent/);
+  assert.match(analyticsSource, /Google Analytics uses cookies to measure aggregate visits\./);
+  assert.match(globalStyles, /\.analytics-consent\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.analytics-consent\s*\{[^}]*position:\s*fixed/s);
+  assert.doesNotMatch(globalStyles, /\.analytics-settings\s*\{[^}]*position:\s*fixed/s);
+  assert.match(globalStyles, /\.analytics-consent\s*\{[^}]*background:\s*var\(--navy\)[^}]*font-size:\s*9px/s);
+  assert.match(robotsSource, /sitemap\.xml/);
+  assert.match(sitemapSource, /url:\s*primarySiteUrl/);
   assert.doesNotMatch(pageSource, /caption-question/);
   assert.doesNotMatch(globalStyles, /\.caption-question/);
   assert.doesNotMatch(pageSource, /constant-ribbon/);
