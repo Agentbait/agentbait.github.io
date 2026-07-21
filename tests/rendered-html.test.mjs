@@ -67,6 +67,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Marshawn playing in charity soccer game went exactly as you/);
   assert.match(html, /Sofia Vergara and Joe Manganiello Celebrate/);
   assert.match(html, /The Coolest And Craziest McDonald/);
+  assert.match(plainText, /If there was ever a sport-athlete combination that we'd never expect to work out, it'd be Marshawn Lynch dabbling in soccer\./);
+  assert.match(plainText, /Sometimes, the Golden Arches know how to pull out all the stops\./);
+  assert.equal((html.match(/class="paper-abstract"/g) || []).length, 3);
+  assert.equal((plainText.match(/Abstract/g) || []).length >= 3, true);
   assert.match(html, /Before/);
   assert.match(html, /Click B/);
   assert.match(html, /Click A/);
@@ -82,12 +86,14 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Examples as editorial redlines/);
   const abstractText = sliceBetween(plainText, "02 · Abstract", "03 · Interactive setting");
   const settingText = sliceBetween(plainText, "03 · Interactive setting", "04 · Key findings");
-  const findingsText = sliceBetween(plainText, "04 · Key findings", "05 · Robustness, transfer and failure");
+  const findingsText = sliceBetween(plainText, "04 · Key findings", "05 · Examples as editorial redlines");
   assert.ok(plainText.indexOf("02 · Abstract") < plainText.indexOf("03 · Interactive setting"));
   assert.ok(plainText.indexOf("03 · Interactive setting") < plainText.indexOf("04 · Key findings"));
-  assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Robustness, transfer and failure"));
-  assert.ok(plainText.indexOf("05 · Robustness, transfer and failure") < plainText.indexOf("06 · Examples as editorial redlines"));
-  assert.ok(plainText.indexOf("06 · Examples as editorial redlines") < plainText.indexOf("07 · BibTeX"));
+  assert.ok(plainText.indexOf("04 · Key findings") < plainText.indexOf("05 · Examples as editorial redlines"));
+  assert.ok(plainText.indexOf("05 · Examples as editorial redlines") < plainText.indexOf("Table 1 · Target-agent transfer"));
+  assert.ok(plainText.indexOf("Table 2 · Source-support tradeoff") < plainText.indexOf("06 · Robustness, transfer and failure"));
+  assert.ok(plainText.indexOf("06 · Robustness, transfer and failure") < plainText.indexOf("Table 3 · Language transfer"));
+  assert.ok(plainText.indexOf("06 · Robustness, transfer and failure") < plainText.indexOf("07 · BibTeX"));
   assert.doesNotMatch(plainText, /07 · Methods/);
   assert.doesNotMatch(plainText, /How to read|Struck text is displaced source framing/);
   assert.doesNotMatch(plainText, /Strategy audit|unfaithful technical pivot/);
@@ -118,11 +124,12 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Advisor/);
   assert.match(html, /Rewriter/);
   assert.match(html, /Selection/);
-  assert.match(html, /Strategy note/);
+  assert.match(html, /Advisor suggests/);
   assert.match(settingText, /Receives only the extracted target document and proposes a rewriting strategy\./);
   assert.match(settingText, /Applies the strategy to the target title and abstract only\./);
   assert.match(settingText, /Selects from the same candidate identities and order, with only the target rewritten\./);
-  assert.match(settingText, /Advisor output · strategy s/);
+  assert.match(settingText, /Try a sharper, more specific framing\./);
+  assert.match(settingText, /Push the hook further, but keep it specific\./);
   assert.match(html, /AgentBait process: read the target, edit it, then select from the fixed slate/);
   assert.match(html, /Outside advisor · fixed slate/);
   assert.match(html, /Advisor input · target only/);
@@ -148,7 +155,7 @@ test("server-renders the AgentBait research feature", async () => {
   const sensitivity = sliceBetween(findingsText, "01 Sensitivity", "02 Optimization");
   const optimization = sliceBetween(findingsText, "02 Optimization", "03 Transfer");
   const transfer = sliceBetween(findingsText, "03 Transfer", "04 Failure mode");
-  const failureMode = sliceBetween(findingsText, "04 Failure mode", "Table 1 · Target-agent transfer");
+  const failureMode = findingsText.slice(findingsText.indexOf("04 Failure mode"));
   assert.match(findingsText, /How presentation becomes a decision signal/);
   assert.match(findingsText, /A controlled sequence of effects, transfer, and failure\./);
   assert.match(sensitivity, /Presentation already matters/);
@@ -183,14 +190,39 @@ test("server-renders the AgentBait research feature", async () => {
   for (const takeaway of tableTakeaways) assert.ok(plainText.includes(takeaway), `Table takeaway is missing or altered: ${takeaway.slice(0, 70)}…`);
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
-  assert.match(html, /Unconstrained strategy/);
-  assert.match(html, /Support-aware strategy/);
+  assert.doesNotMatch(plainText, /Same slate · Both selected/);
+  assert.match(plainText, /One airport story, two routes to selection/);
+  assert.match(plainText, /Both rewrites win selection\. The redline shows the difference: one reframes the available evidence, while the other introduces a mechanism absent from the source\./);
+  assert.doesNotMatch(plainText, /One airport story, two ways to win selection|Both learned rewrites make the target selectable/);
+  assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
+  assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
+  assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
+  assert.match(plainText, /MiniCheck support ↑ 0\.623 Worst-sentence ↑ 0\.051/);
+  assert.match(plainText, /Unsupported specificity/);
+  assert.match(plainText, /Support-aware framing/);
+  assert.equal((plainText.match(/Why Tokyo's Haneda is one of the world's most punctual airports/g) || []).length, 1);
+  assert.ok(plainText.indexOf("Original target") < plainText.indexOf("A · Unconstrained"));
+  assert.match(html, /class="example-source" aria-label="Fixed original target"/);
+  assert.match(html, /class="source-card-content"/);
+  assert.match(html, /class="rewrite-card-deck is-b-front"/);
+  assert.match(html, /class="rewrite-card rewrite-card-a unsupported"/);
+  assert.match(html, /class="rewrite-card rewrite-card-b supported"/);
+  assert.doesNotMatch(plainText, /Target selected Yes|The rewrite attributes the result|The rewrite asks which management choices|Unsupported mechanism added|Factual core preserved/);
   assert.match(html, /Table 2 \| Source-support tradeoff on 1,000 unseen MIND-English impressions\./);
   assert.doesNotMatch(html, /What the experiment does not establish/);
   assert.doesNotMatch(html, /Evidence is conditional on exposure|Row-wise random choice is 16\.9%|All results remain fixed-slate target selection rates/);
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
+  assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
+  assert.match(plainText, /Visual Sources & Adaptations/);
+  assert.match(plainText, /Saint Jerome in his Study/);
+  assert.match(plainText, /Antonello da Messina · about 1475/);
+  assert.match(plainText, /Hand-and-quill visual/);
+  assert.match(plainText, /Pointing-hand asset/);
+  assert.match(plainText, /Source license unverified; no public-domain claim is made\./);
+  assert.match(html, /id="visual-sources-panel" aria-hidden="true"/);
+  assert.match(html, /aria-expanded="false" aria-controls="visual-sources-panel"/);
   assert.match(html, /16\.9%/);
   assert.match(html, /98\.5/);
   assert.equal((html.match(/class="train-target-column"/g) || []).length, 8);
@@ -198,6 +230,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
+  assert.match(html, /Show paper graph/);
+  assert.match(html, /Click to view graph/);
   assert.match(html, /Pause hero animation/);
   assert.doesNotMatch(plainText, /Can rewriting a document make it more likely to be chosen over the same competitors\?/);
   assert.doesNotMatch(html, /caption-question/);
@@ -223,11 +257,36 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
+  assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
+  assert.match(pageSource, /One airport story,<br \/>two routes to selection/);
+  assert.match(pageSource, /id="transfer-title">Transfer across languages,<br \/>news datasets and academic documents/);
+  assert.match(pageSource, /className="compact-section-title" id="results-title">How presentation becomes a decision signal/);
+  assert.match(globalStyles, /\.prose h2\.compact-section-title\s*\{[^}]*font-size:\s*clamp\(34px, 3\.15vw, 44px\)[^}]*white-space:\s*nowrap/s);
+  assert.match(pageSource, /className=\{`rewrite-card-deck is-\$\{frontRewrite\}-front`\}/);
+  assert.match(pageSource, /onClick=\{toggleRewriteCards\}/);
+  assert.doesNotMatch(pageSource, /redline-columns/);
+  assert.doesNotMatch(globalStyles, /\.redline-columns/);
+  assert.match(globalStyles, /\.source-card-content\s*\{[^}]*grid-template-columns:\s*48% 42%[^}]*gap:\s*10%/s);
+  assert.match(globalStyles, /\.rewrite-card-deck\s*\{[^}]*position:\s*relative[^}]*cursor:\s*pointer/s);
+  assert.match(globalStyles, /\.rewrite-card-deck\.is-b-front \.rewrite-card-a\s*\{/);
+  assert.match(globalStyles, /\.rewrite-card-deck\.is-a-front \.rewrite-card-b\s*\{/);
+  assert.match(pageSource, /className="hero-flip-inner"[\s\S]*?role="button"[\s\S]*?onClick=\{\(\) => setHeroFlipped/);
+  assert.doesNotMatch(pageSource, /nextFlipped|elapsed >= 14600|elapsed < 19000|flippedRef/);
+  assert.match(globalStyles, /\.hero-flip-hint\s*\{[^}]*top:\s*14px[^}]*right:\s*14px[^}]*bottom:\s*auto[^}]*left:\s*auto/s);
+  assert.doesNotMatch(pageSource, /deleted-title|Target selected<\/dt>|The rewrite attributes the result|The rewrite asks which management choices/);
+  assert.doesNotMatch(globalStyles, /\.deleted-title/);
   assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
   assert.match(globalStyles, /\.results-table thead \.train-target-column\s*\{[^}]*var\(--red\)[^}]*rgba\(188,73,63,\.08\)/s);
   assert.match(globalStyles, /\.results-table tbody td\.train-target-column\s*\{[^}]*rgba\(188,73,63,\.045\)[^}]*box-shadow/s);
   assert.doesNotMatch(pageSource, /resource-links|<summary>|<details className="citation"/);
   assert.doesNotMatch(globalStyles, /\.resource-links|\.citation summary/);
+  assert.match(pageSource, /const \[creditsOpen, setCreditsOpen\] = useState\(false\)/);
+  assert.match(pageSource, /className=\{`site-footer\$\{creditsOpen \? " is-credits-open" : ""\}`\}/);
+  assert.match(pageSource, /aria-controls="visual-sources-panel"/);
+  assert.match(globalStyles, /\.footer-credits-reveal\s*\{[^}]*grid-template-rows:\s*0fr/s);
+  assert.match(globalStyles, /\.site-footer\.is-credits-open \.footer-credits-reveal\s*\{[^}]*grid-template-rows:\s*1fr/s);
+  assert.doesNotMatch(pageSource, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
   assert.match(globalStyles, /--paper:\s*#f0eee8/);
@@ -236,6 +295,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
+  assert.match(globalStyles, /\.paper-abstract-copy\s*\{[^}]*max-width:\s*48ch[^}]*white-space:\s*nowrap[^}]*text-overflow:\s*ellipsis/s);
+  assert.match(globalStyles, /\.paper-abstract-label\s*\{[^}]*text-transform:\s*uppercase/s);
   assert.match(globalStyles, /\.click-word\s*\{/);
   assert.match(globalStyles, /@keyframes click-letter-drop/);
   assert.match(globalStyles, /\.click-selected-note\s*\{/);
@@ -246,6 +307,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.process-spine\s*\{/);
   assert.doesNotMatch(globalStyles, /\.controlled-figure\s*\{[^}]*border-top/s);
   assert.match(globalStyles, /\.abstract-layout\s*\{/);
+  assert.match(globalStyles, /\.abstract-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0, 960px\)/s);
+  assert.match(globalStyles, /\.story-grid\.solo-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1000px\)/s);
+  assert.match(globalStyles, /\.prose p\s*\{[^}]*max-width:\s*840px/s);
   assert.match(globalStyles, /\.finding-sequence\s*\{/);
   assert.match(globalStyles, /\.finding-step\s*\{[^}]*grid-template-columns:\s*150px minmax\(0, 1fr\) minmax\(300px, 360px\)/s);
   assert.match(globalStyles, /\.finding-step:not\(:last-child\)::after\s*\{[^}]*content:\s*"↓"/s);
@@ -283,11 +347,30 @@ test("ships the manuscript and method figure", async () => {
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('id="abstract"'));
   assert.ok(pageSource.indexOf('id="abstract"') < pageSource.indexOf('id="setting"'));
   assert.ok(pageSource.indexOf('id="setting"') < pageSource.indexOf('id="results"'));
+  assert.ok(pageSource.indexOf('id="results"') < pageSource.indexOf('id="examples"'));
+  assert.ok(pageSource.indexOf('id="examples"') < pageSource.indexOf('className="story-section results detailed-results"'));
+  assert.match(globalStyles, /\.detailed-results\s*\{[^}]*padding-top:\s*64px/s);
   assert.doesNotMatch(pageSource, /story-section question|id="question"/);
   assert.doesNotMatch(pageSource, /text-cursor|selection-highlight|typed-title|ink-rewritten-title/);
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /rewriter-hand-strings\.png/);
   assert.match(pageSource, /paper-method-transparent\.png/);
+  assert.match(pageSource, /className="affiliation-logos" aria-label="Research affiliations"/);
+  assert.match(pageSource, /const bairUrl = "https:\/\/bair\.berkeley\.edu\/"/);
+  assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
+  assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
+  assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
+  assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
+  assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
+  assert.match(globalStyles, /--gold:\s*#8a6417/);
+  assert.match(globalStyles, /\.author-link:hover, \.author-link:focus-visible\s*\{[^}]*color:\s*var\(--gold\)/s);
+  assert.match(pageSource, /href=\{bairUrl\} target="_blank" rel="noreferrer" aria-label="Visit Berkeley Artificial Intelligence Research"/);
+  assert.match(pageSource, /href=\{skyUrl\} target="_blank" rel="noreferrer" aria-label="Visit Sky Computing Lab"/);
+  assert.match(pageSource, /bair-logo\.png/);
+  assert.match(pageSource, /sky-logo\.png/);
+  assert.match(globalStyles, /\.affiliation-logos a\s*\{[^}]*filter:\s*brightness\(0\) saturate\(100%\)/s);
+  assert.match(globalStyles, /\.affiliation-logos a:hover, \.affiliation-logos a:focus-visible\s*\{[^}]*filter:\s*none/s);
+  assert.match(globalStyles, /\.affiliation-logos img\s*\{[^}]*height:\s*48px/s);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
@@ -306,6 +389,18 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /puppet-crossbar|puppet-string/);
   assert.match(globalStyles, /@keyframes rewriter-hand-left/);
   assert.match(globalStyles, /@keyframes strategy-control-signal/);
+  assert.match(pageSource, /className="cross-panel-path strategy-path" aria-hidden="true"><b \/><i \/><\/span>/);
+  assert.match(globalStyles, /\.strategy-path\s*\{[^}]*width:\s*20%[^}]*height:\s*0[^}]*left:\s*31%[^}]*top:\s*27%[^}]*border-top:\s*2px solid rgba\(188,73,63,\.92\)[^}]*border-right:\s*0[^}]*border-bottom:\s*0/s);
+  assert.match(globalStyles, /@keyframes strategy-path-reveal\s*\{[\s\S]*?opacity:\s*\.68;[\s\S]*?opacity:\s*1;[\s\S]*?\}/);
+  assert.match(globalStyles, /\.strategy-path > b\s*\{[^}]*border:\s*2px solid var\(--red\)/s);
+  assert.match(globalStyles, /\.strategy-path i\s*\{[^}]*width:\s*7px[^}]*box-shadow:\s*0 0 10px rgba\(188,73,63,\.72\)/s);
+  assert.match(globalStyles, /\.strategy-note\s*\{[^}]*position:\s*absolute[^}]*right:\s*16px[^}]*top:\s*105px/s);
+  assert.match(globalStyles, /\.strategy-note::before\s*\{[^}]*left:\s*23px[^}]*bottom:\s*-18px[^}]*border-top:\s*18px solid var\(--rule-dark\)/s);
+  assert.match(globalStyles, /\.strategy-note::after\s*\{[^}]*left:\s*24px[^}]*bottom:\s*-15px[^}]*border-top:\s*16px solid var\(--paper\)/s);
+  assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.strategy-note::before, \.controlled-figure\.is-paper-graph \.strategy-note::after\s*\{\s*display:\s*none;\s*\}/);
+  assert.match(globalStyles, /\.strategy-control-tag\s*\{[^}]*left:\s*53%[^}]*top:\s*25px/s);
+  assert.match(globalStyles, /\.strategy-control-tag::before\s*\{\s*display:\s*none;\s*\}/);
+  assert.match(globalStyles, /@keyframes strategy-control-signal\s*\{[\s\S]*?left:\s*calc\(100% - 4px\); top:\s*-3px; opacity:\s*1;[\s\S]*?\}/);
   assert.match(globalStyles, /\.paper-fragment::after\s*\{[^}]*right:\s*18px[^}]*transform-origin:\s*right/s);
   assert.doesNotMatch(globalStyles, /@keyframes strategy-travel/);
   assert.match(pageSource, /className="rewrite-transfer"/);
@@ -317,6 +412,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /className="upstream-slate"/);
   assert.match(pageSource, /className="advisor-target-document"/);
   assert.match(pageSource, /className="target-extraction-trace"/);
+  assert.match(globalStyles, /\.upstream-slate\s*\{[^}]*right:\s*-2px[^}]*top:\s*auto[^}]*bottom:\s*10px[^}]*transform:\s*translate\(125%, 24px\)/s);
+  assert.match(globalStyles, /\.target-extraction-trace\s*\{[^}]*width:\s*55%[^}]*right:\s*28%[^}]*top:\s*312px[^}]*transform:\s*rotate\(32deg\) scaleX\(0\)/s);
+  assert.match(globalStyles, /\.advisor-target-document\s*\{[^}]*top:\s*166px[^}]*transform:\s*translate\(46%, 129px\) scale\(\.58\)/s);
+  assert.match(globalStyles, /\.paper-fragment\s*\{[^}]*left:\s*0[^}]*top:\s*52px/s);
   assert.doesNotMatch(pageSource, /advisor-candidates|Candidate set read by the advisor/);
   assert.match(pageSource, /Reward[\s\S]*GRPO updates the advisor policy/);
   assert.match(pageSource, /className="training-state is-trained">Trained[\s\S]*id="advisor-panel-title">Advisor/);
@@ -348,6 +447,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.policy-feedback/);
   assert.match(globalStyles, /@keyframes morph-connector-grow/);
   assert.match(globalStyles, /@keyframes advisor-slate-arrive/);
+  assert.match(globalStyles, /@keyframes advisor-slate-arrive\s*\{[\s\S]*?24%,96%\s*\{\s*opacity:\s*\.42;\s*transform:\s*translate\(3%, 0\);\s*\}[\s\S]*?99%,100%\s*\{\s*opacity:\s*0;/);
+  assert.match(globalStyles, /@keyframes advisor-nontarget-recede\s*\{[\s\S]*?21%,96%\s*\{\s*opacity:\s*\.72;\s*transform:\s*translateX\(4px\);\s*\}/);
+  assert.match(globalStyles, /@keyframes advisor-source-target\s*\{[\s\S]*?23%,96%\s*\{\s*opacity:\s*\.58;[\s\S]*?box-shadow:\s*inset 3px 0 0 rgba\(188,73,63,\.45\);/);
   assert.match(globalStyles, /@keyframes advisor-target-extract/);
   assert.match(globalStyles, /\.controlled-figure\.is-paper-graph \.advisor-target-document/);
   assert.match(globalStyles, /view-transition-name:\s*graph-advisor/);
@@ -360,7 +462,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
   assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
   assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);
-  assert.match(pageSource, /elapsed >= 14600 && elapsed < 19000/);
+  assert.doesNotMatch(pageSource, /elapsed >= 14600 && elapsed < 19000/);
   assert.match(pageSource, /requestAnimationFrame\(update\)/);
   assert.match(pageSource, /heroPlaying/);
   assert.match(pageSource, /className="playback-toggle"/);
@@ -373,10 +475,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /hero-flip-card/);
   assert.match(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
-  assert.match(globalStyles, /\.playback-toggle\s*\{/);
+  assert.match(globalStyles, /\.playback-toggle\s*\{[^}]*width:\s*28px[^}]*height:\s*28px[^}]*top:\s*49px[^}]*right:\s*14px[^}]*bottom:\s*auto/s);
+  assert.match(globalStyles, /\.playback-icon\.is-pause\s*\{[^}]*width:\s*8px[^}]*height:\s*10px[^}]*border-right:\s*2px/s);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
-  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand] = await Promise.all([
+  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
@@ -384,7 +487,11 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/rewriter-hand-strings.png", import.meta.url)),
     readFile(new URL("../public/advisor-scholar.png", import.meta.url)),
     readFile(new URL("../public/selector-hand.png", import.meta.url)),
+    readFile(new URL("../public/bair-logo.png", import.meta.url)),
+    readFile(new URL("../public/sky-logo.png", import.meta.url)),
   ]);
+  assert.equal(bairLogo[25], 6, "BAIR logo must retain its transparent background");
+  assert.equal(skyLogo[25], 6, "Sky logo must retain its transparent background");
   assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");

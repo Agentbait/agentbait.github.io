@@ -8,13 +8,30 @@ type MorphDocument = Document & { startViewTransition?: (update: () => void) => 
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
 const datasetUrl = "https://msnews.github.io/";
+const bairUrl = "https://bair.berkeley.edu/";
+const skyUrl = "https://sky.cs.berkeley.edu/";
+const ziruiUrl = "https://zwcolin.github.io/";
+const davidUrl = "https://dchan.cc/";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetUrl = (path: string) => `${basePath}${path}`;
 
 const storyboardCandidates = [
-  { id: "A", title: "Marshawn playing in charity soccer game went exactly as you'd expect.", target: true },
-  { id: "B", title: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary: 'Mi Amor!'" },
-  { id: "C", title: "The Coolest And Craziest McDonald's Across The Country" },
+  {
+    id: "A",
+    title: "Marshawn playing in charity soccer game went exactly as you'd expect.",
+    abstract: "If there was ever a sport-athlete combination that we'd never expect to work out, it'd be Marshawn Lynch dabbling in soccer.",
+    target: true,
+  },
+  {
+    id: "B",
+    title: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary: 'Mi Amor!'",
+    abstract: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary",
+  },
+  {
+    id: "C",
+    title: "The Coolest And Craziest McDonald's Across The Country",
+    abstract: "Sometimes, the Golden Arches know how to pull out all the stops.",
+  },
 ];
 
 const rewrittenMarshawnTitle = "When Marshawn Lynch Took the Pitch: An Inside Look …";
@@ -160,6 +177,10 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
                 <span className="paper-rank">{item.id}.</span>
                 <span className="paper-copy">
                   <b>{item.target && rewritten ? rewrittenMarshawnTitle : item.title}</b>
+                  <small className="paper-abstract">
+                    <span className="paper-abstract-label">Abstract</span>
+                    <span className="paper-abstract-copy">{item.abstract}</span>
+                  </small>
                 </span>
                 {selected && <span className="decision-label">Selected</span>}
                 {item.target && stage === "original-selected" && <span className="not-selected-label">Not selected</span>}
@@ -193,13 +214,12 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void, playing: boolean) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: boolean) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const elapsedRef = useRef(0);
   const stageRef = useRef<AttackStage>("candidate-set");
-  const flippedRef = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -224,8 +244,6 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setShowEditorHand(false);
         stageRef.current = "final";
         setStage("final");
-        flippedRef.current = false;
-        setFlipped(false);
       });
       return () => window.cancelAnimationFrame(reducedMotionFrame);
     }
@@ -254,18 +272,12 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setStage(nextStage);
       }
 
-      const nextFlipped = elapsed >= 14600 && elapsed < 19000;
-      if (flippedRef.current !== nextFlipped) {
-        flippedRef.current = nextFlipped;
-        setFlipped(nextFlipped);
-      }
-
       animationFrame = window.requestAnimationFrame(update);
     };
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [isVisible, playing, setFlipped]);
+  }, [isVisible, playing]);
 
   return { stage, showEditorHand };
 }
@@ -275,9 +287,15 @@ export default function Home() {
   const heroAnimationRef = useRef<HTMLDivElement>(null);
   const [heroFlipped, setHeroFlipped] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(true);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
   const [copied, setCopied] = useState(false);
   const [paperGraph, setPaperGraph] = useState(false);
+  const [frontRewrite, setFrontRewrite] = useState<"a" | "b">("b");
+  const [creditsOpen, setCreditsOpen] = useState(false);
+
+  const toggleRewriteCards = () => {
+    setFrontRewrite((current) => current === "a" ? "b" : "a");
+  };
 
   const togglePaperGraph = () => {
     const updateGraph = () => setPaperGraph((current) => !current);
@@ -333,8 +351,20 @@ export default function Home() {
           <p className="standfirst">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
           <div className="paper-identity">
             <div className="byline">
-              <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
-              <p>University of California, Berkeley</p>
+              <div className="byline-copy">
+                <p><strong>Tianyi Jin</strong>, <a className="author-link" href={ziruiUrl} target="_blank" rel="noreferrer"><strong>Zirui Wang</strong></a> and <a className="author-link" href={davidUrl} target="_blank" rel="noreferrer"><strong>David M. Chan</strong></a></p>
+                <p>University of California, Berkeley</p>
+              </div>
+              <div className="affiliation-logos" aria-label="Research affiliations">
+                <a href={bairUrl} target="_blank" rel="noreferrer" aria-label="Visit Berkeley Artificial Intelligence Research">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={assetUrl("/bair-logo.png")} width="205" height="146" alt="Berkeley Artificial Intelligence Research" />
+                </a>
+                <a href={skyUrl} target="_blank" rel="noreferrer" aria-label="Visit Sky Computing Lab">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={assetUrl("/sky-logo.png")} width="264" height="243" alt="Sky Computing Lab" />
+                </a>
+              </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
               <a href={assetUrl("/paper.pdf")}>Paper ↗</a>
@@ -347,7 +377,20 @@ export default function Home() {
 
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
           <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
-            <div ref={heroAnimationRef} className="hero-flip-inner">
+            <div
+              ref={heroAnimationRef}
+              className="hero-flip-inner"
+              role="button"
+              tabIndex={0}
+              aria-label={heroFlipped ? "Show narrative replay" : "Show paper graph"}
+              onClick={() => setHeroFlipped((current) => !current)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setHeroFlipped((current) => !current);
+                }
+              }}
+            >
               <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
                 <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
               </div>
@@ -356,6 +399,7 @@ export default function Home() {
                 <img src={assetUrl("/agentbait-method.png")} alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
               </div>
             </div>
+            <span className="hero-flip-hint" aria-hidden="true">{heroFlipped ? "Click to return" : "Click to view graph"}<i>↻</i></span>
             <button
               type="button"
               className="playback-toggle"
@@ -433,7 +477,7 @@ export default function Home() {
             </ol>
 
             <div className="concept-triptych" aria-label="Advisor, rewriter and selection pipeline">
-              <span className="cross-panel-path strategy-path" aria-hidden="true"><i /></span>
+              <span className="cross-panel-path strategy-path" aria-hidden="true"><b /><i /></span>
               <span className="cross-panel-path rewrite-path" aria-hidden="true"><i /></span>
               <section className="triptych-panel advisor-panel" aria-labelledby="advisor-panel-title">
                 <header><div className="panel-heading-line"><span>01 · Target input</span><em className="training-state is-trained">Trained</em></div><h4 id="advisor-panel-title">Advisor</h4><p className="panel-description morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Receives only the extracted target document and proposes a rewriting strategy.</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>πθ(s | xB) · target only</span></p></header>
@@ -461,7 +505,7 @@ export default function Home() {
                     <em>Title + abstract</em>
                   </article>
                 </div>
-                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Strategy note</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">Increase specificity and narrative tension</span><span className="strategy-updated">Advisor output · strategy s</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
+                <p className="strategy-note"><span className="strategy-note-label morph-copy"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}>Advisor suggests</span><span className="view-copy paper-view-copy" aria-hidden={!paperGraph}>Strategy s</span></span><b><span className="strategy-initial">“Try a sharper, more specific framing.”</span><span className="strategy-updated">“Push the hook further, but keep it specific.”</span><span className="paper-strategy-formula" aria-hidden={!paperGraph}>s = specificity + narrative tension</span></b></p>
               </section>
 
               <section className="triptych-panel rewriter-panel" aria-labelledby="rewriter-panel-title">
@@ -474,8 +518,8 @@ export default function Home() {
                     <p className="rewritten-line">What Makes a Model Choose This?</p>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
                   </div>
+                  <span className="strategy-control-tag" aria-hidden="true">Advisor strategy</span>
                   <div className="rewrite-hand-motion" aria-hidden="true">
-                    <span className="strategy-control-tag">Advisor strategy</span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
                   </div>
@@ -517,7 +561,7 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">04 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
+            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
           </div>
 
           <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
@@ -542,6 +586,53 @@ export default function Home() {
               <div className="finding-step-metric finding-step-contrast" aria-label="The unconstrained trained advisor reaches 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
             </article>
           </div>
+        </section>
+
+        <section className="story-section case-study" id="examples" aria-labelledby="example-title">
+          <div className="section-label">05 · Examples as editorial redlines</div>
+          <div className="story-grid solo-grid">
+            <div className="prose"><h2 id="example-title">One airport story,<br />two routes to selection</h2><p>Both rewrites win selection. The redline shows the difference: one reframes the available evidence, while the other introduces a mechanism absent from the source.</p></div>
+          </div>
+          <figure className="example-figure" aria-labelledby="example-caption">
+            <aside className="example-source" aria-label="Fixed original target">
+              <span>Original target</span>
+              <div className="source-card-content">
+                <p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p>
+                <small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small>
+              </div>
+            </aside>
+            <div
+              className={`rewrite-card-deck is-${frontRewrite}-front`}
+              role="button"
+              tabIndex={0}
+              aria-label={`${frontRewrite === "a" ? "Unconstrained rewrite A" : "Support-aware rewrite B"} is in front. Activate to swap rewrite cards.`}
+              onClick={toggleRewriteCards}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleRewriteCards();
+                }
+              }}
+            >
+              <article className="rewrite-card rewrite-card-a unsupported">
+                <header><b>A · Unconstrained</b><span>Technical authority · Novelty</span></header>
+                <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
+                <dl><div><dt>MiniCheck support ↑</dt><dd>0.014</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.006</dd></div></dl>
+                <p className="editorial-mark">Unsupported specificity</p>
+              </article>
+              <article className="rewrite-card rewrite-card-b supported">
+                <header><b>B · Support-aware</b><span>Operational puzzle · Stakes</span></header>
+                <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
+                <dl><div><dt>MiniCheck support ↑</dt><dd>0.623</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.051</dd></div></dl>
+                <p className="editorial-mark grounded-mark">Support-aware framing</p>
+              </article>
+              <span className="rewrite-deck-hint" aria-hidden="true">Click to bring {frontRewrite === "a" ? "B" : "A"} forward <i>↻</i></span>
+            </div>
+            <figcaption id="example-caption"><b>Figure 3 | Haneda qualitative comparison.</b> The list is fixed and only the target text changes. Model: GPT-5-mini target agent; metrics: target selection and MiniCheck support; example n=1.</figcaption>
+          </figure>
+        </section>
+
+        <section className="story-section results detailed-results" aria-label="Detailed tables for the key findings">
 
           <div className="finding-block">
             <figure className="evidence-figure" aria-labelledby="table-one-title main-results-caption">
@@ -565,8 +656,8 @@ export default function Home() {
         </section>
 
         <section className="story-section transfer" aria-labelledby="transfer-title">
-          <div className="section-label">05 · Robustness, transfer and failure</div>
-          <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages, news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
+          <div className="section-label">06 · Robustness, transfer and failure</div>
+          <div className="story-grid solo-grid"><div className="prose"><h2 id="transfer-title">Transfer across languages,<br />news datasets and academic documents</h2><p>The English MIND-trained advisor is evaluated without additional training. Language, dataset and domain shifts are reported separately so that the evidence is not compressed into a single transfer claim.</p></div></div>
 
           <figure className="evidence-figure robustness-figure" aria-labelledby="table-three-title language-caption">
             <div className="figure-heading"><div><p className="figure-number">Table 3 · Language transfer</p><h3 id="table-three-title">The learned advisor transfers across languages</h3></div><p className="metric-definition"><b>Metric</b> Target selected (%) ↑</p></div>
@@ -590,42 +681,89 @@ export default function Home() {
           </figure>
         </section>
 
-        <section className="story-section case-study" id="examples" aria-labelledby="example-title">
-          <div className="section-label">06 · Examples as editorial redlines</div>
-          <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="example-title">One airport story, two ways to win selection</h2><p>Both learned rewrites make the target selectable. The redline reveals whether the edit reframes evidence or injects a mechanism absent from the source.</p></div>
-          </div>
-          <figure className="example-figure" aria-labelledby="example-caption">
-            <div className="example-source"><span>Original target</span><p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p><small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small></div>
-            <div className="redline-columns">
-              <article className="unsupported">
-                <header><span>Unconstrained strategy</span><b>Technical authority · novelty</b></header>
-                <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
-                <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
-                <p>The rewrite attributes the result to proprietary predictive maintenance, sensor fusion, delay forecasting and reinforcement-learning scheduling.</p>
-                <dl><div><dt>Target selected</dt><dd>Yes</dd></div><div><dt>MiniCheck mean</dt><dd>0.014</dd></div><div><dt>Sentence minimum</dt><dd>0.006</dd></div></dl>
-                <p className="editorial-mark">Unsupported mechanism added</p>
-              </article>
-              <article className="supported">
-                <header><span>Support-aware strategy</span><b>Operational puzzle · stakes</b></header>
-                <p className="deleted-title"><del>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</del></p>
-                <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
-                <p>The rewrite asks which management choices, scheduling practices, ground operations and airport–airline coordination explain the result.</p>
-                <dl><div><dt>Target selected</dt><dd>Yes</dd></div><div><dt>MiniCheck mean</dt><dd>0.623</dd></div><div><dt>Sentence minimum</dt><dd>0.051</dd></div></dl>
-                <p className="editorial-mark grounded-mark">Factual core preserved</p>
-              </article>
-            </div>
-            <figcaption id="example-caption"><b>Figure 3 | Haneda qualitative comparison.</b> The list is fixed and only the target text changes. Model: GPT-5-mini target agent; metrics: target selection and MiniCheck support; example n=1.</figcaption>
-          </figure>
-        </section>
-
         <section className="story-section resources" id="resources" aria-label="BibTeX citation">
           <div className="section-label">07 · BibTeX</div>
           <div className="citation"><div className="citation-body"><pre>{bibtex}</pre><button type="button" onClick={copyCitation}>{copied ? "Copied" : "Copy BibTeX"}</button></div></div>
         </section>
       </article>
 
-      <footer><p><b>AgentBait</b> · UC Berkeley · 2026</p><p>This page is an editorial reading companion. Claims and numbers should be read with their stated experimental conditions.</p><a href="#paper">Back to top ↑</a></footer>
+      <footer className={`site-footer${creditsOpen ? " is-credits-open" : ""}`}>
+        <div
+          className="footer-credits-reveal"
+          id="visual-sources-panel"
+          aria-hidden={!creditsOpen}
+        >
+          <div className="footer-credits-panel">
+            <div className="footer-credits-inner">
+              <header className="footer-credits-heading">
+                <p className="footer-credits-kicker">Image credits</p>
+                <h2>Visual Sources &amp; Adaptations</h2>
+                <p>Artwork records, rights notes, and the transformations used in the interactive method figure.</p>
+              </header>
+
+              <div className="visual-credits-grid">
+                <article className="visual-credit">
+                  <p className="visual-credit-role">01 · Advisor figure</p>
+                  <h3><cite>Saint Jerome in his Study</cite></h3>
+                  <p className="visual-credit-byline">Antonello da Messina · about 1475</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>The National Gallery, London · NG1418</dd></div>
+                    <div><dt>Rights</dt><dd>Public-domain artwork; source scan marked Public Domain.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Cropped and isolated from the architectural setting; surrounding objects removed and reconstructed; transparent background, mirrored orientation, tonal adjustment, and animation added.</dd></div>
+                  </dl>
+                  <a
+                    className="visual-credit-source"
+                    href="https://commons.wikimedia.org/wiki/File:Antonello_da_Messina_-_St_Jerome_in_his_study_-_National_Gallery_London.jpg"
+                    target="_blank"
+                    rel="noreferrer"
+                    tabIndex={creditsOpen ? 0 : -1}
+                  >View original source ↗</a>
+                </article>
+
+                <article className="visual-credit">
+                  <p className="visual-credit-role">02 · Rewriter hands</p>
+                  <h3>Hand-and-quill visual</h3>
+                  <p className="visual-credit-byline">Generated and edited with ChatGPT · 2026</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>Not applicable</dd></div>
+                    <div><dt>Rights</dt><dd>AI-assisted project visual; not presented as a public-domain artwork.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Background separated and tightly cropped; the second version adds puppet strings and ties, warmer color treatment, recomposition, and animation.</dd></div>
+                  </dl>
+                  <p className="visual-credit-source-unavailable">No external source record</p>
+                </article>
+
+                <article className="visual-credit">
+                  <p className="visual-credit-role">03 · Chooser hand</p>
+                  <h3>Pointing-hand asset</h3>
+                  <p className="visual-credit-byline">AI-assisted extraction from a user-supplied image · 2026</p>
+                  <dl>
+                    <div><dt>Collection</dt><dd>Original artwork and institution unverified</dd></div>
+                    <div><dt>Rights</dt><dd>Source license unverified; no public-domain claim is made.</dd></div>
+                    <div><dt>Adaptations</dt><dd>Hand and sleeve isolated from the supplied image; background removed, edges retouched, tightly cropped, rotated, color-adjusted, and animated.</dd></div>
+                  </dl>
+                  <p className="visual-credit-source-unavailable">No reliable external source record</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bar">
+          <p><b>AgentBait</b> · UC Berkeley · 2026</p>
+          <button
+            type="button"
+            className="footer-credits-toggle"
+            aria-expanded={creditsOpen}
+            aria-controls="visual-sources-panel"
+            aria-label={creditsOpen ? "Close visual source credits" : "Open visual source credits"}
+            onClick={() => setCreditsOpen((open) => !open)}
+          >
+            <span><b>Visual sources:</b> Selected visual elements are adapted from public-domain artworks. Full image credits and modification details are available <u>here</u>.</span>
+            <span className="footer-credits-toggle-mark" aria-hidden="true">↑</span>
+          </button>
+          <a href="#paper">Back to top ↑</a>
+        </div>
+      </footer>
     </main>
   );
 }
