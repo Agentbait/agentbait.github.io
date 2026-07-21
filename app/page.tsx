@@ -525,8 +525,8 @@ export default function Home() {
                     <div className="rewrite-title-stack">
                       <p className="original-title-line">A study of <del>news recommendation</del></p>
                       <p className="rewritten-line" aria-label="What Makes a Model Choose This?">
-                        <span className="ink-write-line ink-write-title-one">What Makes a Model </span>
-                        <span className="ink-write-line ink-write-title-two">Choose This?</span>
+                        <span className="typed-rewrite-line typed-rewrite-title-one">What Makes a Model </span>
+                        <span className="typed-rewrite-line typed-rewrite-title-two">Choose This?</span>
                       </p>
                     </div>
                     <span className="paper-abstract-label">
@@ -536,9 +536,9 @@ export default function Home() {
                     <div className="rewrite-abstract-stack">
                       <p className="original-abstract-line">We study how language models choose among a fixed slate of news candidates.</p>
                       <p className="rewritten-abstract-line" aria-label="A controlled rewrite reveals which presentation cues redirect the same chooser.">
-                        <span className="ink-write-line ink-write-abstract-one">A controlled rewrite reveals </span>
-                        <span className="ink-write-line ink-write-abstract-two">which presentation cues redirect </span>
-                        <span className="ink-write-line ink-write-abstract-three">the same chooser.</span>
+                        <span className="typed-rewrite-line typed-rewrite-body-one">A controlled rewrite reveals </span>
+                        <span className="typed-rewrite-line typed-rewrite-body-two">which presentation cues redirect </span>
+                        <span className="typed-rewrite-line typed-rewrite-body-three">the same chooser.</span>
                       </p>
                     </div>
                     <span className="paper-graph-formula" aria-hidden={!paperGraph}>xB + s → x′B</span>
@@ -547,7 +547,6 @@ export default function Home() {
                   <div className="rewrite-hand-motion" aria-hidden="true">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="triptych-quill" src={assetUrl("/rewriter-hand-strings.png")} alt="" />
-                    <i className="quill-ink-contact" />
                   </div>
                 </div>
               </section>
