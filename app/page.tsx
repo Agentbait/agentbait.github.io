@@ -500,6 +500,17 @@ export default function Home() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={assetUrl("/advisor-scholar.png")} alt="" />
                   </div>
+                  <div className="advisor-intake-animation" aria-hidden="true">
+                    <div className="upstream-slate">
+                      <span>Outside advisor · fixed slate</span>
+                      <ol>
+                        <li><b>A</b><span>Candidate A</span></li>
+                        <li className="upstream-target"><b>B</b><span>Target B</span></li>
+                        <li><b>C</b><span>Candidate C</span></li>
+                      </ol>
+                    </div>
+                    <span className="target-extraction-trace"><i>Extract B</i></span>
+                  </div>
                   <article className="advisor-target-document">
                     <small>Advisor input · target only</small>
                     <p><b>B</b><span>Target document</span></p>
