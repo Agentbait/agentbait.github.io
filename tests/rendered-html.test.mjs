@@ -334,6 +334,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /editor-hand\.png/);
   assert.match(pageSource, /rewriter-hand-strings\.png/);
   assert.match(pageSource, /paper-method-transparent\.png/);
+  assert.match(pageSource, /className="affiliation-logos" aria-label="Research affiliations"/);
+  assert.match(pageSource, /bair-logo\.png/);
+  assert.match(pageSource, /sky-logo\.png/);
+  assert.match(globalStyles, /\.affiliation-logos img\s*\{[^}]*height:\s*48px/s);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
@@ -441,7 +445,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.playback-toggle\s*\{/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
-  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand] = await Promise.all([
+  const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
     access(new URL("../public/paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
@@ -449,7 +453,11 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/rewriter-hand-strings.png", import.meta.url)),
     readFile(new URL("../public/advisor-scholar.png", import.meta.url)),
     readFile(new URL("../public/selector-hand.png", import.meta.url)),
+    readFile(new URL("../public/bair-logo.png", import.meta.url)),
+    readFile(new URL("../public/sky-logo.png", import.meta.url)),
   ]);
+  assert.equal(bairLogo[25], 6, "BAIR logo must retain its transparent background");
+  assert.equal(skyLogo[25], 6, "Sky logo must retain its transparent background");
   assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");

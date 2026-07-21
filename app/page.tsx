@@ -329,8 +329,16 @@ export default function Home() {
           <p className="standfirst">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
           <div className="paper-identity">
             <div className="byline">
-              <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
-              <p>University of California, Berkeley</p>
+              <div className="byline-copy">
+                <p><strong>Tianyi Jin</strong>, <strong>Zirui Wang</strong> and <strong>David M. Chan</strong></p>
+                <p>University of California, Berkeley</p>
+              </div>
+              <div className="affiliation-logos" aria-label="Research affiliations">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={assetUrl("/bair-logo.png")} width="205" height="146" alt="Berkeley Artificial Intelligence Research" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={assetUrl("/sky-logo.png")} width="264" height="243" alt="Sky Computing Lab" />
+              </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
               <a href={assetUrl("/paper.pdf")}>Paper ↗</a>
