@@ -260,7 +260,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.rewrite-card-deck\.is-a-front \.rewrite-card-b\s*\{/);
   assert.match(pageSource, /className="hero-flip-inner"[\s\S]*?role="button"[\s\S]*?onClick=\{\(\) => setHeroFlipped/);
   assert.doesNotMatch(pageSource, /nextFlipped|elapsed >= 14600|elapsed < 19000|flippedRef/);
-  assert.match(globalStyles, /\.hero-flip-hint\s*\{/);
+  assert.match(globalStyles, /\.hero-flip-hint\s*\{[^}]*top:\s*14px[^}]*right:\s*14px[^}]*bottom:\s*auto[^}]*left:\s*auto/s);
   assert.doesNotMatch(pageSource, /deleted-title|Target selected<\/dt>|The rewrite attributes the result|The rewrite asks which management choices/);
   assert.doesNotMatch(globalStyles, /\.deleted-title/);
   assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
@@ -454,7 +454,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /hero-flip-card/);
   assert.match(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
-  assert.match(globalStyles, /\.playback-toggle\s*\{/);
+  assert.match(globalStyles, /\.playback-toggle\s*\{[^}]*width:\s*28px[^}]*height:\s*28px[^}]*top:\s*49px[^}]*right:\s*14px[^}]*bottom:\s*auto/s);
+  assert.match(globalStyles, /\.playback-icon\.is-pause\s*\{[^}]*width:\s*8px[^}]*height:\s*10px[^}]*border-right:\s*2px/s);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
   const [, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
