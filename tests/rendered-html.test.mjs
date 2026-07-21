@@ -67,6 +67,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /Marshawn playing in charity soccer game went exactly as you/);
   assert.match(html, /Sofia Vergara and Joe Manganiello Celebrate/);
   assert.match(html, /The Coolest And Craziest McDonald/);
+  assert.match(plainText, /If there was ever a sport-athlete combination that we'd never expect to work out, it'd be Marshawn Lynch dabbling in soccer\./);
+  assert.match(plainText, /Sometimes, the Golden Arches know how to pull out all the stops\./);
+  assert.equal((html.match(/class="paper-abstract"/g) || []).length, 3);
+  assert.equal((plainText.match(/Abstract/g) || []).length >= 3, true);
   assert.match(html, /Before/);
   assert.match(html, /Click B/);
   assert.match(html, /Click A/);
@@ -291,6 +295,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
+  assert.match(globalStyles, /\.paper-abstract-copy\s*\{[^}]*max-width:\s*48ch[^}]*white-space:\s*nowrap[^}]*text-overflow:\s*ellipsis/s);
+  assert.match(globalStyles, /\.paper-abstract-label\s*\{[^}]*text-transform:\s*uppercase/s);
   assert.match(globalStyles, /\.click-word\s*\{/);
   assert.match(globalStyles, /@keyframes click-letter-drop/);
   assert.match(globalStyles, /\.click-selected-note\s*\{/);

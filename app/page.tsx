@@ -16,9 +16,22 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetUrl = (path: string) => `${basePath}${path}`;
 
 const storyboardCandidates = [
-  { id: "A", title: "Marshawn playing in charity soccer game went exactly as you'd expect.", target: true },
-  { id: "B", title: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary: 'Mi Amor!'" },
-  { id: "C", title: "The Coolest And Craziest McDonald's Across The Country" },
+  {
+    id: "A",
+    title: "Marshawn playing in charity soccer game went exactly as you'd expect.",
+    abstract: "If there was ever a sport-athlete combination that we'd never expect to work out, it'd be Marshawn Lynch dabbling in soccer.",
+    target: true,
+  },
+  {
+    id: "B",
+    title: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary: 'Mi Amor!'",
+    abstract: "Sofia Vergara and Joe Manganiello Celebrate 4-Year Wedding Anniversary",
+  },
+  {
+    id: "C",
+    title: "The Coolest And Craziest McDonald's Across The Country",
+    abstract: "Sometimes, the Golden Arches know how to pull out all the stops.",
+  },
 ];
 
 const rewrittenMarshawnTitle = "When Marshawn Lynch Took the Pitch: An Inside Look …";
@@ -164,6 +177,10 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
                 <span className="paper-rank">{item.id}.</span>
                 <span className="paper-copy">
                   <b>{item.target && rewritten ? rewrittenMarshawnTitle : item.title}</b>
+                  <small className="paper-abstract">
+                    <span className="paper-abstract-label">Abstract</span>
+                    <span className="paper-abstract-copy">{item.abstract}</span>
+                  </small>
                 </span>
                 {selected && <span className="decision-label">Selected</span>}
                 {item.target && stage === "original-selected" && <span className="not-selected-label">Not selected</span>}

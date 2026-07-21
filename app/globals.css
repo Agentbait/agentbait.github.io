@@ -106,12 +106,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .candidate-set > header b { color: var(--navy); font-family: var(--serif); font-size: 17px; font-weight: 500; }
 .candidate-set > header small { color: var(--muted); font-family: var(--mono); font-size: 9px; letter-spacing: .05em; text-transform: uppercase; }
 .candidate-set ol { margin: 0; padding: 0; list-style: none; }
-.candidate-card { min-height: 80px; overflow: hidden; display: grid; grid-template-columns: 38px minmax(0, 1fr) 72px; gap: 11px; align-items: center; padding: 8px 9px 8px 3px; position: relative; border-bottom: 1px solid var(--rule); transition: opacity .3s ease, color .3s ease, background .3s ease, box-shadow .3s ease, transform .3s ease; animation: candidate-rise .55s both; }
+.candidate-card { min-height: 92px; overflow: hidden; display: grid; grid-template-columns: 38px minmax(0, 1fr) 72px; gap: 11px; align-items: center; padding: 9px 9px 9px 3px; position: relative; border-bottom: 1px solid var(--rule); transition: opacity .3s ease, color .3s ease, background .3s ease, box-shadow .3s ease, transform .3s ease; animation: candidate-rise .55s both; }
 .candidate-card:nth-child(2) { animation-delay: .07s; }
 .candidate-card:nth-child(3) { animation-delay: .14s; }
 .paper-rank { color: var(--muted); font-family: var(--mono); font-size: 11px; text-align: center; }
-.paper-copy { min-width: 0; }
+.paper-copy { min-width: 0; display: grid; gap: 4px; }
 .paper-copy b { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color: var(--navy); font-family: var(--serif); font-size: 16px; font-weight: 600; line-height: 1.3; }
+.paper-abstract { min-width: 0; display: flex; align-items: baseline; gap: 7px; color: var(--muted); font-size: 11px; line-height: 1.25; }
+.paper-abstract-label { flex: 0 0 auto; color: var(--blue); font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .055em; text-transform: uppercase; }
+.paper-abstract-copy { width: 100%; max-width: 48ch; min-width: 0; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis; }
 .candidate-card.is-target { box-shadow: inset 2px 0 0 var(--rule-dark); }
 .stage-original-selected .candidate-card.is-target { opacity: .58; }
 .candidate-card.is-inspected { background: var(--blue-pale); box-shadow: inset 3px 0 0 var(--blue), 0 0 0 1px var(--blue); transform: translateX(3px); }
@@ -830,9 +833,11 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .attack-demo { padding: 42px 12px 24px; }
   .storyboard-board { padding: 14px 8px; }
   .candidate-set > header { align-items: flex-start; flex-direction: column; justify-content: center; gap: 4px; }
-  .candidate-card { min-height: 82px; grid-template-columns: 32px minmax(0, 1fr) 62px; gap: 8px; padding-right: 5px; }
+  .candidate-card { min-height: 92px; grid-template-columns: 32px minmax(0, 1fr) 62px; gap: 8px; padding-right: 5px; }
   .paper-copy b { font-size: 14px; }
-  .paper-copy small { font-size: 9px; -webkit-line-clamp: 2; }
+  .paper-abstract { gap: 5px; font-size: 10px; }
+  .paper-abstract-label { font-size: 9px; }
+  .paper-abstract-copy { max-width: 32ch; }
   .rewrite-focus { width: calc(100% - 20px); min-height: 260px; padding: 16px; }
   .rewrite-field h3 { font-size: 20px; }
   .rewrite-field p { font-size: 13px; }
