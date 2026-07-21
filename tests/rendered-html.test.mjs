@@ -330,6 +330,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /--red-pale:\s*#ecddd9/);
   assert.match(globalStyles, /--blue-pale:\s*#d9e0e2/);
   assert.match(globalStyles, /\.candidate-card\.is-selected\s*\{[^}]*var\(--red-pale\)[^}]*var\(--red\)/s);
+  assert.match(globalStyles, /\.storyboard-board\.is-scanning \.candidate-card:not\(\.is-inspected\)\s*\{[^}]*opacity:\s*\.58/s);
+  assert.match(globalStyles, /\.candidate-card\.is-inspected::after\s*\{[^}]*height:\s*3px[^}]*animation:\s*scan-card \.78s/s);
   assert.match(globalStyles, /\.paper-abstract-copy\s*\{[^}]*max-width:\s*48ch[^}]*white-space:\s*nowrap[^}]*text-overflow:\s*ellipsis/s);
   assert.match(globalStyles, /\.paper-abstract-label\s*\{[^}]*text-transform:\s*uppercase/s);
   assert.match(globalStyles, /\.click-word\s*\{/);
@@ -500,7 +502,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /::view-transition-group\(graph-feedback\)/);
   assert.match(pageSource, /TypewriterTitle/);
   assert.match(pageSource, /typewriter-char/);
-  assert.match(pageSource, /\["final", 12600\]/);
+  assert.match(pageSource, /\["scan-a", 800\][\s\S]*\["scan-b", 1650\][\s\S]*\["scan-c", 2500\][\s\S]*\["original-selected", 3350\]/);
+  assert.match(pageSource, /\["rescan-a", 11050\][\s\S]*\["rescan-b", 11900\][\s\S]*\["rescan-c", 12750\][\s\S]*\["selected", 13600\][\s\S]*\["final", 14900\]/);
+  assert.match(pageSource, /"scan-a": "A"[\s\S]*"scan-b": "B"[\s\S]*"scan-c": "C"[\s\S]*"rescan-a": "A"[\s\S]*"rescan-b": "B"[\s\S]*"rescan-c": "C"/);
+  assert.match(pageSource, /Chooser scan \$\{inspectionIndex\}\/3 · Candidate \$\{inspectedId\}/);
+  assert.match(pageSource, /className="inspection-label">Scanning/);
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
   assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
   assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);

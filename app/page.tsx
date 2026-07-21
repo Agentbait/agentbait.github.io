@@ -88,7 +88,16 @@ const bibtex = `@article{jin2026agentbait,
   year    = {2026}
 }`;
 
-type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "original-selected" | "focus" | "rewrite-title" | "rewrite-complete" | "return" | "rescan" | "selected" | "final";
+type AttackStage = "candidate-set" | "scan-a" | "scan-b" | "scan-c" | "original-selected" | "focus" | "rewrite-title" | "rewrite-complete" | "return" | "rescan-a" | "rescan-b" | "rescan-c" | "selected" | "final";
+
+const inspectedCandidateByStage: Partial<Record<AttackStage, string>> = {
+  "scan-a": "A",
+  "scan-b": "B",
+  "scan-c": "C",
+  "rescan-a": "A",
+  "rescan-b": "B",
+  "rescan-c": "C",
+};
 
 function TypewriterTitle({ text }: { text: string }) {
   let characterOffset = 0;
@@ -156,17 +165,18 @@ function InteractiveClickWord() {
 }
 
 function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: AttackStage; instanceId: string; showEditorHand: boolean }) {
-  const rewritten = ["rewrite-complete", "return", "rescan", "selected", "final"].includes(stage);
+  const rewritten = ["rewrite-complete", "return", "rescan-a", "rescan-b", "rescan-c", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
-  const inspectedId = stage === "scan-a" ? "A" : stage === "scan-b" ? "C" : stage === "rescan" ? "B" : null;
+  const inspectedId = inspectedCandidateByStage[stage] ?? null;
+  const inspectionIndex = inspectedId ? storyboardCandidates.findIndex((item) => item.id === inspectedId) + 1 : 0;
   const selectedId = stage === "original-selected" ? "B" : ["selected", "final"].includes(stage) ? "A" : null;
 
   return (
-    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${showEditorHand ? "full-edit" : "quick-edit"}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
+    <div className={`storyboard-board ${focused ? "is-focused" : ""} ${rewritten ? "is-rewritten" : ""} ${inspectedId ? "is-scanning" : ""} ${showEditorHand ? "full-edit" : "quick-edit"}`} role="group" aria-label="Automatically animated AgentBait fixed-slate comparison using the MIND example from Figure 1">
       <section className="candidate-set" aria-labelledby={`${instanceId}-candidate-set-title`}>
         <header>
           <div><span>Candidate Set</span><b id={`${instanceId}-candidate-set-title`}>Three fixed MIND snippets</b></div>
-          <small>{rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
+          <small>{inspectedId ? `Chooser scan ${inspectionIndex}/3 · Candidate ${inspectedId}` : rewritten ? "Same candidate set · target text updated" : "Original presentation"}</small>
         </header>
         <ol>
           {storyboardCandidates.map((item) => {
@@ -182,6 +192,7 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
                     <span className="paper-abstract-copy">{item.abstract}</span>
                   </small>
                 </span>
+                {inspected && <span className="inspection-label">Scanning</span>}
                 {selected && <span className="decision-label">Selected</span>}
                 {item.target && stage === "original-selected" && <span className="not-selected-label">Not selected</span>}
               </li>
@@ -252,7 +263,21 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>) {
 
     let animationFrame = 0;
     let lastFrameTime: number | null = null;
-    const timeline: Array<[AttackStage, number]> = [["scan-a", 500], ["scan-b", 1200], ["original-selected", 2200], ["focus", 3400], ["rewrite-title", 5000], ["rewrite-complete", 7900], ["return", 9400], ["rescan", 10200], ["selected", 11300], ["final", 12600]];
+    const timeline: Array<[AttackStage, number]> = [
+      ["scan-a", 800],
+      ["scan-b", 1650],
+      ["scan-c", 2500],
+      ["original-selected", 3350],
+      ["focus", 4250],
+      ["rewrite-title", 5750],
+      ["rewrite-complete", 8850],
+      ["return", 10200],
+      ["rescan-a", 11050],
+      ["rescan-b", 11900],
+      ["rescan-c", 12750],
+      ["selected", 13600],
+      ["final", 14900],
+    ];
 
     const update = (now: number) => {
       if (lastFrameTime !== null) {

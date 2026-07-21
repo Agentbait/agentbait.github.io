@@ -117,11 +117,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .paper-abstract-copy { width: 100%; max-width: 48ch; min-width: 0; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis; }
 .candidate-card.is-target { box-shadow: inset 2px 0 0 var(--rule-dark); }
 .stage-original-selected .candidate-card.is-target { opacity: .58; }
-.candidate-card.is-inspected { background: var(--blue-pale); box-shadow: inset 3px 0 0 var(--blue), 0 0 0 1px var(--blue); transform: translateX(3px); }
-.candidate-card.is-inspected::after { content: ""; height: 2px; position: absolute; inset: 0 0 auto; background: linear-gradient(90deg, transparent, var(--blue), transparent); animation: scan-card .7s ease-out both; }
+.storyboard-board.is-scanning .candidate-card:not(.is-inspected) { opacity: .58; }
+.candidate-card.is-inspected { background: var(--blue-pale); box-shadow: inset 4px 0 0 var(--blue), 0 0 0 1px var(--blue), 0 4px 15px rgba(79,113,138,.14); transform: translateX(4px); }
+.candidate-card.is-inspected::after { content: ""; height: 3px; position: absolute; inset: 0 0 auto; background: linear-gradient(90deg, transparent 4%, var(--blue) 48%, transparent 96%); box-shadow: 0 0 9px rgba(79,113,138,.34); animation: scan-card .78s ease-in-out both; }
 .candidate-card.is-selected { background: var(--red-pale); box-shadow: inset 4px 0 0 var(--red); }
 .candidate-card.is-target.is-selected { background: var(--red-pale); box-shadow: inset 4px 0 0 var(--red); }
-.decision-label, .not-selected-label { justify-self: end; font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+.inspection-label, .decision-label, .not-selected-label { justify-self: end; font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+.inspection-label { color: var(--blue); }
 .decision-label { color: var(--red); }
 .candidate-card.is-target .decision-label { color: var(--red); }
 .not-selected-label { color: var(--muted); }
@@ -172,7 +174,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .choice-summary small { margin-top: 7px; display: block; color: var(--muted); font-family: var(--mono); font-size: 9px; }
 
 @keyframes candidate-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes scan-card { from { opacity: 0; transform: translateY(0); } 35% { opacity: 1; } to { opacity: 0; transform: translateY(84px); } }
+@keyframes scan-card { from { opacity: 0; transform: translateY(-7px); } 18%,68% { opacity: 1; } to { opacity: 0; transform: translateY(92px); } }
 @keyframes quill-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes weak-phrase-fade { from { opacity: 1; } to { opacity: .18; } }
 @keyframes source-line-settle { from { opacity: 1; } to { opacity: .28; } }
@@ -972,7 +974,7 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .result-window > header { min-height: 58px; display: flex; align-items: flex-start; gap: 4px; }
   .result-window > header b { margin: 0; font-size: 10px; }
   .candidate-card { grid-template-columns: 27px minmax(0, 1fr); }
-  .decision-label, .not-selected-label { grid-column: 2; justify-self: start; }
+  .inspection-label, .decision-label, .not-selected-label { grid-column: 2; justify-self: start; }
   .editor-hand { width: 270px; left: 28%; top: -125px; }
   .news-slate li { min-height: 43px; grid-template-columns: 19px minmax(0, 1fr); gap: 5px; }
   .news-copy small { display: none; }
