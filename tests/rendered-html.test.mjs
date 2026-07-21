@@ -283,6 +283,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.process-spine\s*\{/);
   assert.doesNotMatch(globalStyles, /\.controlled-figure\s*\{[^}]*border-top/s);
   assert.match(globalStyles, /\.abstract-layout\s*\{/);
+  assert.match(globalStyles, /\.abstract-layout\s*\{[^}]*grid-template-columns:\s*minmax\(0, 960px\)/s);
+  assert.match(globalStyles, /\.story-grid\.solo-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1000px\)/s);
+  assert.match(globalStyles, /\.prose p\s*\{[^}]*max-width:\s*840px/s);
   assert.match(globalStyles, /\.finding-sequence\s*\{/);
   assert.match(globalStyles, /\.finding-step\s*\{[^}]*grid-template-columns:\s*150px minmax\(0, 1fr\) minmax\(300px, 360px\)/s);
   assert.match(globalStyles, /\.finding-step:not\(:last-child\)::after\s*\{[^}]*content:\s*"↓"/s);
