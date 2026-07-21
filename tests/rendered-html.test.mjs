@@ -183,7 +183,7 @@ test("server-renders the AgentBait research feature", async () => {
   for (const takeaway of tableTakeaways) assert.ok(plainText.includes(takeaway), `Table takeaway is missing or altered: ${takeaway.slice(0, 70)}…`);
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
-  assert.match(plainText, /Both rewrites selected/);
+  assert.match(plainText, /Same slate · Both selected/);
   assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
   assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
   assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
@@ -191,6 +191,13 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(plainText, /Unsupported specificity/);
   assert.match(plainText, /Support-aware framing/);
   assert.equal((plainText.match(/Why Tokyo's Haneda is one of the world's most punctual airports/g) || []).length, 1);
+  assert.ok(plainText.indexOf("Original target") < plainText.indexOf("Same slate · Both selected"));
+  assert.ok(plainText.indexOf("Same slate · Both selected") < plainText.indexOf("A · Unconstrained"));
+  assert.match(html, /class="example-source" aria-label="Fixed original target"/);
+  assert.match(html, /class="source-card-content"/);
+  assert.match(html, /class="rewrite-card-deck is-b-front"/);
+  assert.match(html, /class="rewrite-card rewrite-card-a unsupported"/);
+  assert.match(html, /class="rewrite-card rewrite-card-b supported"/);
   assert.doesNotMatch(plainText, /Target selected Yes|The rewrite attributes the result|The rewrite asks which management choices|Unsupported mechanism added|Factual core preserved/);
   assert.match(html, /Table 2 \| Source-support tradeoff on 1,000 unseen MIND-English impressions\./);
   assert.doesNotMatch(html, /What the experiment does not establish/);
@@ -233,6 +240,15 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
   assert.match(globalStyles, /\.shared-selection\s*\{/);
+  assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
+  assert.match(pageSource, /className=\{`rewrite-card-deck is-\$\{frontRewrite\}-front`\}/);
+  assert.match(pageSource, /onClick=\{toggleRewriteCards\}/);
+  assert.doesNotMatch(pageSource, /redline-columns/);
+  assert.doesNotMatch(globalStyles, /\.redline-columns/);
+  assert.match(globalStyles, /\.source-card-content\s*\{[^}]*grid-template-columns:\s*48% 42%[^}]*gap:\s*10%/s);
+  assert.match(globalStyles, /\.rewrite-card-deck\s*\{[^}]*position:\s*relative[^}]*cursor:\s*pointer/s);
+  assert.match(globalStyles, /\.rewrite-card-deck\.is-b-front \.rewrite-card-a\s*\{/);
+  assert.match(globalStyles, /\.rewrite-card-deck\.is-a-front \.rewrite-card-b\s*\{/);
   assert.match(pageSource, /className="hero-flip-inner"[\s\S]*?role="button"[\s\S]*?onClick=\{\(\) => setHeroFlipped/);
   assert.doesNotMatch(pageSource, /nextFlipped|elapsed >= 14600|elapsed < 19000|flippedRef/);
   assert.match(globalStyles, /\.hero-flip-hint\s*\{/);

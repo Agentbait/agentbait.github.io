@@ -269,6 +269,11 @@ export default function Home() {
   const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
   const [copied, setCopied] = useState(false);
   const [paperGraph, setPaperGraph] = useState(false);
+  const [frontRewrite, setFrontRewrite] = useState<"a" | "b">("b");
+
+  const toggleRewriteCards = () => {
+    setFrontRewrite((current) => current === "a" ? "b" : "a");
+  };
 
   const togglePaperGraph = () => {
     const updateGraph = () => setPaperGraph((current) => !current);
@@ -601,21 +606,40 @@ export default function Home() {
             <div className="prose"><h2 id="example-title">One airport story, two ways to win selection</h2><p>Both learned rewrites make the target selectable. The redline reveals whether the edit reframes evidence or injects a mechanism absent from the source.</p></div>
           </div>
           <figure className="example-figure" aria-labelledby="example-caption">
-            <div className="example-source"><span>Original target</span><p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p><small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small></div>
-            <p className="shared-selection">Both rewrites selected</p>
-            <div className="redline-columns">
-              <article className="unsupported">
+            <aside className="example-source" aria-label="Fixed original target">
+              <span>Original target</span>
+              <div className="source-card-content">
+                <p>Why Tokyo&apos;s Haneda is one of the world&apos;s most punctual airports</p>
+                <small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small>
+              </div>
+            </aside>
+            <p className="shared-selection">Same slate · Both selected</p>
+            <div
+              className={`rewrite-card-deck is-${frontRewrite}-front`}
+              role="button"
+              tabIndex={0}
+              aria-label={`${frontRewrite === "a" ? "Unconstrained rewrite A" : "Support-aware rewrite B"} is in front. Activate to swap rewrite cards.`}
+              onClick={toggleRewriteCards}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleRewriteCards();
+                }
+              }}
+            >
+              <article className="rewrite-card rewrite-card-a unsupported">
                 <header><b>A · Unconstrained</b><span>Technical authority · Novelty</span></header>
                 <h3><mark>AI-Driven</mark> Runway Scheduling: How <mark>Sensor Fusion and ML</mark> Boosted Haneda&apos;s 85.6% On-Time Rate</h3>
                 <dl><div><dt>MiniCheck support ↑</dt><dd>0.014</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.006</dd></div></dl>
                 <p className="editorial-mark">Unsupported specificity</p>
               </article>
-              <article className="supported">
+              <article className="rewrite-card rewrite-card-b supported">
                 <header><b>B · Support-aware</b><span>Operational puzzle · Stakes</span></header>
                 <h3><mark>How Tokyo&apos;s Haneda Beats the Odds:</mark> Inside the Operations That Deliver 85.6% On-Time Flights</h3>
                 <dl><div><dt>MiniCheck support ↑</dt><dd>0.623</dd></div><div><dt>Worst-sentence ↑</dt><dd>0.051</dd></div></dl>
                 <p className="editorial-mark grounded-mark">Support-aware framing</p>
               </article>
+              <span className="rewrite-deck-hint" aria-hidden="true">Click to bring {frontRewrite === "a" ? "B" : "A"} forward <i>↻</i></span>
             </div>
             <figcaption id="example-caption"><b>Figure 3 | Haneda qualitative comparison.</b> The list is fixed and only the target text changes. Model: GPT-5-mini target agent; metrics: target selection and MiniCheck support; example n=1.</figcaption>
           </figure>
