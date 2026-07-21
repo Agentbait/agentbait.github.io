@@ -528,8 +528,7 @@ figcaption b { color: var(--ink); }
 .source-card-content { display: grid; grid-template-columns: 48% 42%; justify-content: space-between; gap: 10%; align-items: start; }
 .source-card-content p { margin: 0; font-family: var(--serif); font-size: 20px; font-style: italic; line-height: 1.25; }
 .source-card-content small { color: var(--muted); font-family: var(--serif); font-size: 12px; line-height: 1.5; }
-.shared-selection { width: fit-content; margin: 18px auto 0; padding: 7px 13px; color: var(--navy); border-top: 1px solid var(--rule-dark); border-bottom: 1px solid var(--rule-dark); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .09em; text-align: center; text-transform: uppercase; }
-.rewrite-card-deck { max-width: 940px; min-height: 450px; margin: 7px auto 0; position: relative; cursor: pointer; outline: none; }
+.rewrite-card-deck { max-width: 940px; min-height: 450px; margin: 16px auto 0; position: relative; cursor: pointer; outline: none; }
 .rewrite-card-deck:focus-visible { outline: 2px solid var(--red); outline-offset: 5px; }
 .rewrite-card { width: min(82%, 780px); min-height: 352px; padding: 27px 30px 30px; position: absolute; top: 22px; left: 50%; border: 1px solid var(--rule-dark); transition: transform .55s cubic-bezier(.2,.72,.2,1), opacity .3s ease, filter .3s ease, box-shadow .3s ease; }
 .rewrite-card.unsupported { background: var(--red-pale); }
@@ -813,7 +812,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .finding-step-domains li:first-child { border-top: 0; }
   .example-source { padding: 14px; }
   .source-card-content { grid-template-columns: 1fr; gap: 10px; }
-  .rewrite-card-deck { min-height: 465px; margin-top: 6px; }
+  .rewrite-card-deck { min-height: 465px; margin-top: 13px; }
   .rewrite-card { width: 92%; min-height: 390px; padding: 22px 18px 26px; }
   .rewrite-card-deck.is-b-front .rewrite-card-a { transform: translateX(-52%) translateY(31px) rotate(-.5deg); }
   .rewrite-card-deck.is-b-front .rewrite-card-b { transform: translateX(-48%) translateY(0); }

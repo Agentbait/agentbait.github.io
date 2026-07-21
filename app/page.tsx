@@ -613,7 +613,6 @@ export default function Home() {
                 <small>Haneda is the world&apos;s fifth busiest airport. In 2018, 85.6% of flights were on time.</small>
               </div>
             </aside>
-            <p className="shared-selection">Same slate · Both selected</p>
             <div
               className={`rewrite-card-deck is-${frontRewrite}-front`}
               role="button"

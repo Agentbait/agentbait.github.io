@@ -183,7 +183,7 @@ test("server-renders the AgentBait research feature", async () => {
   for (const takeaway of tableTakeaways) assert.ok(plainText.includes(takeaway), `Table takeaway is missing or altered: ${takeaway.slice(0, 70)}…`);
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
-  assert.match(plainText, /Same slate · Both selected/);
+  assert.doesNotMatch(plainText, /Same slate · Both selected/);
   assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
   assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
   assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
@@ -191,8 +191,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(plainText, /Unsupported specificity/);
   assert.match(plainText, /Support-aware framing/);
   assert.equal((plainText.match(/Why Tokyo's Haneda is one of the world's most punctual airports/g) || []).length, 1);
-  assert.ok(plainText.indexOf("Original target") < plainText.indexOf("Same slate · Both selected"));
-  assert.ok(plainText.indexOf("Same slate · Both selected") < plainText.indexOf("A · Unconstrained"));
+  assert.ok(plainText.indexOf("Original target") < plainText.indexOf("A · Unconstrained"));
   assert.match(html, /class="example-source" aria-label="Fixed original target"/);
   assert.match(html, /class="source-card-content"/);
   assert.match(html, /class="rewrite-card-deck is-b-front"/);
@@ -239,7 +238,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
-  assert.match(globalStyles, /\.shared-selection\s*\{/);
+  assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
   assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
   assert.match(pageSource, /className=\{`rewrite-card-deck is-\$\{frontRewrite\}-front`\}/);
   assert.match(pageSource, /onClick=\{toggleRewriteCards\}/);
