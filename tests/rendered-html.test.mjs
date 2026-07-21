@@ -422,10 +422,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
   assert.match(globalStyles, /\.scholar-fragment\s*\{[^}]*transform:\s*scaleX\(-1\)/s);
-  assert.match(globalStyles, /\.selector-hand-motion\s*\{[^}]*top:\s*0[^}]*animation:\s*chooser-scan-down var\(--system-cycle\)/s);
-  assert.match(globalStyles, /\.selector-hand\s*\{[^}]*transform:\s*rotate\(-90deg\)/s);
-  assert.match(globalStyles, /@keyframes chooser-scan-down\s*\{[\s\S]*?translateY\(140px\)[\s\S]*?translateY\(217px\)[\s\S]*?translateY\(295px\)[\s\S]*?translateY\(217px\)[\s\S]*?translateY\(226px\)/);
-  assert.doesNotMatch(globalStyles, /@keyframes chooser-tap-up/);
+  assert.match(globalStyles, /\.selector-hand-motion\s*\{[^}]*top:\s*217px[^}]*opacity:\s*\.18[^}]*animation:\s*chooser-tap-up var\(--system-cycle\)/s);
+  assert.match(globalStyles, /\.selector-hand\s*\{[^}]*width:\s*295px[^}]*transform:\s*rotate\(90deg\)/s);
+  assert.match(globalStyles, /@keyframes chooser-tap-up\s*\{[\s\S]*?translateY\(72px\)[\s\S]*?translateY\(40px\)[\s\S]*?translateY\(0\)[\s\S]*?translateY\(-7px\)[\s\S]*?translateY\(34px\)/);
+  assert.doesNotMatch(globalStyles, /@keyframes chooser-scan-down/);
   assert.doesNotMatch(globalStyles, /@keyframes chooser-nudge/);
   assert.doesNotMatch(pageSource, /screen-head|rank 02|preference ↑/);
   assert.match(pageSource, /className="selection-beam"/);
