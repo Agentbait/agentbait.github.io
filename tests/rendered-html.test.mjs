@@ -205,6 +205,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /\/agentbait-method\.png/);
   assert.doesNotMatch(html, /Figure 5 \| Advisor–rewriter training loop/);
   assert.doesNotMatch(html, /Auto flip after replay|Auto return · replay again/);
+  assert.match(html, /Show paper graph/);
+  assert.match(html, /Click to view graph/);
   assert.match(html, /Pause hero animation/);
   assert.doesNotMatch(plainText, /Can rewriting a document make it more likely to be chosen over the same competitors\?/);
   assert.doesNotMatch(html, /caption-question/);
@@ -231,6 +233,9 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
   assert.match(globalStyles, /\.shared-selection\s*\{/);
+  assert.match(pageSource, /className="hero-flip-inner"[\s\S]*?role="button"[\s\S]*?onClick=\{\(\) => setHeroFlipped/);
+  assert.doesNotMatch(pageSource, /nextFlipped|elapsed >= 14600|elapsed < 19000|flippedRef/);
+  assert.match(globalStyles, /\.hero-flip-hint\s*\{/);
   assert.doesNotMatch(pageSource, /deleted-title|Target selected<\/dt>|The rewrite attributes the result|The rewrite asks which management choices/);
   assert.doesNotMatch(globalStyles, /\.deleted-title/);
   assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
@@ -370,7 +375,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /completedFullEdit|\["final", 6100\]/);
   assert.match(pageSource, /Math\.min\(now - lastFrameTime, 100\)/);
   assert.match(pageSource, /\(elapsedRef\.current \+ frameDelta\) % 20000/);
-  assert.match(pageSource, /elapsed >= 14600 && elapsed < 19000/);
+  assert.doesNotMatch(pageSource, /elapsed >= 14600 && elapsed < 19000/);
   assert.match(pageSource, /requestAnimationFrame\(update\)/);
   assert.match(pageSource, /heroPlaying/);
   assert.match(pageSource, /className="playback-toggle"/);

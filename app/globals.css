@@ -651,7 +651,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .limitations p { margin: 0; color: var(--muted); font-family: var(--serif); font-size: 14px; line-height: 1.5; }
 
 .hero-flip-card { min-height: 500px; position: relative; perspective: 1600px; }
-.hero-flip-inner { width: 100%; min-height: 500px; display: grid; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+.hero-flip-inner { width: 100%; min-height: 500px; display: grid; cursor: pointer; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+.hero-flip-inner:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
 .hero-flip-face { min-width: 0; min-height: 500px; grid-area: 1 / 1; position: relative; overflow: hidden; background: var(--paper); backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: opacity .28s ease, transform .8s cubic-bezier(.2,.72,.2,1); }
 .hero-flip-front { padding: 18px 16px 34px; opacity: 1; transform: rotateY(0deg); }
 .hero-flip-front .storyboard-board { max-width: none; min-height: 405px; }
@@ -659,6 +660,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .hero-flip-card.is-flipped .hero-flip-front { opacity: 0; pointer-events: none; transform: rotateY(180deg); }
 .hero-flip-card.is-flipped .hero-flip-back { opacity: 1; pointer-events: auto; transform: rotateY(0deg); }
 .hero-flip-back img { width: 100%; max-height: 410px; object-fit: contain; mix-blend-mode: multiply; }
+.hero-flip-hint { min-height: 28px; padding: 6px 10px; position: absolute; left: 14px; bottom: 18px; z-index: 8; display: flex; align-items: center; gap: 7px; pointer-events: none; color: var(--navy); background: rgba(240,238,232,.94); border: 1px solid rgba(23,52,79,.32); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.hero-flip-hint i { color: var(--red); font-size: 13px; font-style: normal; line-height: 1; }
 .playback-toggle { width: 38px; height: 38px; padding: 0; position: absolute; right: 14px; bottom: 13px; z-index: 8; display: grid; place-items: center; color: var(--navy); background: rgba(240,238,232,.94); border: 1px solid rgba(23,52,79,.45); border-radius: 50%; box-shadow: 0 2px 10px rgba(23,52,79,.08); cursor: pointer; transition: color .18s ease, border-color .18s ease, background .18s ease, transform .18s ease; }
 .playback-toggle:hover { color: var(--red); background: var(--paper); border-color: var(--red); transform: translateY(-1px); }
 .playback-toggle:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
@@ -811,6 +814,7 @@ footer a { justify-self: end; color: var(--paper); font-family: var(--mono); fon
   .hero-flip-card, .hero-flip-inner, .hero-flip-face { min-height: 560px; }
   .hero-flip-front { padding: 8px 7px 42px; }
   .hero-flip-back { padding: 18px 12px 44px; }
+  .hero-flip-hint { left: 8px; bottom: 13px; }
   .playback-toggle { right: 8px; bottom: 8px; }
   .citation-body { grid-template-columns: 1fr; }
   .citation-body button { width: fit-content; }

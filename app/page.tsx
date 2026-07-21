@@ -193,13 +193,12 @@ function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: Att
   );
 }
 
-function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (flipped: boolean) => void, playing: boolean) {
+function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, playing: boolean) {
   const [stage, setStage] = useState<AttackStage>("candidate-set");
   const [showEditorHand, setShowEditorHand] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const elapsedRef = useRef(0);
   const stageRef = useRef<AttackStage>("candidate-set");
-  const flippedRef = useRef(false);
 
   useEffect(() => {
     const node = ref.current;
@@ -224,8 +223,6 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setShowEditorHand(false);
         stageRef.current = "final";
         setStage("final");
-        flippedRef.current = false;
-        setFlipped(false);
       });
       return () => window.cancelAnimationFrame(reducedMotionFrame);
     }
@@ -254,18 +251,12 @@ function useStoryboardPlayback(ref: RefObject<HTMLElement | null>, setFlipped: (
         setStage(nextStage);
       }
 
-      const nextFlipped = elapsed >= 14600 && elapsed < 19000;
-      if (flippedRef.current !== nextFlipped) {
-        flippedRef.current = nextFlipped;
-        setFlipped(nextFlipped);
-      }
-
       animationFrame = window.requestAnimationFrame(update);
     };
 
     animationFrame = window.requestAnimationFrame(update);
     return () => window.cancelAnimationFrame(animationFrame);
-  }, [isVisible, playing, setFlipped]);
+  }, [isVisible, playing]);
 
   return { stage, showEditorHand };
 }
@@ -275,7 +266,7 @@ export default function Home() {
   const heroAnimationRef = useRef<HTMLDivElement>(null);
   const [heroFlipped, setHeroFlipped] = useState(false);
   const [heroPlaying, setHeroPlaying] = useState(true);
-  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, setHeroFlipped, heroPlaying);
+  const { stage, showEditorHand } = useStoryboardPlayback(demoRef, heroPlaying);
   const [copied, setCopied] = useState(false);
   const [paperGraph, setPaperGraph] = useState(false);
 
@@ -347,7 +338,20 @@ export default function Home() {
 
         <section ref={demoRef} className={`attack-demo stage-${stage}`} id="demo" aria-label="AgentBait fixed-set chooser replay and training loop">
           <div className={`hero-flip-card ${heroFlipped ? "is-flipped" : ""} ${heroPlaying ? "" : "is-paused"}`}>
-            <div ref={heroAnimationRef} className="hero-flip-inner">
+            <div
+              ref={heroAnimationRef}
+              className="hero-flip-inner"
+              role="button"
+              tabIndex={0}
+              aria-label={heroFlipped ? "Show narrative replay" : "Show paper graph"}
+              onClick={() => setHeroFlipped((current) => !current)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setHeroFlipped((current) => !current);
+                }
+              }}
+            >
               <div className="hero-flip-face hero-flip-front" aria-hidden={heroFlipped}>
                 <CandidateStoryboard stage={stage} instanceId="hero" showEditorHand={showEditorHand} />
               </div>
@@ -356,6 +360,7 @@ export default function Home() {
                 <img src={assetUrl("/agentbait-method.png")} alt="AgentBait pipeline showing a trainable advisor, frozen rewriter, fixed candidate list and target-agent selection reward." />
               </div>
             </div>
+            <span className="hero-flip-hint" aria-hidden="true">{heroFlipped ? "Click to return" : "Click to view graph"}<i>↻</i></span>
             <button
               type="button"
               className="playback-toggle"
