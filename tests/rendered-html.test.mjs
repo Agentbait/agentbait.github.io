@@ -266,6 +266,7 @@ test("ships the manuscript and method figure", async () => {
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
+  assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
@@ -599,13 +600,15 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /function useStoryboardPlayback[\s\S]*?const node = ref\.current/);
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /hero-flip-card/);
+  assert.match(pageSource, /className="wordmark-mark" src=\{assetUrl\("\/agentbait-mark\.png"\)\} width="19" height="34"/);
+  assert.match(globalStyles, /\.wordmark-mark\s*\{[^}]*width:\s*19px[^}]*height:\s*34px[^}]*object-fit:\s*contain/s);
   assert.match(pageSource, /heroFlipped|hero-flip-back|rotateY\(180deg\)/);
   assert.doesNotMatch(pageSource, /methodReplayRef|methodStage|methodFlipped/);
   assert.doesNotMatch(globalStyles, /\.playback-toggle|\.playback-icon|\.hero-flip-card\.is-paused/);
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
   await assert.rejects(access(new URL("../public/paper.pdf", import.meta.url)), { code: "ENOENT" });
-  const [, narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo] = await Promise.all([
+  const [, narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon] = await Promise.all([
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),
@@ -614,9 +617,15 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/selector-hand.png", import.meta.url)),
     readFile(new URL("../public/bair-logo.png", import.meta.url)),
     readFile(new URL("../public/sky-logo.png", import.meta.url)),
+    readFile(new URL("../public/agentbait-mark.png", import.meta.url)),
+    readFile(new URL("../public/favicon.png", import.meta.url)),
   ]);
   assert.equal(bairLogo[25], 6, "BAIR logo must retain its transparent background");
   assert.equal(skyLogo[25], 6, "Sky logo must retain its transparent background");
+  assert.equal(agentBaitMark[25], 6, "AgentBait mark must have a transparent background");
+  assert.equal(favicon[25], 6, "AgentBait favicon must have a transparent background");
+  assert.equal(favicon.readUInt32BE(16), 64, "AgentBait favicon must be 64px wide");
+  assert.equal(favicon.readUInt32BE(20), 64, "AgentBait favicon must be 64px high");
   assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");

@@ -355,7 +355,11 @@ export default function Home() {
   return (
     <main id="paper">
       <header className="site-header">
-        <a className="wordmark" href="#paper" aria-label="AgentBait paper home"><span>AgentBait</span><small>Research feature</small></a>
+        <a className="wordmark" href="#paper" aria-label="AgentBait paper home">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="wordmark-mark" src={assetUrl("/agentbait-mark.png")} width="19" height="34" alt="" aria-hidden="true" />
+          <span>AgentBait</span><small>Research feature</small>
+        </a>
         <nav aria-label="Reading navigation">
           <a href="#results">Results</a>
           <a href="#examples">Examples</a>

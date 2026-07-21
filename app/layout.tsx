@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   verification: googleSiteVerification
     ? { google: googleSiteVerification }
     : undefined,
+  icons: {
+    icon: [{ url: "favicon.png", type: "image/png", sizes: "64x64" }],
+    shortcut: "favicon.png",
+  },
   openGraph: {
     title,
     description,
