@@ -243,6 +243,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
   assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
   assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
+  assert.match(pageSource, /One airport story,<br \/>two routes to selection/);
   assert.match(pageSource, /className=\{`rewrite-card-deck is-\$\{frontRewrite\}-front`\}/);
   assert.match(pageSource, /onClick=\{toggleRewriteCards\}/);
   assert.doesNotMatch(pageSource, /redline-columns/);
