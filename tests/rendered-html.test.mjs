@@ -342,10 +342,12 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /className="paper-abstract-copy">\{item\.abstract\}<\/span>/);
   assert.match(pageSource, /aria-label="Target title and abstract rewriting"/);
   assert.match(pageSource, /className="editorial-abstract"[\s\S]*rewrittenMarshawnAbstract/);
-  assert.match(globalStyles, /\.stage-rewrite-title \.original-abstract-line\s*\{[^}]*animation:\s*abstract-source-fade \.35s 1\.85s/s);
-  assert.match(globalStyles, /\.stage-rewrite-title \.typewriter-abstract \.typewriter-char\s*\{[^}]*var\(--abstract-key-delay\)/s);
+  assert.match(globalStyles, /\.stage-rewrite-title \.original-abstract-line\s*\{[^}]*animation:\s*abstract-source-fade \.24s 1\.82s/s);
+  assert.match(globalStyles, /\.stage-rewrite-title \.typewriter-abstract \.typewriter-char\s*\{[^}]*animation-delay:\s*calc\(2\.12s \+ var\(--abstract-key-delay\)\)/s);
+  assert.match(globalStyles, /\.storyboard-board\.quick-edit \.original-abstract-line\s*\{[^}]*animation-duration:\s*\.16s[^}]*animation-delay:\s*\.62s/s);
+  assert.match(globalStyles, /\.storyboard-board\.quick-edit \.typewriter-abstract \.typewriter-char\s*\{[^}]*animation-delay:\s*calc\(\.84s \+ var\(--abstract-key-delay\)\)/s);
   assert.match(globalStyles, /\.stage-rewrite-complete \.original-abstract-line\s*\{[^}]*opacity:\s*0/s);
-  assert.match(globalStyles, /@keyframes abstract-source-fade/);
+  assert.match(globalStyles, /@keyframes abstract-source-fade\s*\{[^}]*opacity:\s*1[\s\S]*?to\s*\{\s*opacity:\s*0/s);
   assert.match(globalStyles, /\.click-word\s*\{/);
   assert.match(globalStyles, /@keyframes click-letter-drop/);
   assert.match(globalStyles, /\.click-selected-note\s*\{/);

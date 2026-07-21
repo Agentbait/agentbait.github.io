@@ -159,8 +159,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .stage-rewrite-title .weak-expression { animation: weak-phrase-fade .5s 1.05s ease forwards; }
 .stage-rewrite-title .original-edit-line { animation: source-line-settle .5s 1.08s ease forwards; }
 .stage-rewrite-title .typewriter-char { animation: typewriter-key .09s steps(2, end) both; animation-delay: calc(1.05s + var(--key-delay)); }
-.stage-rewrite-title .original-abstract-line { animation: abstract-source-fade .35s 1.85s ease forwards; }
-.stage-rewrite-title .typewriter-abstract .typewriter-char { animation: typewriter-key .06s steps(2, end) both; animation-delay: calc(2.15s + var(--abstract-key-delay)); }
+.stage-rewrite-title .original-abstract-line { animation: abstract-source-fade .24s 1.82s ease forwards; }
+.stage-rewrite-title .typewriter-abstract .typewriter-char { animation: typewriter-key .06s steps(2, end) both; animation-delay: calc(2.12s + var(--abstract-key-delay)); }
 .stage-rewrite-complete .original-edit-line { opacity: .24; }
 .stage-rewrite-complete .original-abstract-line { opacity: 0; transform: translateY(-2px); }
 .stage-rewrite-complete .weak-expression::after { transform: scaleX(1); }
@@ -169,8 +169,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .storyboard-board.quick-edit .weak-expression { animation-duration: .22s; animation-delay: .28s; }
 .storyboard-board.quick-edit .original-edit-line { animation-duration: .22s; animation-delay: .3s; }
 .storyboard-board.quick-edit .typewriter-char { animation-duration: .06s; animation-delay: calc(.18s + var(--key-delay-fast)); }
-.storyboard-board.quick-edit .original-abstract-line { animation-duration: .2s; animation-delay: .68s; }
-.storyboard-board.quick-edit .typewriter-abstract .typewriter-char { animation-duration: .04s; animation-delay: calc(.82s + var(--abstract-key-delay)); }
+.storyboard-board.quick-edit .original-abstract-line { animation-duration: .16s; animation-delay: .62s; }
+.storyboard-board.quick-edit .typewriter-abstract .typewriter-char { animation-duration: .04s; animation-delay: calc(.84s + var(--abstract-key-delay)); }
 .editor-hand { width: 430px; height: auto; position: absolute; left: 43%; top: -245px; z-index: 6; opacity: 0; pointer-events: none; transform-origin: 2% 74%; will-change: transform, opacity; }
 .stage-focus .editor-hand { animation: quill-enter 1.45s cubic-bezier(.18,.75,.2,1) forwards; }
 .stage-rewrite-title .editor-hand { animation: quill-write 2.75s cubic-bezier(.22,.65,.25,1) forwards; }
@@ -191,7 +191,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 @keyframes quill-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes weak-phrase-fade { from { opacity: 1; } to { opacity: .18; } }
 @keyframes source-line-settle { from { opacity: 1; } to { opacity: .28; } }
-@keyframes abstract-source-fade { from { opacity: 1; transform: translateY(0); } to { opacity: .12; transform: translateY(-2px); } }
+@keyframes abstract-source-fade { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-2px); } }
 @keyframes typewriter-key { 0% { opacity: 0; transform: translateY(-1px) rotate(-.25deg); } 45% { opacity: .75; transform: translateY(1px) rotate(.18deg); } 100% { opacity: 1; transform: translateY(0) rotate(0); } }
 @keyframes quill-enter { 0% { opacity: 0; transform: translateX(360px) rotate(1.4deg); } 18% { opacity: .96; } 100% { opacity: .96; transform: translateX(0) rotate(-.5deg); } }
 @keyframes quill-write { 0% { opacity: .96; transform: translate(0,0) rotate(-.5deg); } 34% { opacity: .96; transform: translate(58px,0) rotate(.15deg); } 55% { opacity: .96; transform: translate(62px,8px) rotate(-.1deg); } 70% { opacity: .96; transform: translate(12px,72px) rotate(-.35deg); } 78% { opacity: .96; transform: translate(18px,72px) rotate(-.1deg); } 100% { opacity: .96; transform: translate(92px,72px) rotate(.1deg); } }
