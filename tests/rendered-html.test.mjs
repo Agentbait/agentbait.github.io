@@ -433,7 +433,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
   assert.match(globalStyles, /\.scholar-fragment\s*\{[^}]*transform:\s*scaleX\(-1\)/s);
-  assert.match(globalStyles, /\.selector-hand-motion\s*\{[^}]*top:\s*217px[^}]*z-index:\s*10[^}]*opacity:\s*\.68[^}]*animation:\s*chooser-tap-up var\(--system-cycle\)/s);
+  assert.match(globalStyles, /\.selector-hand-motion\s*\{[^}]*top:\s*195px[^}]*z-index:\s*10[^}]*opacity:\s*\.68[^}]*animation:\s*chooser-tap-up var\(--system-cycle\)/s);
   assert.match(globalStyles, /\.selector-hand\s*\{[^}]*width:\s*320px[^}]*filter:\s*saturate\(1\.04\) contrast\(1\.24\) brightness\(\.86\) drop-shadow\(0 6px 9px rgba\(23,52,79,\.26\)\)[^}]*transform:\s*rotate\(90deg\)/s);
   assert.match(globalStyles, /@keyframes chooser-scan-row-a\s*\{[\s\S]*?0%,81\.5%,84\.8%,100%[\s\S]*?82%,84\.3%/);
   assert.match(globalStyles, /@keyframes chooser-scan-row-b\s*\{[\s\S]*?0%,84\.4%,87\.7%,100%[\s\S]*?84\.9%,87\.2%/);

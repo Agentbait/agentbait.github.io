@@ -436,7 +436,7 @@ html.is-native-graph-morph .controlled-figure.is-paper-graph .process-spine li:n
 .feedback-origin { width: 7px; height: 7px; position: absolute; right: 24px; top: 50%; z-index: 8; opacity: 1; background: var(--red); border-radius: 50%; transform: translateY(-50%); box-shadow: 0 0 0 5px rgba(188,73,63,.12); animation: feedback-origin-reveal var(--system-cycle) ease-in-out infinite; }
 .feedback-origin::before { content: ""; width: 1px; height: 260px; position: absolute; left: 3px; top: 7px; opacity: .38; background: var(--red); }
 .feedback-origin::after { content: ""; width: 7px; height: 7px; position: absolute; left: 0; top: 0; opacity: 0; background: var(--red); border-radius: 50%; box-shadow: 0 0 10px rgba(188,73,63,.7); animation: feedback-source-drop var(--system-cycle) ease-in-out infinite; }
-.selector-hand-motion { width: 1px; height: 1px; position: absolute; left: calc(84% - 30px); top: 217px; z-index: 10; opacity: .68; pointer-events: none; animation: chooser-tap-up var(--system-cycle) ease-in-out infinite; }
+.selector-hand-motion { width: 1px; height: 1px; position: absolute; left: calc(84% - 30px); top: 195px; z-index: 10; opacity: .68; pointer-events: none; animation: chooser-tap-up var(--system-cycle) ease-in-out infinite; }
 .selector-hand { width: 320px; max-width: none; position: absolute; left: -3px; top: -50px; filter: saturate(1.04) contrast(1.24) brightness(.86) drop-shadow(0 6px 9px rgba(23,52,79,.26)); transform: rotate(90deg); transform-origin: 1% 20%; }
 
 .policy-feedback { --feedback-left: 21.5%; --feedback-right: 92%; height: 148px; margin-top: 0; position: relative; color: var(--red); }
