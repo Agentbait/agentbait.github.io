@@ -366,6 +366,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /className="upstream-slate"/);
   assert.match(pageSource, /className="advisor-target-document"/);
   assert.match(pageSource, /className="target-extraction-trace"/);
+  assert.match(globalStyles, /\.upstream-slate\s*\{[^}]*right:\s*-2px[^}]*top:\s*auto[^}]*bottom:\s*10px[^}]*transform:\s*translate\(125%, 24px\)/s);
+  assert.match(globalStyles, /\.target-extraction-trace\s*\{[^}]*width:\s*55%[^}]*right:\s*28%[^}]*top:\s*312px[^}]*transform:\s*rotate\(32deg\) scaleX\(0\)/s);
+  assert.match(globalStyles, /\.advisor-target-document\s*\{[^}]*top:\s*166px[^}]*transform:\s*translate\(46%, 129px\) scale\(\.58\)/s);
+  assert.match(globalStyles, /\.paper-fragment\s*\{[^}]*left:\s*0[^}]*top:\s*52px/s);
   assert.doesNotMatch(pageSource, /advisor-candidates|Candidate set read by the advisor/);
   assert.match(pageSource, /Reward[\s\S]*GRPO updates the advisor policy/);
   assert.match(pageSource, /className="training-state is-trained">Trained[\s\S]*id="advisor-panel-title">Advisor/);
