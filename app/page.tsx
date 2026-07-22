@@ -357,9 +357,16 @@ export default function Home() {
           <span>AgentBait</span><small>Research feature</small>
         </a>
         <nav aria-label="Reading navigation">
-          <a href={codeUrl} target="_blank" rel="noreferrer">Code</a>
-          <a href="#demo">Demo</a>
-          <a href={paperUrl} target="_blank" rel="noreferrer">Paper</a>
+          <a href={codeUrl} target="_blank" rel="noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="resource-mark github-mark" src={assetUrl("/github-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+            <span>Code</span>
+          </a>
+          <a href={paperUrl} target="_blank" rel="noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+            <span>Paper</span>
+          </a>
         </nav>
       </header>
 
@@ -388,9 +395,16 @@ export default function Home() {
               </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
-              <a href={codeUrl} target="_blank" rel="noreferrer">Code ↗</a>
-              <a href="#demo">Demo ↓</a>
-              <a href={paperUrl} target="_blank" rel="noreferrer">Paper ↗</a>
+              <a href={codeUrl} target="_blank" rel="noreferrer">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="resource-mark github-mark" src={assetUrl("/github-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+                <span>Code ↗</span>
+              </a>
+              <a href={paperUrl} target="_blank" rel="noreferrer">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+                <span>Paper ↗</span>
+              </a>
             </div>
           </div>
         </header>

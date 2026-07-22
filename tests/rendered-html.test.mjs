@@ -224,9 +224,12 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
-  assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?>Code<\/[aA]>[\s\S]*?>Demo<\/[aA]>[\s\S]*?>Paper<\/[aA]>/);
-  assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>Paper ↗<\/a>/);
+  assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?github-mark[\s\S]*?>Code<\/span>[\s\S]*?arxiv-mark[\s\S]*?>Paper<\/span>/);
+  assert.doesNotMatch(html, /<a href="#demo">Demo(?: ↓)?<\/a>/);
+  assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>[\s\S]*?arxiv-mark[\s\S]*?>Paper ↗<\/span>/);
   assert.equal((html.match(/href="\/agentbait-paper\.pdf"/g) || []).length, 2);
+  assert.ok((html.match(/github-mark\.svg/g) || []).length >= 2);
+  assert.ok((html.match(/arxiv-mark\.svg/g) || []).length >= 2);
   assert.doesNotMatch(html, /Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
   assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.match(plainText, /Visual Sources & Adaptations/);
@@ -421,6 +424,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
   assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
   assert.match(pageSource, /const paperUrl = assetUrl\("\/agentbait-paper\.pdf"\)/);
+  assert.equal((pageSource.match(/className="resource-mark github-mark"/g) || []).length, 2);
+  assert.equal((pageSource.match(/className="resource-mark arxiv-mark"/g) || []).length, 2);
+  assert.doesNotMatch(pageSource, /<a href="#demo">Demo/);
   assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
   assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
   assert.match(globalStyles, /--gold:\s*#8a6417/);
@@ -432,6 +438,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.affiliation-logos a\s*\{[^}]*filter:\s*brightness\(0\) saturate\(100%\)/s);
   assert.match(globalStyles, /\.affiliation-logos a:hover, \.affiliation-logos a:focus-visible\s*\{[^}]*filter:\s*none/s);
   assert.match(globalStyles, /\.affiliation-logos img\s*\{[^}]*height:\s*48px/s);
+  assert.match(globalStyles, /\.paper-links a\s*\{[^}]*display:\s*inline-flex[^}]*font-size:\s*14px/s);
+  assert.match(globalStyles, /\.paper-links \.resource-mark\s*\{[^}]*width:\s*22px[^}]*height:\s*22px/s);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
@@ -632,6 +640,12 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
   await assert.rejects(access(new URL("../public/paper.pdf", import.meta.url)), { code: "ENOENT" });
+  const [githubMark, arxivMark] = await Promise.all([
+    readFile(new URL("../public/github-mark.svg", import.meta.url), "utf8"),
+    readFile(new URL("../public/arxiv-mark.svg", import.meta.url), "utf8"),
+  ]);
+  assert.match(githubMark, /<title>GitHub<\/title>/);
+  assert.match(arxivMark, /<title>arXiv<\/title>/);
   const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon] = await Promise.all([
     readFile(new URL("../public/agentbait-paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
