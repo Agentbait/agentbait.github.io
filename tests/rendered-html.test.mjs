@@ -225,6 +225,8 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
   assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?github-mark[\s\S]*?>Code<\/span>[\s\S]*?arxiv-mark[\s\S]*?>Paper<\/span>[\s\S]*?huggingface-mark[\s\S]*?>Hugging Face<\/span>/);
+  assert.equal((html.match(/href="https:\/\/github\.com\/Agentbait\/agentbait"/g) || []).length, 2);
+  assert.doesNotMatch(html, /github\.com\/chrischrischristianyijin\/clickbait/);
   assert.doesNotMatch(html, /<a href="#demo">Demo(?: ↓)?<\/a>/);
   assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>[\s\S]*?arxiv-mark[\s\S]*?>Paper ↗<\/span>/);
   assert.equal((html.match(/href="\/agentbait-paper\.pdf"/g) || []).length, 2);
@@ -428,6 +430,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /rewriter-hand-strings\.png/);
   assert.match(pageSource, /paper-method-transparent\.png/);
   assert.match(pageSource, /className="affiliation-logos" aria-label="Research affiliations"/);
+  assert.match(pageSource, /const codeUrl = "https:\/\/github\.com\/Agentbait\/agentbait"/);
   assert.match(pageSource, /const bairUrl = "https:\/\/bair\.berkeley\.edu\/"/);
   assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
   assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);

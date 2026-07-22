@@ -6,7 +6,7 @@ import { flushSync } from "react-dom";
 type MorphViewTransition = { finished: Promise<void> };
 type MorphDocument = Document & { startViewTransition?: (update: () => void) => MorphViewTransition };
 
-const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
+const codeUrl = "https://github.com/Agentbait/agentbait";
 const bairUrl = "https://bair.berkeley.edu/";
 const skyUrl = "https://sky.cs.berkeley.edu/";
 const ziruiUrl = "https://zwcolin.github.io/";
