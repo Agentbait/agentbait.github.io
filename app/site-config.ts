@@ -1,11 +1,11 @@
-const githubPagesUrl =
-  "https://chrischrischristianyijin.github.io/agentbait-paper-website/";
-
-export const primarySiteUrl =
+const githubPagesUrl = "https://agentbait.github.io/";
+const sitesMirrorUrl =
   "https://agentbait-paper.chrischrischrisjin.chatgpt.site/";
 
+export const primarySiteUrl = githubPagesUrl;
+
 export const isGitHubPages = process.env.GITHUB_PAGES === "true";
-export const siteUrl = isGitHubPages ? githubPagesUrl : primarySiteUrl;
+export const siteUrl = isGitHubPages ? githubPagesUrl : sitesMirrorUrl;
 
 function optionalEnvironmentValue(value: string | undefined) {
   const normalized = value?.trim();

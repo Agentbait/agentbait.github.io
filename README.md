@@ -26,7 +26,7 @@ Website images live in `public/`. The deployable site is built with vinext for C
 
 The `main` branch deploys automatically to:
 
-<https://chrischrischristianyijin.github.io/agentbait-paper-website/>
+<https://agentbait.github.io/>
 
 To verify the static export locally:
 
@@ -34,7 +34,10 @@ To verify the static export locally:
 npm run build:pages
 ```
 
-The generated GitHub Pages artifact is written to `out/`. The existing Sites deployment remains supported by `npm run build`.
+The generated GitHub Pages artifact is written to `out/`. Because this is the
+organization site repository (`Agentbait/agentbait.github.io`), it is exported
+at the domain root without a base path. The existing Sites deployment remains
+supported by `npm run build` as a mirror.
 
 ## Traffic measurement and search visibility
 

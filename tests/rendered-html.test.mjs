@@ -281,6 +281,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
+  assert.match(siteConfigSource, /https:\/\/agentbait\.github\.io\//);
+  assert.doesNotMatch(siteConfigSource, /chrischrischristianyijin\.github\.io\/agentbait-paper-website/);
+  assert.match(packageJson, /"build:pages": "GITHUB_PAGES=true next build"/);
+  assert.doesNotMatch(packageJson, /NEXT_PUBLIC_BASE_PATH=\/agentbait-paper-website/);
   assert.match(siteConfigSource, /\^G-\[A-Z0-9\]\+\$/);
   assert.match(analyticsSource, /googletagmanager\.com\/gtag\/js\?id=/);
   assert.match(analyticsSource, /strategy="afterInteractive"/);

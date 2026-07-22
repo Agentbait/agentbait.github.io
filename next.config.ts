@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const githubPagesBasePath = "/agentbait-paper-website";
+const githubPagesBasePath =
+  process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/$/, "") ?? "";
 
 const nextConfig: NextConfig = {
   typescript: {
@@ -10,8 +11,12 @@ const nextConfig: NextConfig = {
   ...(isGitHubPages
     ? {
         output: "export" as const,
-        basePath: githubPagesBasePath,
-        assetPrefix: githubPagesBasePath,
+        ...(githubPagesBasePath
+          ? {
+              basePath: githubPagesBasePath,
+              assetPrefix: githubPagesBasePath,
+            }
+          : {}),
         trailingSlash: true,
         images: { unoptimized: true },
       }
