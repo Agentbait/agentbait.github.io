@@ -224,7 +224,10 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /A post-retrieval presentation effect|Language-model agents increasingly mediate which documents users see/);
   assert.match(html, /07 · BibTeX/);
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
-  assert.doesNotMatch(html, /Paper ↗|Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
+  assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?>Code<\/[aA]>[\s\S]*?>Demo<\/[aA]>[\s\S]*?>Paper<\/[aA]>/);
+  assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>Paper ↗<\/a>/);
+  assert.equal((html.match(/href="\/agentbait-paper\.pdf"/g) || []).length, 2);
+  assert.doesNotMatch(html, /Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
   assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.match(plainText, /Visual Sources & Adaptations/);
   assert.match(plainText, /Saint Jerome in his Study/);
@@ -417,6 +420,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
   assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
   assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
+  assert.match(pageSource, /const paperUrl = assetUrl\("\/agentbait-paper\.pdf"\)/);
   assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
   assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
   assert.match(globalStyles, /--gold:\s*#8a6417/);
@@ -628,7 +632,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.flip-cue\s*\{/);
 
   await assert.rejects(access(new URL("../public/paper.pdf", import.meta.url)), { code: "ENOENT" });
-  const [, narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon] = await Promise.all([
+  const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon] = await Promise.all([
+    readFile(new URL("../public/agentbait-paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
     readFile(new URL("../public/editor-hand.png", import.meta.url)),
@@ -640,6 +645,8 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/agentbait-mark.png", import.meta.url)),
     readFile(new URL("../public/favicon.png", import.meta.url)),
   ]);
+  assert.equal(paperPdf.subarray(0, 5).toString(), "%PDF-", "paper resource must be a valid PDF");
+  assert.ok(paperPdf.length > 9_000_000, "paper resource must include the complete manuscript");
   assert.equal(bairLogo[25], 6, "BAIR logo must retain its transparent background");
   assert.equal(skyLogo[25], 6, "Sky logo must retain its transparent background");
   assert.equal(agentBaitMark[25], 6, "AgentBait mark must have a transparent background");

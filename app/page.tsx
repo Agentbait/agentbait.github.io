@@ -13,6 +13,7 @@ const ziruiUrl = "https://zwcolin.github.io/";
 const davidUrl = "https://dchan.cc/";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetUrl = (path: string) => `${basePath}${path}`;
+const paperUrl = assetUrl("/agentbait-paper.pdf");
 
 const storyboardCandidates = [
   {
@@ -356,9 +357,9 @@ export default function Home() {
           <span>AgentBait</span><small>Research feature</small>
         </a>
         <nav aria-label="Reading navigation">
-          <a href="#results">Results</a>
-          <a href="#examples">Examples</a>
           <a href={codeUrl} target="_blank" rel="noreferrer">Code</a>
+          <a href="#demo">Demo</a>
+          <a href={paperUrl} target="_blank" rel="noreferrer">Paper</a>
         </nav>
       </header>
 
@@ -389,6 +390,7 @@ export default function Home() {
             <div className="paper-links" aria-label="Paper resources">
               <a href={codeUrl} target="_blank" rel="noreferrer">Code ↗</a>
               <a href="#demo">Demo ↓</a>
+              <a href={paperUrl} target="_blank" rel="noreferrer">Paper ↗</a>
             </div>
           </div>
         </header>
