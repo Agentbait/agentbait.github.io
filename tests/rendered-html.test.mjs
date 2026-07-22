@@ -231,7 +231,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok((html.match(/github-mark\.svg/g) || []).length >= 2);
   assert.ok((html.match(/arxiv-mark\.svg/g) || []).length >= 2);
   assert.ok((html.match(/huggingface-mark\.svg/g) || []).length >= 2);
-  assert.equal((html.match(/href="https:\/\/huggingface\.co\/chrischrischrisjin"/g) || []).length, 2);
+  assert.doesNotMatch(html, /href="https:\/\/huggingface\.co\//);
+  assert.equal((html.match(/aria-label="Hugging Face resource coming soon"/g) || []).length, 2);
+  assert.equal((plainText.match(/Hugging Face Soon/g) || []).length, 2);
   assert.doesNotMatch(html, /Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
   assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.match(plainText, /Visual Sources & Adaptations/);
@@ -426,10 +428,11 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
   assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
   assert.match(pageSource, /const paperUrl = assetUrl\("\/agentbait-paper\.pdf"\)/);
-  assert.match(pageSource, /const huggingFaceUrl = "https:\/\/huggingface\.co\/chrischrischrisjin"/);
+  assert.doesNotMatch(pageSource, /huggingFaceUrl|href=\{huggingFaceUrl\}/);
   assert.equal((pageSource.match(/className="resource-mark github-mark"/g) || []).length, 2);
   assert.equal((pageSource.match(/className="resource-mark arxiv-mark"/g) || []).length, 2);
   assert.equal((pageSource.match(/className="resource-mark huggingface-mark"/g) || []).length, 2);
+  assert.equal((pageSource.match(/className="resource-placeholder" aria-disabled="true"/g) || []).length, 2);
   assert.doesNotMatch(pageSource, /<a href="#demo">Demo/);
   assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
   assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
@@ -442,8 +445,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.affiliation-logos a\s*\{[^}]*filter:\s*brightness\(0\) saturate\(100%\)/s);
   assert.match(globalStyles, /\.affiliation-logos a:hover, \.affiliation-logos a:focus-visible\s*\{[^}]*filter:\s*none/s);
   assert.match(globalStyles, /\.affiliation-logos img\s*\{[^}]*height:\s*48px/s);
-  assert.match(globalStyles, /\.paper-links a\s*\{[^}]*display:\s*inline-flex[^}]*font-size:\s*14px[^}]*white-space:\s*nowrap/s);
+  assert.match(globalStyles, /\.paper-links a, \.paper-links \.resource-placeholder\s*\{[^}]*display:\s*inline-flex[^}]*font-size:\s*14px[^}]*white-space:\s*nowrap/s);
   assert.match(globalStyles, /\.paper-links \.resource-mark\s*\{[^}]*width:\s*22px[^}]*height:\s*22px/s);
+  assert.match(globalStyles, /\.resource-placeholder\s*\{[^}]*color:\s*var\(--muted\)[^}]*cursor:\s*default/s);
+  assert.match(globalStyles, /\.resource-placeholder \.resource-mark\s*\{[^}]*opacity:\s*\.48/s);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
