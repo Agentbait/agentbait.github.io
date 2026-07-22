@@ -367,10 +367,10 @@ export default function Home() {
             <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
             <span>Paper</span>
           </a>
-          <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource coming soon">
+          <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource placeholder">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-            <span>Hugging Face</span><small>Soon</small>
+            <span>Hugging Face</span>
           </span>
         </nav>
       </header>
@@ -410,10 +410,10 @@ export default function Home() {
                 <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
                 <span>Paper ↗</span>
               </a>
-              <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource coming soon">
+              <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource placeholder">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-                <span>Hugging Face</span><small>Soon</small>
+                <span>Hugging Face</span>
               </span>
             </div>
           </div>

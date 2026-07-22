@@ -99,7 +99,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .paper-links a:hover { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
 .resource-placeholder { color: var(--muted) !important; cursor: default; }
 .resource-placeholder .resource-mark { opacity: .48; }
-.resource-placeholder small { padding: 2px 4px; color: var(--muted); border: 1px solid var(--rule-dark); font-size: 9px; font-weight: 600; line-height: 1; letter-spacing: .06em; }
 
 .attack-demo { min-width: 0; padding: 24px clamp(22px, 2.3vw, 40px) 18px; display: flex; flex-direction: column; justify-content: center; color: var(--ink); background: var(--paper); }
 .citation-body button { border: 1px solid var(--navy); border-radius: 0; color: var(--paper); background: var(--navy); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }

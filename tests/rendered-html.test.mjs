@@ -232,8 +232,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.ok((html.match(/arxiv-mark\.svg/g) || []).length >= 2);
   assert.ok((html.match(/huggingface-mark\.svg/g) || []).length >= 2);
   assert.doesNotMatch(html, /href="https:\/\/huggingface\.co\//);
-  assert.equal((html.match(/aria-label="Hugging Face resource coming soon"/g) || []).length, 2);
-  assert.equal((plainText.match(/Hugging Face Soon/g) || []).length, 2);
+  assert.equal((html.match(/aria-label="Hugging Face resource placeholder"/g) || []).length, 2);
+  assert.equal((plainText.match(/Hugging Face/g) || []).length, 2);
+  assert.doesNotMatch(plainText, /Hugging Face Soon/);
   assert.doesNotMatch(html, /Dataset ↗|\/paper\.pdf|msnews\.github\.io/);
   assert.doesNotMatch(plainText, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.match(plainText, /Visual Sources & Adaptations/);
@@ -449,6 +450,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.paper-links \.resource-mark\s*\{[^}]*width:\s*22px[^}]*height:\s*22px/s);
   assert.match(globalStyles, /\.resource-placeholder\s*\{[^}]*color:\s*var\(--muted\)[^}]*cursor:\s*default/s);
   assert.match(globalStyles, /\.resource-placeholder \.resource-mark\s*\{[^}]*opacity:\s*\.48/s);
+  assert.doesNotMatch(globalStyles, /\.resource-placeholder small/);
   assert.match(pageSource, /advisor-scholar\.png/);
   assert.match(pageSource, /selector-hand\.png/);
   assert.match(pageSource, /className="selector-hand-motion"/);
