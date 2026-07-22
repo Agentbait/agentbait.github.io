@@ -7,6 +7,7 @@ type MorphViewTransition = { finished: Promise<void> };
 type MorphDocument = Document & { startViewTransition?: (update: () => void) => MorphViewTransition };
 
 const codeUrl = "https://github.com/chrischrischristianyijin/clickbait";
+const huggingFaceUrl = "https://huggingface.co/chrischrischrisjin";
 const bairUrl = "https://bair.berkeley.edu/";
 const skyUrl = "https://sky.cs.berkeley.edu/";
 const ziruiUrl = "https://zwcolin.github.io/";
@@ -367,6 +368,11 @@ export default function Home() {
             <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
             <span>Paper</span>
           </a>
+          <a href={huggingFaceUrl} target="_blank" rel="noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+            <span>Hugging Face</span>
+          </a>
         </nav>
       </header>
 
@@ -404,6 +410,11 @@ export default function Home() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
                 <span>Paper ↗</span>
+              </a>
+              <a href={huggingFaceUrl} target="_blank" rel="noreferrer">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
+                <span>Hugging Face ↗</span>
               </a>
             </div>
           </div>

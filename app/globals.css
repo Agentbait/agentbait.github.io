@@ -55,7 +55,7 @@ del { color: #817d75; text-decoration-color: var(--red); text-decoration-thickne
 .wordmark small, .site-header nav a { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .wordmark small { color: var(--muted); }
 .site-header nav { display: flex; gap: clamp(18px, 2.5vw, 38px); }
-.site-header nav a { padding: 20px 0 17px; display: inline-flex; align-items: center; gap: 7px; border-bottom: 2px solid transparent; }
+.site-header nav a { padding: 20px 0 17px; display: inline-flex; align-items: center; gap: 7px; border-bottom: 2px solid transparent; white-space: nowrap; }
 .site-header nav a:hover { color: var(--red); border-bottom-color: var(--red); }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
 
@@ -94,7 +94,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .resource-mark { width: 15px; height: 15px; flex: 0 0 auto; object-fit: contain; filter: brightness(0) saturate(100%) invert(18%) sepia(36%) saturate(992%) hue-rotate(169deg) brightness(91%) contrast(93%); transition: transform .18s ease; }
 .site-header nav a:hover .resource-mark, .site-header nav a:focus-visible .resource-mark, .paper-links a:hover .resource-mark, .paper-links a:focus-visible .resource-mark { transform: translateY(-1px); }
 .paper-links { align-self: stretch; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; padding: 15px 0; border-top: 1px solid var(--rule); }
-.paper-links a { display: inline-flex; align-items: center; gap: 9px; color: var(--navy); font-family: var(--mono); font-size: 14px; font-weight: 600; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
+.paper-links a { display: inline-flex; align-items: center; gap: 9px; color: var(--navy); font-family: var(--mono); font-size: 14px; font-weight: 600; line-height: 1; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
 .paper-links .resource-mark { width: 22px; height: 22px; }
 .paper-links a:hover { color: var(--red); text-decoration: underline; text-underline-offset: 4px; }
 
