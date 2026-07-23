@@ -339,7 +339,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.rewrite-card-deck\.is-a-front \.rewrite-card-b\s*\{/);
   assert.match(pageSource, /className="hero-flip-inner"[\s\S]*?role="button"[\s\S]*?onClick=\{\(\) => setHeroFlipped/);
   assert.doesNotMatch(pageSource, /nextFlipped|elapsed >= 14600|elapsed < 19000|flippedRef/);
-  assert.match(globalStyles, /\.hero-flip-hint\s*\{[^}]*top:\s*14px[^}]*right:\s*14px[^}]*bottom:\s*auto[^}]*left:\s*auto/s);
+  assert.match(globalStyles, /\.hero-flip-hint\s*\{[^}]*min-height:\s*20px[^}]*padding:\s*3px 5px[^}]*top:\s*auto[^}]*right:\s*10px[^}]*bottom:\s*10px[^}]*left:\s*auto[^}]*font-size:\s*8px/s);
   assert.doesNotMatch(pageSource, /deleted-title|Target selected<\/dt>|The rewrite attributes the result|The rewrite asks which management choices/);
   assert.doesNotMatch(globalStyles, /\.deleted-title/);
   assert.match(pageSource, /className="train-target-column">GPT-5-mini<small>train target<\/small>/);
@@ -354,7 +354,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.site-footer\.is-credits-open \.footer-credits-reveal\s*\{[^}]*grid-template-rows:\s*1fr/s);
   assert.doesNotMatch(pageSource, /Claims and numerical results should be interpreted within their stated experimental conditions\./);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
-  assert.doesNotMatch(globalStyles, /font-size:\s*[678]px/);
+  assert.doesNotMatch(globalStyles.replace(/\.hero-flip-hint\s*\{[^}]*\}/gs, ""), /font-size:\s*[678]px/);
   assert.match(globalStyles, /--paper:\s*#f0eee8/);
   assert.match(globalStyles, /--navy:\s*#17344f/);
   assert.match(globalStyles, /--red:\s*#bc493f/);

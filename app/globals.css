@@ -749,8 +749,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .hero-flip-card.is-flipped .hero-flip-front { opacity: 0; pointer-events: none; transform: rotateY(180deg); }
 .hero-flip-card.is-flipped .hero-flip-back { opacity: 1; pointer-events: auto; transform: rotateY(0deg); }
 .hero-flip-back img { width: 100%; max-height: 410px; object-fit: contain; mix-blend-mode: multiply; }
-.hero-flip-hint { min-height: 27px; padding: 6px 9px; position: absolute; top: 14px; right: 14px; bottom: auto; left: auto; z-index: 8; display: flex; align-items: center; gap: 7px; pointer-events: none; color: var(--navy); background: rgba(240,238,232,.9); border: 1px solid rgba(23,52,79,.32); box-shadow: 0 2px 9px rgba(23,52,79,.07); font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-.hero-flip-hint i { color: var(--red); font-size: 13px; font-style: normal; line-height: 1; }
+.hero-flip-hint { min-height: 20px; padding: 3px 5px; position: absolute; top: auto; right: 10px; bottom: 10px; left: auto; z-index: 8; display: flex; align-items: center; gap: 4px; pointer-events: none; color: rgba(23,52,79,.72); background: rgba(240,238,232,.62); border: 1px solid rgba(23,52,79,.16); box-shadow: none; font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .045em; text-transform: uppercase; }
+.hero-flip-hint i { color: rgba(188,73,63,.72); font-size: 9px; font-style: normal; line-height: 1; }
 .method-figure figcaption { padding-top: 13px; border-top: 1px solid var(--rule); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1012,7 +1012,7 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .hero-flip-card, .hero-flip-inner, .hero-flip-face { min-height: 560px; }
   .hero-flip-front { padding: 8px 7px 42px; }
   .hero-flip-back { padding: 18px 12px 44px; }
-  .hero-flip-hint { top: 8px; right: 8px; bottom: auto; left: auto; }
+  .hero-flip-hint { top: auto; right: 7px; bottom: 7px; left: auto; }
   .citation-body { grid-template-columns: 1fr; }
   .citation-body button { width: fit-content; }
   .footer-credits-inner, .footer-bar { padding-inline: 19px; }
