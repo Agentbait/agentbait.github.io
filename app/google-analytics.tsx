@@ -9,7 +9,20 @@ const consentStorageKey = "agentbait-analytics-consent";
 
 type AnalyticsWindow = {
   [key: `ga-disable-${string}`]: boolean | undefined;
+  gtag?: (...args: unknown[]) => void;
 };
+
+function updateGoogleConsent(
+  analyticsWindow: AnalyticsWindow,
+  nextConsent: Exclude<AnalyticsConsent, null>,
+) {
+  analyticsWindow.gtag?.("consent", "update", {
+    analytics_storage: nextConsent,
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  });
+}
 
 export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
   const [consent, setConsent] = useState<AnalyticsConsent>(null);
@@ -24,19 +37,23 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
         // Storage can be unavailable in hardened browser modes.
       }
       if (savedConsent === "granted" || savedConsent === "denied") {
+        const analyticsWindow = window as unknown as AnalyticsWindow;
+        analyticsWindow[`ga-disable-${measurementId}`] = savedConsent === "denied";
+        updateGoogleConsent(analyticsWindow, savedConsent);
         setConsent(savedConsent);
       }
       setHasLoadedPreference(true);
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [measurementId]);
 
   if (!hasLoadedPreference) return null;
 
   const chooseConsent = (nextConsent: Exclude<AnalyticsConsent, null>) => {
     const analyticsWindow = window as unknown as AnalyticsWindow;
     analyticsWindow[`ga-disable-${measurementId}`] = nextConsent === "denied";
+    updateGoogleConsent(analyticsWindow, nextConsent);
     try {
       window.localStorage.setItem(consentStorageKey, nextConsent);
     } catch {
@@ -48,6 +65,7 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
   const reopenConsent = () => {
     const analyticsWindow = window as unknown as AnalyticsWindow;
     analyticsWindow[`ga-disable-${measurementId}`] = true;
+    updateGoogleConsent(analyticsWindow, "denied");
     try {
       window.localStorage.removeItem(consentStorageKey);
     } catch {

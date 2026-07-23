@@ -46,6 +46,9 @@ test("server-renders the AgentBait paper site", async () => {
   const html = await response.text();
   const plainText = toPlainText(html);
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
+  assert.ok((html.match(/GTM-WSHC2PFG/g) || []).length >= 2, "GTM container must appear in both script and noscript fallbacks");
+  assert.match(html, /googletagmanager\.com\/gtm\.js\?id=/);
+  assert.match(html, /googletagmanager\.com\/ns\.html\?id=GTM-WSHC2PFG/);
   assert.match(html, /<h1 id="paper-title">You Won(?:&#x27;|')t Believe This Click<\/h1>/);
   assert.doesNotMatch(html, /class="click-word"|Complete the word Click|click-placeholder|Click, selected/);
   assert.doesNotMatch(plainText, /Research feature/i);
@@ -293,6 +296,10 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /const socialImage = \{[\s\S]*?url: "og\.png"[\s\S]*?width: 1200[\s\S]*?height: 630[\s\S]*?only target B rewritten and selected/);
   assert.equal((layoutSource.match(/images: \[socialImage\]/g) || []).length, 2);
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
+  assert.match(layoutSource, /const gtmId = "GTM-WSHC2PFG"/);
+  assert.match(layoutSource, /id="google-tag-manager"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: gtmBootstrap \}\}/);
+  assert.match(layoutSource, /<body>[\s\S]*?<noscript>[\s\S]*?googletagmanager\.com\/ns\.html\?id=\$\{gtmId\}/);
+  assert.match(layoutSource, /analytics_storage: 'denied'[\s\S]*?ad_storage: 'denied'/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
   assert.match(siteConfigSource, /https:\/\/agentbait\.github\.io\//);
@@ -305,6 +312,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(analyticsSource, /googletagmanager\.com\/gtag\/js\?id=/);
   assert.match(analyticsSource, /strategy="afterInteractive"/);
   assert.match(analyticsSource, /consent === "granted"/);
+  assert.match(analyticsSource, /analyticsWindow\.gtag\?\.\("consent", "update"/);
+  assert.match(analyticsSource, /analytics_storage: nextConsent/);
   assert.match(analyticsSource, /allow_google_signals:\s*false/);
   assert.match(analyticsSource, /allow_ad_personalization_signals:\s*false/);
   assert.match(analyticsSource, /agentbait-analytics-consent/);
