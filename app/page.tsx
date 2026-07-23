@@ -461,8 +461,38 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="story-section results" id="results" aria-labelledby="results-title">
+          <div className="section-label">03 · Key findings</div>
+          <div className="story-grid solo-grid">
+            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
+          </div>
+
+          <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
+            <article className="finding-step sensitivity-step">
+              <p className="finding-step-label"><span>01</span><b>Sensitivity</b></p>
+              <h3>Presentation already matters</h3>
+              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with a prompt rewriter"><span><b>17.1%</b><small>Original</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Prompt rewrite</small></span></div>
+            </article>
+            <article className="finding-step optimization-step">
+              <p className="finding-step-label"><span>02</span><b>Optimization</b></p>
+              <h3>Training amplifies the effect</h3>
+              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 34.8 percent with a prompt rewriter to 98.5 percent with the trained advisor"><span><b>34.8%</b><small>Prompt rewrite</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
+            </article>
+            <article className="finding-step transfer-step">
+              <p className="finding-step-label"><span>03</span><b>Transfer</b></p>
+              <h3>The learned advice generalizes</h3>
+              <ul className="finding-step-domains" aria-label="Generalizes across agents, languages, and document domains"><li>Agents</li><li>Languages</li><li>Domains</li></ul>
+            </article>
+            <article className="finding-step failure-step">
+              <p className="finding-step-label"><span>04</span><b>Failure mode</b></p>
+              <h3>Selection can outrun support</h3>
+              <div className="finding-step-metric finding-step-contrast" aria-label="The unconstrained trained advisor reaches 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
+            </article>
+          </div>
+        </section>
+
         <section className="story-section setting" id="setting" aria-labelledby="setting-title">
-          <div className="section-label">03 · Interactive setting</div>
+          <div className="section-label">04 · Interactive setting</div>
           <div className="story-grid setting-grid">
             <div className="prose">
               <h2 id="setting-title">Same slate. One rewrite.<br />Can the decision change?</h2>
@@ -619,36 +649,6 @@ export default function Home() {
             </div>
             <figcaption className="morph-copy" id="slate-caption"><span className="view-copy narrative-view-copy" aria-hidden={paperGraph}><b>Figure 2 | AgentBait system schematic.</b> The advisor and frozen rewriter receive only the extracted target document; only the target agent sees the full fixed slate. Policy: Qwen3.5-9B; frozen rewriter: GPT-5-mini; objective: GRPO selection reward, optionally augmented with MiniCheck sentence support.</span><span className="view-copy paper-view-copy paper-graph-caption" aria-hidden={!paperGraph}><b>Figure 2.</b> Overview of our target-only advisor–rewriter setting.</span></figcaption>
           </figure>
-        </section>
-
-        <section className="story-section results" id="results" aria-labelledby="results-title">
-          <div className="section-label">04 · Key findings</div>
-          <div className="story-grid solo-grid">
-            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
-          </div>
-
-          <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
-            <article className="finding-step sensitivity-step">
-              <p className="finding-step-label"><span>01</span><b>Sensitivity</b></p>
-              <h3>Presentation already matters</h3>
-              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with a prompt rewriter"><span><b>17.1%</b><small>Original</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Prompt rewrite</small></span></div>
-            </article>
-            <article className="finding-step optimization-step">
-              <p className="finding-step-label"><span>02</span><b>Optimization</b></p>
-              <h3>Training amplifies the effect</h3>
-              <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 34.8 percent with a prompt rewriter to 98.5 percent with the trained advisor"><span><b>34.8%</b><small>Prompt rewrite</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
-            </article>
-            <article className="finding-step transfer-step">
-              <p className="finding-step-label"><span>03</span><b>Transfer</b></p>
-              <h3>The learned advice generalizes</h3>
-              <ul className="finding-step-domains" aria-label="Generalizes across agents, languages, and document domains"><li>Agents</li><li>Languages</li><li>Domains</li></ul>
-            </article>
-            <article className="finding-step failure-step">
-              <p className="finding-step-label"><span>04</span><b>Failure mode</b></p>
-              <h3>Selection can outrun support</h3>
-              <div className="finding-step-metric finding-step-contrast" aria-label="The unconstrained trained advisor reaches 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
-            </article>
-          </div>
         </section>
 
         <section className="story-section case-study" id="examples" aria-labelledby="example-title">
