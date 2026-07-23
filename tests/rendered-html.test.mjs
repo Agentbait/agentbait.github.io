@@ -282,10 +282,15 @@ test("ships the manuscript and method figure", async () => {
   const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const thumbnailSource = await readFile(new URL("../scripts/build-thumbnail.mjs", import.meta.url), "utf8");
   const videoRootSource = await readFile(new URL("../video/src/root.tsx", import.meta.url), "utf8");
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
   assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
+  assert.match(layoutSource, /const description = "When AI agents decide what people see, presentation becomes an optimization target\."/);
+  assert.doesNotMatch(layoutSource, /An interactive research feature showing how one editorial rewrite/);
+  assert.match(thumbnailSource, /When AI agents decide what people see,/);
+  assert.match(thumbnailSource, /presentation becomes an optimization target\./);
   assert.match(layoutSource, /const socialImage = \{[\s\S]*?url: "og\.png"[\s\S]*?width: 1200[\s\S]*?height: 630[\s\S]*?only target B rewritten and selected/);
   assert.equal((layoutSource.match(/images: \[socialImage\]/g) || []).length, 2);
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);

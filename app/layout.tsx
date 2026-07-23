@@ -9,7 +9,7 @@ import {
 } from "./site-config";
 
 const title = "You Won't Believe This Click | AgentBait";
-const description = "An interactive research feature showing how one editorial rewrite can redirect an LLM agent within a fixed MIND-style news slate—and reduce source support.";
+const description = "When AI agents decide what people see, presentation becomes an optimization target.";
 const socialImage = {
   url: "og.png",
   width: 1200,

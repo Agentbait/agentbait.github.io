@@ -22,9 +22,10 @@ const card = `
 
   <line x1="56" y1="307" x2="625" y2="307" stroke="#9b9992" stroke-width="1"/>
   <text x="56" y="340" fill="#bc493f" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.1">SAME SLATE · ONE REWRITE</text>
-  <text x="56" y="379" fill="#17344f" font-family="Georgia, 'Times New Roman', serif" font-size="29" font-weight="600">Can the decision change?</text>
+  <text x="56" y="373" fill="#17344f" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="600">When AI agents decide what people see,</text>
+  <text x="56" y="403" fill="#17344f" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="600">presentation becomes an optimization target.</text>
 
-  <text x="56" y="428" fill="#6f6d68" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6">TARGET SELECTION</text>
+  <text x="56" y="440" fill="#6f6d68" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.6">TARGET SELECTION</text>
   <text x="56" y="492" fill="#6f6d68" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="600">17.1%</text>
   <line x1="240" y1="472" x2="335" y2="472" stroke="#bc493f" stroke-width="3"/>
   <path d="M335 472 L319 463 M335 472 L319 481" fill="none" stroke="#bc493f" stroke-width="3" stroke-linecap="square"/>
