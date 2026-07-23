@@ -13,10 +13,7 @@ export function GoogleAnalytics({ measurementId }: { measurementId: string }) {
         window.gtag('js', new Date());
         window.__agentbaitGaInitialized = true;
       }
-      window.gtag('config', measurementId, {
-        allow_google_signals: false,
-        allow_ad_personalization_signals: false
-      });
+      window.gtag('config', measurementId);
       window.__agentbaitGaConfigured = measurementId;
     }
   `;

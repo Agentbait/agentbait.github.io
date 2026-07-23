@@ -305,7 +305,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /const gtmId = "GTM-WSHC2PFG"/);
   assert.match(layoutSource, /id="google-tag-manager"[\s\S]*?dangerouslySetInnerHTML=\{\{ __html: gtmBootstrap \}\}/);
   assert.match(layoutSource, /<body>[\s\S]*?<noscript>[\s\S]*?googletagmanager\.com\/ns\.html\?id=\$\{gtmId\}/);
-  assert.match(layoutSource, /analytics_storage: 'granted'[\s\S]*?ad_storage: 'denied'/);
+  assert.match(layoutSource, /analytics_storage: 'granted'[\s\S]*?ad_storage: 'granted'[\s\S]*?ad_user_data: 'granted'[\s\S]*?ad_personalization: 'granted'/);
+  assert.match(layoutSource, /ad_storage: 'denied'[\s\S]*?ad_user_data: 'denied'[\s\S]*?ad_personalization: 'denied'[\s\S]*?region: \$\{JSON\.stringify\(regulatedConsentRegions\)\}/);
+  assert.match(layoutSource, /"AT"[\s\S]*?"IS"[\s\S]*?"GB"[\s\S]*?"CH"/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
   assert.match(siteConfigSource, /5XSefLo9dX0I_Szro49mP5w54fCMDDuxB3E3LViw5mU/);
   assert.doesNotMatch(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
@@ -319,8 +321,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(analyticsSource, /googletagmanager\.com\/gtag\/js\?id=/);
   assert.match(analyticsSource, /strategy="afterInteractive"/);
   assert.doesNotMatch(analyticsSource, /consentStorageKey|localStorage|AnalyticsConsent|chooseConsent|reopenConsent|consent ===/);
-  assert.match(analyticsSource, /allow_google_signals:\s*false/);
-  assert.match(analyticsSource, /allow_ad_personalization_signals:\s*false/);
+  assert.doesNotMatch(analyticsSource, /allow_google_signals/);
+  assert.doesNotMatch(analyticsSource, /allow_ad_personalization_signals/);
   assert.doesNotMatch(analyticsSource, /Google Analytics uses cookies to measure aggregate visits\./);
   assert.doesNotMatch(globalStyles, /\.analytics-consent|\.analytics-settings/);
   assert.match(globalStyles, /\.support-aware-underline\s*\{[^}]*background:\s*transparent[^}]*text-decoration-color:\s*currentColor/s);

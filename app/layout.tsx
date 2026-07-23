@@ -11,14 +11,26 @@ import {
 const title = "You Won't Believe This Click: Content Rewriting for Agentic Choice";
 const description = "AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support.";
 const gtmId = "GTM-WSHC2PFG";
+const regulatedConsentRegions = [
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE",
+  "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT",
+  "RO", "SK", "SI", "ES", "SE", "IS", "LI", "NO", "GB", "CH",
+];
 const gtmConsentDefault = `
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
   window.gtag('consent', 'default', {
     analytics_storage: 'granted',
+    ad_storage: 'granted',
+    ad_user_data: 'granted',
+    ad_personalization: 'granted'
+  });
+  window.gtag('consent', 'default', {
+    analytics_storage: 'granted',
     ad_storage: 'denied',
     ad_user_data: 'denied',
-    ad_personalization: 'denied'
+    ad_personalization: 'denied',
+    region: ${JSON.stringify(regulatedConsentRegions)}
   });
 `;
 const gtmBootstrap = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

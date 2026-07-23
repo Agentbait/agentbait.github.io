@@ -43,7 +43,9 @@ supported by `npm run build` as a mirror.
 
 The site supports Google Analytics 4, Google Search Console verification, a
 canonical URL, `robots.txt`, and `sitemap.xml`. GA4 analytics loads by default;
-advertising signals and ad personalization are disabled.
+advertising storage, user-data, and personalization consent default to granted
+outside the EEA, United Kingdom, and Switzerland, and denied within those
+regions unless a consent solution updates them.
 
 Copy `.env.example` to an ignored local environment file and provide:
 
