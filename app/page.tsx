@@ -464,29 +464,32 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">03 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence of effects, transfer, and failure.</p></div>
+            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence from presentation sensitivity to optimization pressure and source-supported learning.</p></div>
           </div>
 
           <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">
             <article className="finding-step sensitivity-step">
               <p className="finding-step-label"><span>01</span><b>Sensitivity</b></p>
-              <h3>Presentation already matters</h3>
+              <h3>Presentation shifts choice</h3>
               <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 17.1 percent for the original target to 34.8 percent with a prompt rewriter"><span><b>17.1%</b><small>Original</small></span><i aria-hidden="true">→</i><span className="outcome"><b>34.8%</b><small>Prompt rewrite</small></span></div>
             </article>
             <article className="finding-step optimization-step">
               <p className="finding-step-label"><span>02</span><b>Optimization</b></p>
-              <h3>Training amplifies the effect</h3>
+              <h3>Agent feedback makes the pressure learnable</h3>
               <div className="finding-step-metric finding-step-shift" aria-label="Target selection increases from 34.8 percent with a prompt rewriter to 98.5 percent with the trained advisor"><span><b>34.8%</b><small>Prompt rewrite</small></span><i aria-hidden="true">→</i><span className="outcome"><b>98.5%</b><small>Trained advisor</small></span></div>
             </article>
-            <article className="finding-step transfer-step">
-              <p className="finding-step-label"><span>03</span><b>Transfer</b></p>
-              <h3>The learned advice generalizes</h3>
-              <ul className="finding-step-domains" aria-label="Generalizes across agents, languages, and document domains"><li>Agents</li><li>Languages</li><li>Domains</li></ul>
+            <article className="finding-step shortcut-step">
+              <p className="finding-step-label"><span>03</span><b>Shortcut</b></p>
+              <h3>Selection-only rewards discover unsupported shortcuts</h3>
+              <div className="finding-step-metric finding-step-contrast" aria-label="Selection-only rewards produce 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
             </article>
-            <article className="finding-step failure-step">
-              <p className="finding-step-label"><span>04</span><b>Failure mode</b></p>
-              <h3>Selection can outrun support</h3>
-              <div className="finding-step-metric finding-step-contrast" aria-label="The unconstrained trained advisor reaches 98.5 percent target selection with 2.0 percent source support"><span className="outcome"><b>98.5%</b><small>Selected</small></span><i aria-hidden="true">·</i><span className="support-value"><b>2.0%</b><small>Supported</small></span></div>
+            <article className="finding-step support-learning-step">
+              <p className="finding-step-label"><span>04</span><b>Source support</b></p>
+              <h3>Source support changes what the optimizer learns</h3>
+              <div className="finding-step-metric finding-step-learning" aria-label="With a source-support reward, target selection is 68.6 percent and unsupported technical substitution falls from 96.2 percent to 0.1 percent">
+                <span className="selection-value"><b>68.6%</b><small>Selected</small></span>
+                <span className="substitution-value"><small>Unsupported technical substitution</small><span><b>96.2%</b><i aria-hidden="true">→</i><b>0.1%</b></span></span>
+              </div>
             </article>
           </div>
         </section>

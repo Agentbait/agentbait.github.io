@@ -648,6 +648,12 @@ figcaption b { color: var(--ink); }
 .finding-step-metric .outcome b { color: var(--red); }
 .finding-step-shift, .finding-step-contrast { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 13px; align-items: center; }
 .finding-step-contrast .support-value b { color: var(--green); }
+.finding-step-learning { display: grid; grid-template-columns: minmax(92px, .7fr) minmax(0, 1.8fr); gap: 18px; align-items: center; }
+.finding-step-learning .selection-value b { color: var(--green); }
+.finding-step-learning .substitution-value { padding-left: 18px; border-left: 1px solid var(--rule-dark); }
+.finding-step-learning .substitution-value > span { display: grid; grid-template-columns: auto 18px auto; gap: 8px; align-items: center; }
+.finding-step-learning .substitution-value b { font-size: clamp(25px, 2.45vw, 36px); }
+.finding-step-learning .substitution-value b:last-child { color: var(--green); }
 .finding-step-domains { margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; font-family: var(--serif); }
 .finding-step-domains li { padding: 10px 12px; color: var(--navy); border-left: 1px solid var(--rule-dark); font-size: 18px; text-align: center; }
 .finding-step-domains li:first-child { border-left: 0; }
@@ -917,6 +923,7 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .margin-note { max-width: 460px; margin-left: 15%; }
   .finding-step { grid-template-columns: 105px minmax(0, 1fr); gap: 18px 24px; }
   .finding-step-metric, .finding-step-domains { grid-column: 2; }
+  .finding-step-learning { grid-template-columns: minmax(90px, .65fr) minmax(0, 1.7fr); }
   .finding-step:not(:last-child)::after { left: 29px; }
   .rewrite-card { width: 86%; }
 }
@@ -981,6 +988,8 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .finding-step-label span { font-size: 20px; }
   .finding-step h3 { font-size: 23px; }
   .finding-step-metric, .finding-step-domains { grid-column: 2; }
+  .finding-step-learning { grid-template-columns: 1fr; }
+  .finding-step-learning .substitution-value { padding: 12px 0 0; border-top: 1px solid var(--rule-dark); border-left: 0; }
   .finding-step-domains { grid-template-columns: 1fr; }
   .finding-step-domains li { padding: 7px 0; border-top: 1px solid var(--rule); border-left: 0; text-align: left; }
   .finding-step-domains li:first-child { border-top: 0; }
