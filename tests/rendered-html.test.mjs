@@ -675,7 +675,8 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function useStoryboardPlayback[\s\S]*?const node = demoRef\.current/);
   assert.match(pageSource, /hero-flip-card/);
   assert.match(pageSource, /className="wordmark-logo"[\s\S]*?className="wordmark-mark" src=\{assetUrl\("\/agentbait-mark\.png"\)\} width="18" height="32"[\s\S]*?className="wordmark-title">AgentBait<[\s\S]*?className="wordmark-tagline">You Won’t Believe This Click</);
-  assert.match(globalStyles, /\.wordmark-logo\s*\{[^}]*width:\s*34px[^}]*height:\s*38px[^}]*border:\s*1px solid var\(--navy\)/s);
+  assert.match(globalStyles, /\.wordmark-logo\s*\{[^}]*width:\s*34px[^}]*height:\s*38px/s);
+  assert.doesNotMatch(globalStyles, /\.wordmark-logo\s*\{[^}]*border:/s);
   assert.match(globalStyles, /\.wordmark-mark\s*\{[^}]*width:\s*18px[^}]*height:\s*32px[^}]*object-fit:\s*contain/s);
   assert.match(globalStyles, /\.wordmark-copy\s*\{[^}]*display:\s*grid[^}]*gap:\s*2px/s);
   assert.match(globalStyles, /\.wordmark-tagline\s*\{[^}]*font-size:\s*9\.5px/s);

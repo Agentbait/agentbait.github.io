@@ -50,7 +50,7 @@ del { color: #817d75; text-decoration-color: var(--red); text-decoration-thickne
   backdrop-filter: blur(10px);
 }
 .wordmark { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
-.wordmark-logo { width: 34px; height: 38px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid var(--navy); background: rgba(255,255,255,.18); }
+.wordmark-logo { width: 34px; height: 38px; flex: 0 0 auto; display: grid; place-items: center; background: rgba(255,255,255,.18); }
 .wordmark-mark { width: 18px; height: 32px; object-fit: contain; }
 .wordmark-copy { display: grid; gap: 2px; line-height: 1; }
 .wordmark-title { color: var(--navy); font-family: var(--serif); font-size: 18px; font-weight: 600; letter-spacing: -.03em; }
