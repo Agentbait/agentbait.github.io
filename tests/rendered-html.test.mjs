@@ -286,6 +286,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
   assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
+  assert.match(layoutSource, /const socialImage = \{[\s\S]*?url: "og\.png"[\s\S]*?width: 1200[\s\S]*?height: 630[\s\S]*?only target B rewritten and selected/);
+  assert.equal((layoutSource.match(/images: \[socialImage\]/g) || []).length, 2);
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
@@ -678,7 +680,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(githubMark, /<title>GitHub<\/title>/);
   assert.match(arxivMark, /<title>arXiv<\/title>/);
   assert.match(huggingFaceMark, /<title>Hugging Face<\/title>/);
-  const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon, landscapeVideo, portraitVideo] = await Promise.all([
+  const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon, socialCard, deploymentThumbnail, landscapeVideo, portraitVideo] = await Promise.all([
     readFile(new URL("../public/agentbait-paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
@@ -690,6 +692,8 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/sky-logo.png", import.meta.url)),
     readFile(new URL("../public/agentbait-mark.png", import.meta.url)),
     readFile(new URL("../public/favicon.png", import.meta.url)),
+    readFile(new URL("../public/og.png", import.meta.url)),
+    readFile(new URL("../public/screenshot.jpeg", import.meta.url)),
     readFile(new URL("../public/video/agentbait-social-16x9.mp4", import.meta.url)),
     readFile(new URL("../public/video/agentbait-social-9x16.mp4", import.meta.url)),
   ]);
@@ -701,6 +705,12 @@ test("ships the manuscript and method figure", async () => {
   assert.equal(favicon[25], 6, "AgentBait favicon must have a transparent background");
   assert.equal(favicon.readUInt32BE(16), 64, "AgentBait favicon must be 64px wide");
   assert.equal(favicon.readUInt32BE(20), 64, "AgentBait favicon must be 64px high");
+  const socialCardMetadata = await sharp(socialCard).metadata();
+  const deploymentThumbnailMetadata = await sharp(deploymentThumbnail).metadata();
+  assert.equal(socialCardMetadata.width, 1200, "social preview must be 1200px wide");
+  assert.equal(socialCardMetadata.height, 630, "social preview must be 630px high");
+  assert.equal(deploymentThumbnailMetadata.width, 1200, "deployment thumbnail must be 1200px wide");
+  assert.equal(deploymentThumbnailMetadata.height, 630, "deployment thumbnail must be 630px high");
   assert.equal(narrativeMethod[25], 6, "paper method figure must be an RGBA PNG with a transparent page background");
   assert.equal(narrativeMethod.readUInt32BE(16), 3782, "narrative method figure must preserve the PDF width at 144 dpi");
   assert.equal(narrativeMethod.readUInt32BE(20), 1416, "narrative method figure must preserve the PDF height at 144 dpi");

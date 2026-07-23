@@ -10,6 +10,12 @@ import {
 
 const title = "You Won't Believe This Click | AgentBait";
 const description = "An interactive research feature showing how one editorial rewrite can redirect an LLM agent within a fixed MIND-style news slate—and reduce source support.";
+const socialImage = {
+  url: "og.png",
+  width: 1200,
+  height: 630,
+  alt: "AgentBait paper preview showing a fixed three-item candidate slate with only target B rewritten and selected.",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -29,13 +35,13 @@ export const metadata: Metadata = {
     title,
     description,
     type: "website",
-    images: ["og.png"],
+    images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["og.png"],
+    images: [socialImage],
   },
 };
 
