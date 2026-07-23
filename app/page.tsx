@@ -9,6 +9,7 @@ type MorphDocument = Document & { startViewTransition?: (update: () => void) => 
 const codeUrl = "https://github.com/Agentbait/agentbait";
 const bairUrl = "https://bair.berkeley.edu/";
 const skyUrl = "https://sky.cs.berkeley.edu/";
+const tianyiUrl = "https://www.linkedin.com/in/chris-jin-680537299";
 const ziruiUrl = "https://zwcolin.github.io/";
 const davidUrl = "https://dchan.cc/";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -383,7 +384,7 @@ export default function Home() {
           <div className="paper-identity">
             <div className="byline">
               <div className="byline-copy">
-                <p><strong>Tianyi Jin</strong>, <a className="author-link" href={ziruiUrl} target="_blank" rel="noreferrer"><strong>Zirui Wang</strong></a> and <a className="author-link" href={davidUrl} target="_blank" rel="noreferrer"><strong>David M. Chan</strong></a></p>
+                <p><a className="author-link" href={tianyiUrl} target="_blank" rel="noreferrer"><strong>Tianyi Jin</strong></a>, <a className="author-link" href={ziruiUrl} target="_blank" rel="noreferrer"><strong>Zirui Wang</strong></a> and <a className="author-link" href={davidUrl} target="_blank" rel="noreferrer"><strong>David M. Chan</strong></a></p>
                 <p>University of California, Berkeley</p>
               </div>
               <div className="affiliation-logos" aria-label="Research affiliations">

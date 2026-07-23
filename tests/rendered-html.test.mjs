@@ -230,6 +230,7 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
   assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?github-mark[\s\S]*?>Code<\/span>[\s\S]*?arxiv-mark[\s\S]*?>Paper<\/span>[\s\S]*?huggingface-mark[\s\S]*?>Hugging Face<\/span>/);
   assert.equal((html.match(/href="https:\/\/github\.com\/Agentbait\/agentbait"/g) || []).length, 2);
+  assert.equal((html.match(/href="https:\/\/www\.linkedin\.com\/in\/chris-jin-680537299"/g) || []).length, 1);
   assert.doesNotMatch(html, /github\.com\/chrischrischristianyijin\/clickbait/);
   assert.doesNotMatch(html, /<a href="#demo">Demo(?: ↓)?<\/a>/);
   assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>[\s\S]*?arxiv-mark[\s\S]*?>Paper ↗<\/span>/);
@@ -442,6 +443,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(pageSource, /const codeUrl = "https:\/\/github\.com\/Agentbait\/agentbait"/);
   assert.match(pageSource, /const bairUrl = "https:\/\/bair\.berkeley\.edu\/"/);
   assert.match(pageSource, /const skyUrl = "https:\/\/sky\.cs\.berkeley\.edu\/"/);
+  assert.match(pageSource, /const tianyiUrl = "https:\/\/www\.linkedin\.com\/in\/chris-jin-680537299"/);
   assert.match(pageSource, /const ziruiUrl = "https:\/\/zwcolin\.github\.io\/"/);
   assert.match(pageSource, /const davidUrl = "https:\/\/dchan\.cc\/"/);
   assert.match(pageSource, /const paperUrl = assetUrl\("\/agentbait-paper\.pdf"\)/);
@@ -451,6 +453,7 @@ test("ships the manuscript and method figure", async () => {
   assert.equal((pageSource.match(/className="resource-mark huggingface-mark"/g) || []).length, 2);
   assert.equal((pageSource.match(/className="resource-placeholder" aria-disabled="true"/g) || []).length, 2);
   assert.doesNotMatch(pageSource, /<a href="#demo">Demo/);
+  assert.match(pageSource, /className="author-link" href=\{tianyiUrl\} target="_blank" rel="noreferrer"><strong>Tianyi Jin<\/strong><\/a>/);
   assert.match(pageSource, /className="author-link" href=\{ziruiUrl\} target="_blank" rel="noreferrer"><strong>Zirui Wang<\/strong><\/a>/);
   assert.match(pageSource, /className="author-link" href=\{davidUrl\} target="_blank" rel="noreferrer"><strong>David M\. Chan<\/strong><\/a>/);
   assert.match(globalStyles, /--gold:\s*#8a6417/);
