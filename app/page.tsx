@@ -464,7 +464,7 @@ export default function Home() {
         <section className="story-section results" id="results" aria-labelledby="results-title">
           <div className="section-label">03 · Key findings</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">A controlled sequence from presentation sensitivity to optimization pressure and source-supported learning.</p></div>
+            <div className="prose"><h2 className="compact-section-title" id="results-title">How presentation becomes a decision signal</h2><p className="lead">Agent-mediated selection creates a direct optimization pressure on content presentation.</p></div>
           </div>
 
           <div className="finding-sequence" aria-label="A four-step sequence from presentation sensitivity to a source-support failure mode">

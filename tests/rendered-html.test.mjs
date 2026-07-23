@@ -162,7 +162,7 @@ test("server-renders the AgentBait research feature", async () => {
   const shortcut = sliceBetween(findingsText, "03 Shortcut", "04 Source support");
   const sourceSupport = findingsText.slice(findingsText.indexOf("04 Source support"));
   assert.match(findingsText, /How presentation becomes a decision signal/);
-  assert.match(findingsText, /A controlled sequence from presentation sensitivity to optimization pressure and source-supported learning\./);
+  assert.match(findingsText, /Agent-mediated selection creates a direct optimization pressure on content presentation\./);
   assert.match(sensitivity, /Presentation shifts choice/);
   assert.match(sensitivity, /17\.1%/);
   assert.match(sensitivity, /34\.8%/);
