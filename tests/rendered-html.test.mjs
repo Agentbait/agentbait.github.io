@@ -38,7 +38,7 @@ function sliceBetween(text, start, end) {
   return text.slice(startIndex, endIndex);
 }
 
-test("server-renders the AgentBait research feature", async () => {
+test("server-renders the AgentBait paper site", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -46,13 +46,12 @@ test("server-renders the AgentBait research feature", async () => {
   const html = await response.text();
   const plainText = toPlainText(html);
   assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
-  assert.match(html, /class="click-word"/);
-  assert.match(html, /Complete the word Click/);
-  assert.match(html, /class="click-placeholder">_<\/span>/);
-  assert.doesNotMatch(html, /Click, selected/);
+  assert.match(html, /<h1 id="paper-title">You Won(?:&#x27;|')t Believe This Click<\/h1>/);
+  assert.doesNotMatch(html, /class="click-word"|Complete the word Click|click-placeholder|Click, selected/);
+  assert.doesNotMatch(plainText, /Research feature/i);
   assert.doesNotMatch(plainText, /01 · Agent-legible presentation effects/i);
   assert.doesNotMatch(plainText, /Does a better presentation become a different decision\?/);
-  assert.match(plainText, /You Won't Believe This Cl\s+_\s+ck Content Rewriting for Agentic Choice/);
+  assert.match(plainText, /You Won't Believe This Click Content Rewriting for Agentic Choice/);
   assert.match(plainText, /Can changing only one item's presentation change the chooser's decision\?/);
   assert.equal((plainText.match(/Can changing only one item's presentation change the chooser's decision\?/g) || []).length, 1);
   assert.doesNotMatch(plainText, /We rewrite one target item's title and abstract, then ask the same LLM chooser to select again from the same candidate list\./);
@@ -382,10 +381,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.editorial-abstract/);
   assert.doesNotMatch(globalStyles, /\.typewriter-abstract/);
   assert.doesNotMatch(globalStyles, /@keyframes abstract-source-fade/);
-  assert.match(globalStyles, /\.click-word\s*\{/);
-  assert.match(globalStyles, /@keyframes click-letter-drop/);
-  assert.match(globalStyles, /\.click-selected-note\s*\{/);
-  assert.match(globalStyles, /@keyframes click-selected-cycle/);
+  assert.doesNotMatch(globalStyles, /\.click-(?:completion|word|letter|placeholder|selected-note)|@keyframes click-(?:letter-drop|selected-cycle)/);
   assert.doesNotMatch(globalStyles, /\.slate-flow\s*\{/);
   assert.match(globalStyles, /\.concept-triptych\s*\{/);
   assert.match(globalStyles, /\.triptych-panel\s*\{/);
@@ -431,10 +427,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /min-height:\s*calc\(100svh - 62px\)/);
   assert.match(globalStyles, /grid-template-columns:\s*minmax\(400px, 2fr\) minmax\(600px, 3fr\)/);
   assert.match(pageSource, /When Marshawn Lynch Took the Pitch: An Inside Look/);
-  assert.match(pageSource, /function InteractiveClickWord/);
-  assert.match(pageSource, /onClick=\{completeWord\}/);
-  assert.match(pageSource, /setTimeout\(\(\) => setSelectedVisible\(false\), 2600\)/);
-  assert.match(pageSource, /className="click-letter"/);
+  assert.doesNotMatch(pageSource, /InteractiveClickWord|completeWord|selectedVisible|click-letter/);
   assert.ok(pageSource.indexOf('className="hero-feature"') < pageSource.indexOf('id="abstract"'));
   assert.ok(pageSource.indexOf('id="abstract"') < pageSource.indexOf('id="results"'));
   assert.ok(pageSource.indexOf('id="results"') < pageSource.indexOf('id="setting"'));

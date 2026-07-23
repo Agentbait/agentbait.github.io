@@ -131,42 +131,6 @@ function TypewriterTitle({ text }: { text: string }) {
   });
 }
 
-function InteractiveClickWord() {
-  const [completed, setCompleted] = useState(false);
-  const [selectedVisible, setSelectedVisible] = useState(false);
-  const hideSelectedTimer = useRef<number | null>(null);
-
-  useEffect(() => () => {
-    if (hideSelectedTimer.current !== null) window.clearTimeout(hideSelectedTimer.current);
-  }, []);
-
-  function completeWord() {
-    if (completed) return;
-    setCompleted(true);
-    setSelectedVisible(true);
-    hideSelectedTimer.current = window.setTimeout(() => setSelectedVisible(false), 2600);
-  }
-
-  return (
-    <span className={`click-completion ${completed ? "is-complete" : ""}`}>
-      <button
-        type="button"
-        className="click-word"
-        aria-label={completed ? "Click, selected" : "Complete the word Click"}
-        aria-pressed={completed}
-        onClick={completeWord}
-      >
-        <span aria-hidden="true">Cl</span>
-        <span className="click-letter-slot" aria-hidden="true">
-          {completed ? <span className="click-letter">i</span> : <span className="click-placeholder">_</span>}
-        </span>
-        <span aria-hidden="true">ck</span>
-      </button>
-      <span className={`click-selected-note ${selectedVisible ? "is-visible" : ""}`} aria-live="polite">{selectedVisible ? "selected" : ""}</span>
-    </span>
-  );
-}
-
 function CandidateStoryboard({ stage, instanceId, showEditorHand }: { stage: AttackStage; instanceId: string; showEditorHand: boolean }) {
   const rewritten = ["rewrite-complete", "return", "rescan-a", "rescan-b", "rescan-c", "selected", "final"].includes(stage);
   const focused = ["focus", "rewrite-title", "rewrite-complete"].includes(stage);
@@ -355,7 +319,7 @@ export default function Home() {
         <a className="wordmark" href="#paper" aria-label="AgentBait paper home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="wordmark-mark" src={assetUrl("/agentbait-mark.png")} width="19" height="34" alt="" aria-hidden="true" />
-          <span>AgentBait</span><small>Research feature</small>
+          <span>AgentBait</span>
         </a>
         <nav aria-label="Reading navigation">
           <a href={codeUrl} target="_blank" rel="noreferrer">
@@ -379,7 +343,7 @@ export default function Home() {
       <article>
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
-          <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
+          <h1 id="paper-title">You Won&apos;t Believe This Click</h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <div className="paper-identity">
             <div className="byline">
