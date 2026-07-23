@@ -316,6 +316,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(pageSource, /function MetaLine|<MetaLine/);
   assert.doesNotMatch(globalStyles, /\.figure-meta|\.finding-heading/);
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
+  assert.match(globalStyles, /\.finding-step-learning \.selection-value b\s*\{[^}]*font-size:\s*clamp\(25px, 2\.35vw, 34px\)/s);
   assert.match(globalStyles, /\.finding-step-learning \.substitution-value b\s*\{[^}]*font-size:\s*clamp\(22px, 2vw, 30px\)/s);
   assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
   assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
