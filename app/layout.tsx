@@ -8,8 +8,8 @@ import {
   siteUrl,
 } from "./site-config";
 
-const title = "You Won't Believe This Click | AgentBait";
-const description = "When AI agents decide what people see, presentation becomes an optimization target.";
+const title = "You Won't Believe This Click: Content Rewriting for Agentic Choice";
+const description = "AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support.";
 const gtmId = "GTM-WSHC2PFG";
 const gtmConsentDefault = `
   window.dataLayer = window.dataLayer || [];
@@ -37,6 +37,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
   description,
+  robots: "index, follow, max-image-preview:large",
   alternates: {
     canonical: primarySiteUrl,
   },

@@ -45,7 +45,10 @@ test("server-renders the AgentBait paper site", async () => {
 
   const html = await response.text();
   const plainText = toPlainText(html);
-  assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click \| AgentBait<\/title>/i);
+  assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click: Content Rewriting for Agentic Choice<\/title>/i);
+  assert.match(html, /<meta name="description" content="AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support\."\/>/);
+  assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"\/>/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/agentbait\.github\.io\/"\/>/);
   assert.ok((html.match(/GTM-WSHC2PFG/g) || []).length >= 2, "GTM container must appear in both script and noscript fallbacks");
   assert.match(html, /googletagmanager\.com\/gtm\.js\?id=/);
   assert.match(html, /googletagmanager\.com\/ns\.html\?id=GTM-WSHC2PFG/);
@@ -289,7 +292,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
   assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
-  assert.match(layoutSource, /const description = "When AI agents decide what people see, presentation becomes an optimization target\."/);
+  assert.match(layoutSource, /const title = "You Won't Believe This Click: Content Rewriting for Agentic Choice"/);
+  assert.match(layoutSource, /const description = "AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support\."/);
+  assert.match(layoutSource, /robots: "index, follow, max-image-preview:large"/);
   assert.doesNotMatch(layoutSource, /An interactive research feature showing how one editorial rewrite/);
   assert.match(thumbnailSource, /When AI agents decide what people see,/);
   assert.match(thumbnailSource, /presentation becomes an optimization target\./);
@@ -319,8 +324,9 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.support-aware-underline\s*\{[^}]*background:\s*transparent[^}]*text-decoration-color:\s*currentColor/s);
   assert.doesNotMatch(globalStyles, /\.rewrite-abstract\s*\{[^}]*border-top/s);
   assert.doesNotMatch(globalStyles, /\.editorial-mark|\.grounded-mark/);
-  assert.match(robotsSource, /sitemap\.xml/);
+  assert.match(robotsSource, /userAgent:\s*"\*"[\s\S]*?allow:\s*"\/"[\s\S]*?sitemap:\s*new URL\("sitemap\.xml", primarySiteUrl\)/);
   assert.match(sitemapSource, /url:\s*primarySiteUrl/);
+  assert.doesNotMatch(sitemapSource, /changeFrequency|priority/);
   assert.match(pageSource, /className="caption-question"/);
   assert.match(globalStyles, /\.caption-question\s*\{/);
   assert.doesNotMatch(pageSource, /constant-ribbon/);

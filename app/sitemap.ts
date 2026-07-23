@@ -7,8 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: primarySiteUrl,
-      changeFrequency: "monthly",
-      priority: 1,
     },
   ];
 }
