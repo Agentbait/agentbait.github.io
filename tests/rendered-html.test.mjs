@@ -324,6 +324,7 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(analyticsSource, /Google Analytics uses cookies to measure aggregate visits\./);
   assert.doesNotMatch(globalStyles, /\.analytics-consent|\.analytics-settings/);
   assert.match(globalStyles, /\.support-aware-underline\s*\{[^}]*background:\s*transparent[^}]*text-decoration-color:\s*currentColor/s);
+  assert.match(globalStyles, /\.caption-question\s*\{[^}]*font-size:\s*clamp\(17px, 1\.25vw, 20px\)/s);
   assert.doesNotMatch(globalStyles, /\.rewrite-abstract\s*\{[^}]*border-top/s);
   assert.doesNotMatch(globalStyles, /\.editorial-mark|\.grounded-mark/);
   assert.match(robotsSource, /userAgent:\s*"\*"[\s\S]*?allow:\s*"\/"[\s\S]*?sitemap:\s*new URL\("sitemap\.xml", primarySiteUrl\)/);
