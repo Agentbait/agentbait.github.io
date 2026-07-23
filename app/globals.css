@@ -61,7 +61,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 
 .hero-feature { min-height: calc(100svh - 62px); display: grid; grid-template-columns: minmax(400px, 2fr) minmax(600px, 3fr); align-items: stretch; background: var(--paper); border-bottom: 1px solid var(--rule-dark); }
 .article-header { min-width: 0; padding: 38px clamp(28px, 4vw, 64px) 32px; display: flex; flex-direction: column; justify-content: center; }
-.hero-eyebrow { margin: 0 0 16px; color: var(--red); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .article-header h1 { max-width: 760px; margin: 0; color: var(--navy); font-family: var(--serif); font-size: clamp(48px, 4.4vw, 70px); font-weight: 500; line-height: .96; letter-spacing: -.03em; text-wrap: balance; }
 .click-completion { display: inline-block; position: relative; white-space: nowrap; vertical-align: baseline; }
 .click-word { margin: 0; padding: 0 .02em .035em; display: inline-flex; align-items: baseline; position: relative; color: inherit; background: transparent; border: 0; font: inherit; font-weight: inherit; line-height: inherit; letter-spacing: inherit; cursor: pointer; }
@@ -862,7 +861,6 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .hero-feature { min-height: auto; display: block; }
   .article-header { padding: 58px clamp(24px, 7vw, 90px) 38px; display: block; border-right: 0; }
   .article-header h1 { max-width: 850px; margin-inline: auto; font-size: clamp(52px, 7vw, 76px); }
-  .hero-eyebrow { margin-left: auto; margin-right: auto; }
   .subtitle { max-width: 850px; margin-inline: auto; }
   .standfirst, .paper-identity { margin-left: auto; margin-right: auto; }
   .paper-identity { grid-template-columns: 1fr auto; gap: 28px; }
@@ -935,7 +933,6 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .site-header nav a, .site-header nav .resource-placeholder { font-size: 9px; }
   .article-header, .story-section { padding: 54px 19px; }
   .article-header h1 { font-size: clamp(42px, 12vw, 58px); }
-  .hero-eyebrow { margin-bottom: 13px; font-size: 9px; }
   .standfirst { margin-top: 32px; }
   .paper-links { flex-wrap: wrap; }
   .attack-demo { padding: 42px 12px 24px; }

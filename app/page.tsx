@@ -378,7 +378,6 @@ export default function Home() {
       <article>
         <section className="hero-feature" aria-labelledby="paper-title">
         <header className="article-header">
-          <p className="hero-eyebrow">01 · Agent-legible presentation effects</p>
           <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
           <p className="standfirst">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
