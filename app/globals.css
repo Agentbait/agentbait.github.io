@@ -788,67 +788,6 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
 .footer-credits-toggle:hover .footer-credits-toggle-mark { color: #dc8b82; border-color: #dc8b82; }
 .site-footer.is-credits-open .footer-credits-toggle-mark { transform: rotate(180deg); }
 
-.analytics-consent {
-  min-height: 30px;
-  padding: 7px clamp(19px, 7vw, 126px) 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #8998a6;
-  background: var(--navy);
-  border-top: 1px solid rgba(113,129,149,.55);
-  font-family: var(--mono);
-  font-size: 9px;
-}
-.analytics-consent p {
-  margin: 0;
-  font-size: inherit;
-  line-height: 1.4;
-}
-.analytics-consent-actions { display: inline-flex; align-items: center; gap: 8px; }
-.analytics-consent-actions button,
-.analytics-settings {
-  min-height: 0;
-  padding: 0 0 2px;
-  color: #c9cfd4;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid rgba(220,139,130,.7);
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .03em;
-  cursor: pointer;
-}
-.analytics-consent-actions button:hover,
-.analytics-consent-actions button:focus-visible,
-.analytics-settings:hover,
-.analytics-settings:focus-visible {
-  color: #dc8b82;
-  border-bottom-color: #dc8b82;
-  outline: none;
-}
-.analytics-settings {
-  width: 100%;
-  min-height: 30px;
-  padding: 7px clamp(19px, 7vw, 126px) 8px;
-  display: block;
-  color: #8998a6;
-  background: var(--navy);
-  border-top: 1px solid rgba(113,129,149,.55);
-  border-bottom: 0;
-  font-size: 9px;
-  text-align: center;
-  transition: color .2s ease;
-}
-.analytics-settings:hover,
-.analytics-settings:focus-visible {
-  color: #dc8b82;
-  background: var(--navy);
-  border-top-color: rgba(220,139,130,.7);
-}
-
 @media (max-width: 1120px) {
   .hero-feature { min-height: auto; display: block; }
   .article-header { padding: 58px clamp(24px, 7vw, 90px) 38px; display: block; border-right: 0; }
@@ -1001,7 +940,6 @@ table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-v
   .citation-body { grid-template-columns: 1fr; }
   .citation-body button { width: fit-content; }
   .footer-credits-inner, .footer-bar { padding-inline: 19px; }
-  .analytics-consent { flex-wrap: wrap; gap: 5px 9px; text-align: center; }
 }
 
 @media (max-width: 460px) {

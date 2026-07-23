@@ -15,11 +15,10 @@ const gtmConsentDefault = `
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
   window.gtag('consent', 'default', {
-    analytics_storage: 'denied',
+    analytics_storage: 'granted',
     ad_storage: 'denied',
     ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    wait_for_update: 500
+    ad_personalization: 'denied'
   });
 `;
 const gtmBootstrap = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
