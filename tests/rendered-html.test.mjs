@@ -49,6 +49,7 @@ test("server-renders the AgentBait paper site", async () => {
   assert.match(html, /<meta name="description" content="AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support\."\/>/);
   assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"\/>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/agentbait\.github\.io\/"\/>/);
+  assert.match(html, /<meta name="google-site-verification" content="5XSefLo9dX0I_Szro49mP5w54fCMDDuxB3E3LViw5mU"\/>/);
   assert.ok((html.match(/GTM-WSHC2PFG/g) || []).length >= 2, "GTM container must appear in both script and noscript fallbacks");
   assert.match(html, /googletagmanager\.com\/gtm\.js\?id=/);
   assert.match(html, /googletagmanager\.com\/ns\.html\?id=GTM-WSHC2PFG/);
@@ -306,7 +307,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /<body>[\s\S]*?<noscript>[\s\S]*?googletagmanager\.com\/ns\.html\?id=\$\{gtmId\}/);
   assert.match(layoutSource, /analytics_storage: 'granted'[\s\S]*?ad_storage: 'denied'/);
   assert.match(siteConfigSource, /NEXT_PUBLIC_GA_MEASUREMENT_ID/);
-  assert.match(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
+  assert.match(siteConfigSource, /5XSefLo9dX0I_Szro49mP5w54fCMDDuxB3E3LViw5mU/);
+  assert.doesNotMatch(siteConfigSource, /NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION/);
   assert.match(siteConfigSource, /https:\/\/agentbait\.github\.io\//);
   assert.doesNotMatch(siteConfigSource, /chrischrischristianyijin\.github\.io\/agentbait-paper-website/);
   assert.match(packageJson, /"build:pages": "GITHUB_PAGES=true next build"/);

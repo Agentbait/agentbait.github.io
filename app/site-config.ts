@@ -23,6 +23,5 @@ export const gaMeasurementId = validGaMeasurementId(
   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
 );
 
-export const googleSiteVerification = optionalEnvironmentValue(
-  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-);
+export const googleSiteVerification =
+  "5XSefLo9dX0I_Szro49mP5w54fCMDDuxB3E3LViw5mU";

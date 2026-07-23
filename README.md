@@ -42,16 +42,15 @@ supported by `npm run build` as a mirror.
 ## Traffic measurement and search visibility
 
 The site supports Google Analytics 4, Google Search Console verification, a
-canonical URL, `robots.txt`, and `sitemap.xml`. GA4 loads only after a visitor
-allows analytics; advertising signals and ad personalization are disabled.
+canonical URL, `robots.txt`, and `sitemap.xml`. GA4 analytics loads by default;
+advertising signals and ad personalization are disabled.
 
 Copy `.env.example` to an ignored local environment file and provide:
 
 ```bash
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your-html-tag-content-token
 ```
 
-For GitHub Pages, add the same names as repository variables. For Search
-Console, add the exact Sites URL as a URL-prefix property and use the HTML tag
-verification method.
+For GitHub Pages, add the same name as a repository variable. The Search
+Console HTML verification token is stored permanently in the site metadata so
+it remains present across deployments.
