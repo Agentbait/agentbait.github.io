@@ -448,56 +448,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="hero-result-summary" aria-labelledby="hero-results-title">
-          <header className="hero-result-summary-head">
-            <h2 id="hero-results-title">Results at a glance</h2>
-            <p>Target selection rate unless noted</p>
-          </header>
-
-          <div className="hero-result-grid">
-            <article className="hero-result-card hero-result-core">
-              <p className="hero-result-kicker">01 · Core effect</p>
-              <h3>Agent feedback makes the pressure learnable</h3>
-              <ol className="hero-result-bars" aria-label="Target selection rates by rewriting condition">
-                <li style={{ "--summary-score": "17.1%" } as CSSProperties}>
-                  <span>Original target</span><i aria-hidden="true" /><b>17.1%</b>
-                </li>
-                <li style={{ "--summary-score": "43.9%" } as CSSProperties}>
-                  <span>Prompting-only advisor</span><i aria-hidden="true" /><b>43.9%</b>
-                </li>
-                <li className="is-trained" style={{ "--summary-score": "98.5%" } as CSSProperties}>
-                  <span>RL-trained advisor</span><i aria-hidden="true" /><b>98.5%</b>
-                </li>
-              </ol>
-            </article>
-
-            <article className="hero-result-card hero-result-support">
-              <p className="hero-result-kicker">02 · Factuality trade-off</p>
-              <h3>Selection and source support can diverge</h3>
-              <div className="hero-support-comparison">
-                <section aria-label="Unconstrained advisor results">
-                  <h4>Unconstrained advisor</h4>
-                  <dl><div><dt>Selected</dt><dd>98.5%</dd></div><div><dt>Supported</dt><dd>2.0%</dd></div></dl>
-                </section>
-                <section className="is-support-aware" aria-label="Support-aware advisor results">
-                  <h4>Support-aware advisor</h4>
-                  <dl><div><dt>Selected</dt><dd>68.6%</dd></div><div><dt>Supported</dt><dd>31.2%</dd></div></dl>
-                </section>
-              </div>
-              <p className="hero-result-note">Lower selection, but substantially more source support.</p>
-            </article>
-
-            <article className="hero-result-card hero-result-generalization">
-              <p className="hero-result-kicker">03 · Generalization</p>
-              <h3>The learned advice transfers</h3>
-              <ul>
-                <li><span>01</span><b>Across model families</b></li>
-                <li><span>02</span><b>Across six languages</b></li>
-                <li><span>03</span><b>Across news and scientific domains</b></li>
-              </ul>
-            </article>
-          </div>
-        </section>
         </section>
 
         <section className="story-section abstract-section" id="abstract" aria-labelledby="abstract-title">
