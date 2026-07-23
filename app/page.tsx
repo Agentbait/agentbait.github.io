@@ -380,7 +380,6 @@ export default function Home() {
         <header className="article-header">
           <h1 id="paper-title">You Won&apos;t Believe This <InteractiveClickWord /></h1>
           <p className="subtitle">Content Rewriting for Agentic Choice</p>
-          <p className="standfirst">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
           <div className="paper-identity">
             <div className="byline">
               <div className="byline-copy">
@@ -444,6 +443,7 @@ export default function Home() {
             <span className="hero-flip-hint" aria-hidden="true">{heroFlipped ? "Click to return" : "View graph"}<i>↻</i></span>
           </div>
           <div className="demo-caption">
+            <p className="caption-question">Can changing only one item&apos;s presentation change the chooser&apos;s decision?</p>
             <p className="caption-copy">A list of competing documents is shown to the target agent. We choose one target document from the list and generate a rewriting strategy for only that document. A separate rewriting model then revises the target document&apos;s title and abstract, while all other documents in the list remain exactly the same. The target agent selects from this updated list, and whether the rewritten target document is selected is used to train the advisor.</p>
           </div>
         </section>
