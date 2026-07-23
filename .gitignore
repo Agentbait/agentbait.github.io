@@ -42,3 +42,7 @@ next-env.d.ts
 /outputs/
 /work/
 /tmp/
+
+# Remotion social-video workspace
+/video/node_modules/
+/video/output/

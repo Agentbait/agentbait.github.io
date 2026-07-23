@@ -78,6 +78,24 @@ test("server-renders the AgentBait research feature", async () => {
   assert.match(html, /MiniCheck/);
   assert.doesNotMatch(html, /The cards do not move\. The chooser does\./);
   assert.match(html, /class="hero-feature"/);
+  assert.match(html, /class="hero-result-summary"/);
+  assert.ok(html.indexOf('class="attack-demo') < html.indexOf('class="hero-result-summary"'));
+  assert.ok(html.indexOf('class="hero-result-summary"') < html.indexOf('id="abstract"'));
+  const heroResultsText = sliceBetween(plainText, "Results at a glance", "02 · Abstract");
+  assert.match(heroResultsText, /01 · Core effect Agent feedback makes the pressure learnable/);
+  assert.match(heroResultsText, /Original target 17\.1%/);
+  assert.match(heroResultsText, /Prompting-only advisor 43\.9%/);
+  assert.match(heroResultsText, /RL-trained advisor 98\.5%/);
+  assert.match(heroResultsText, /02 · Factuality trade-off Selection and source support can diverge/);
+  assert.match(heroResultsText, /Unconstrained advisor Selected 98\.5% Supported 2\.0%/);
+  assert.match(heroResultsText, /Support-aware advisor Selected 68\.6% Supported 31\.2%/);
+  assert.match(heroResultsText, /Lower selection, but substantially more source support\./);
+  assert.match(heroResultsText, /03 · Generalization The learned advice transfers/);
+  assert.match(heroResultsText, /Across model families/);
+  assert.match(heroResultsText, /Across six languages/);
+  assert.match(heroResultsText, /Across news and scientific domains/);
+  assert.doesNotMatch(heroResultsText, /Across four languages/);
+  assert.doesNotMatch(html, /<table[^>]*hero-result/);
   assert.doesNotMatch(html, /news-thumb/);
   assert.doesNotMatch(html, /clearer framing|stronger relevance|same underlying content/i);
   assert.doesNotMatch(html, /Original baseline|Rewriting outcomes with and without MiniCheck/);
@@ -280,6 +298,7 @@ test("ships the manuscript and method figure", async () => {
   const sitemapSource = await readFile(new URL("../app/sitemap.ts", import.meta.url), "utf8");
   const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const videoRootSource = await readFile(new URL("../video/src/root.tsx", import.meta.url), "utf8");
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
   assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
@@ -289,6 +308,8 @@ test("ships the manuscript and method figure", async () => {
   assert.match(siteConfigSource, /https:\/\/agentbait\.github\.io\//);
   assert.doesNotMatch(siteConfigSource, /chrischrischristianyijin\.github\.io\/agentbait-paper-website/);
   assert.match(packageJson, /"build:pages": "GITHUB_PAGES=true next build"/);
+  assert.match(videoRootSource, /id="Landscape35"[\s\S]*?durationInFrames=\{1050\}[\s\S]*?fps=\{30\}[\s\S]*?width=\{1920\}[\s\S]*?height=\{1080\}/);
+  assert.match(videoRootSource, /id="Portrait24"[\s\S]*?durationInFrames=\{720\}[\s\S]*?fps=\{30\}[\s\S]*?width=\{1080\}[\s\S]*?height=\{1920\}/);
   assert.doesNotMatch(packageJson, /NEXT_PUBLIC_BASE_PATH=\/agentbait-paper-website/);
   assert.match(siteConfigSource, /\^G-\[A-Z0-9\]\+\$/);
   assert.match(analyticsSource, /googletagmanager\.com\/gtag\/js\?id=/);
@@ -671,7 +692,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(githubMark, /<title>GitHub<\/title>/);
   assert.match(arxivMark, /<title>arXiv<\/title>/);
   assert.match(huggingFaceMark, /<title>Hugging Face<\/title>/);
-  const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon] = await Promise.all([
+  const [paperPdf, , narrativeMethod, editorHand, rewriterHand, advisorScholar, selectorHand, bairLogo, skyLogo, agentBaitMark, favicon, landscapeVideo, portraitVideo] = await Promise.all([
     readFile(new URL("../public/agentbait-paper.pdf", import.meta.url)),
     access(new URL("../public/agentbait-method.png", import.meta.url)),
     readFile(new URL("../public/paper-method-transparent.png", import.meta.url)),
@@ -683,6 +704,8 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/sky-logo.png", import.meta.url)),
     readFile(new URL("../public/agentbait-mark.png", import.meta.url)),
     readFile(new URL("../public/favicon.png", import.meta.url)),
+    readFile(new URL("../public/video/agentbait-social-16x9.mp4", import.meta.url)),
+    readFile(new URL("../public/video/agentbait-social-9x16.mp4", import.meta.url)),
   ]);
   assert.equal(paperPdf.subarray(0, 5).toString(), "%PDF-", "paper resource must be a valid PDF");
   assert.ok(paperPdf.length > 9_000_000, "paper resource must include the complete manuscript");
@@ -711,4 +734,8 @@ test("ships the manuscript and method figure", async () => {
   assert.equal(rewriterHand[25], 6, "rewriter hand with strings must be an RGBA PNG");
   assert.equal(advisorScholar[25], 6, "advisor scholar must be an RGBA PNG");
   assert.equal(selectorHand[25], 6, "selector hand must be an RGBA PNG");
+  assert.equal(landscapeVideo.subarray(4, 8).toString(), "ftyp", "landscape social video must be a valid MP4");
+  assert.equal(portraitVideo.subarray(4, 8).toString(), "ftyp", "portrait social video must be a valid MP4");
+  assert.ok(landscapeVideo.length > 3_000_000, "landscape social video must include the complete 35-second edit");
+  assert.ok(portraitVideo.length > 2_000_000, "portrait social video must include the complete vertical edit");
 });

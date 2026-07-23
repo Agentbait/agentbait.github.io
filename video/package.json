@@ -1,0 +1,18 @@
+{
+  "name": "agentbait-video",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:landscape": "remotion render src/index.ts Landscape35 output/agentbait-social-16x9.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p",
+    "render:portrait": "remotion render src/index.ts Portrait24 output/agentbait-social-9x16.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p",
+    "render": "npm run render:landscape && npm run render:portrait"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.496",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "remotion": "4.0.496"
+  }
+}
