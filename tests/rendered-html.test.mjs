@@ -198,9 +198,9 @@ test("server-renders the AgentBait research feature", async () => {
   assert.doesNotMatch(html, /Full experimental table|collapse \/ expand/);
   assert.doesNotMatch(html, /A different decision|unchanged candidate slate|Policy updated: sharpen specificity|before advisor training begins|factual quality|reward \+ constraint|final evaluation rubric|Attack strategy 0[12]/i);
   assert.doesNotMatch(plainText, /Same slate · Both selected/);
-  assert.match(plainText, /One airport story, two routes to selection/);
-  assert.match(plainText, /Both rewrites win selection\. The redline shows the difference: one reframes the available evidence, while the other introduces a mechanism absent from the source\./);
-  assert.doesNotMatch(plainText, /One airport story, two ways to win selection|Both learned rewrites make the target selectable/);
+  assert.match(plainText, /Same source\. Different rewards\. Different strategies\./);
+  assert.match(plainText, /Selection-only optimization introduces an AI and sensor-fusion mechanism absent from the source\. Support-aware optimization instead reframes source-supported operations and stakes\./);
+  assert.doesNotMatch(plainText, /One airport story, two (?:routes|ways) to selection|Both rewrites win selection|Both learned rewrites make the target selectable/);
   assert.match(plainText, /A · Unconstrained Technical authority · Novelty/);
   assert.match(plainText, /B · Support-aware Operational puzzle · Stakes/);
   assert.match(plainText, /MiniCheck support ↑ 0\.014 Worst-sentence ↑ 0\.006/);
@@ -318,7 +318,7 @@ test("ships the manuscript and method figure", async () => {
   assert.match(globalStyles, /\.table-takeaway\s*\{/);
   assert.doesNotMatch(globalStyles, /\.shared-selection\s*\{/);
   assert.match(pageSource, /const \[frontRewrite, setFrontRewrite\] = useState<"a" \| "b">\("b"\)/);
-  assert.match(pageSource, /One airport story,<br \/>two routes to selection/);
+  assert.match(pageSource, /Same source\. Different rewards\.<br \/>Different strategies\./);
   assert.match(pageSource, /id="transfer-title">Transfer across languages,<br \/>news datasets and academic documents/);
   assert.match(pageSource, /className="compact-section-title" id="results-title">How presentation becomes a decision signal/);
   assert.match(globalStyles, /\.prose h2\.compact-section-title\s*\{[^}]*font-size:\s*clamp\(34px, 3\.15vw, 44px\)[^}]*white-space:\s*nowrap/s);

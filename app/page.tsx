@@ -657,7 +657,7 @@ export default function Home() {
         <section className="story-section case-study" id="examples" aria-labelledby="example-title">
           <div className="section-label">05 · Examples as editorial redlines</div>
           <div className="story-grid solo-grid">
-            <div className="prose"><h2 id="example-title">One airport story,<br />two routes to selection</h2><p>Both rewrites win selection. The redline shows the difference: one reframes the available evidence, while the other introduces a mechanism absent from the source.</p></div>
+            <div className="prose"><h2 id="example-title">Same source. Different rewards.<br />Different strategies.</h2><p>Selection-only optimization introduces an AI and sensor-fusion mechanism absent from the source. Support-aware optimization instead reframes source-supported operations and stakes.</p></div>
           </div>
           <figure className="example-figure" aria-labelledby="example-caption">
             <aside className="example-source" aria-label="Fixed original target">
