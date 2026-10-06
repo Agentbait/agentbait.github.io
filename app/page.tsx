@@ -6,7 +6,6 @@ import { flushSync } from "react-dom";
 type MorphViewTransition = { finished: Promise<void> };
 type MorphDocument = Document & { startViewTransition?: (update: () => void) => MorphViewTransition };
 
-const codeUrl = "https://github.com/Agentbait/agentbait";
 const bairUrl = "https://bair.berkeley.edu/";
 const skyUrl = "https://sky.cs.berkeley.edu/";
 const tianyiUrl = "https://www.linkedin.com/in/chris-jin-680537299";
@@ -327,21 +326,11 @@ export default function Home() {
           </span>
         </a>
         <nav aria-label="Reading navigation">
-          <a href={codeUrl} target="_blank" rel="noreferrer">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="resource-mark github-mark" src={assetUrl("/github-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-            <span>Code</span>
-          </a>
           <a href={paperUrl} target="_blank" rel="noreferrer">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
             <span>Paper</span>
           </a>
-          <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource placeholder">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-            <span>Hugging Face</span>
-          </span>
         </nav>
       </header>
 
@@ -368,21 +357,11 @@ export default function Home() {
               </div>
             </div>
             <div className="paper-links" aria-label="Paper resources">
-              <a href={codeUrl} target="_blank" rel="noreferrer">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="resource-mark github-mark" src={assetUrl("/github-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-                <span>Code ↗</span>
-              </a>
               <a href={paperUrl} target="_blank" rel="noreferrer">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="resource-mark arxiv-mark" src={assetUrl("/arxiv-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
                 <span>Paper ↗</span>
               </a>
-              <span className="resource-placeholder" aria-disabled="true" aria-label="Hugging Face resource placeholder">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="resource-mark huggingface-mark" src={assetUrl("/huggingface-mark.svg")} width="24" height="24" alt="" aria-hidden="true" />
-                <span>Hugging Face</span>
-              </span>
             </div>
           </div>
         </header>
