@@ -713,7 +713,12 @@ test("ships the manuscript and method figure", async () => {
     readFile(new URL("../public/video/agentbait-social-9x16.mp4", import.meta.url)),
   ]);
   assert.equal(paperPdf.subarray(0, 5).toString(), "%PDF-", "paper resource must be a valid PDF");
-  assert.ok(paperPdf.length > 9_000_000, "paper resource must include the complete manuscript");
+  assert.ok(paperPdf.length > 5_000_000, "paper resource must include the complete manuscript");
+  assert.equal(
+    (paperPdf.toString("latin1").match(/\/Type \/Page\b/g) || []).length,
+    23,
+    "paper resource must include all 23 manuscript pages",
+  );
   assert.equal(bairLogo[25], 6, "BAIR logo must retain its transparent background");
   assert.equal(skyLogo[25], 6, "Sky logo must retain its transparent background");
   assert.equal(agentBaitMark[25], 6, "AgentBait mark must have a transparent background");
