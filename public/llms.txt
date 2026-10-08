@@ -1,0 +1,37 @@
+# AgentBait
+
+> Official research feature for the paper “You Won't Believe This Click: Content Rewriting for Agentic Choice.”
+
+## Paper identity
+
+- Project and framework name: AgentBait
+- Full paper title: You Won't Believe This Click: Content Rewriting for Agentic Choice
+- Authors: Tianyi Jin, Zirui Wang, and David M. Chan
+- Institution: University of California, Berkeley
+- Year: 2026
+- Canonical page: https://agentbait.github.io/
+- Full paper PDF: https://agentbait.github.io/agentbait-paper.pdf
+- BibTeX: https://agentbait.github.io/citation.bib
+
+## Research question
+
+AgentBait asks whether rewriting the title and abstract of one target item, while leaving the competing items and chooser conditions unchanged, can shift which item a language-model agent selects.
+
+## Method
+
+The paper studies an advisor-rewriter framework. A learned advisor proposes a rewriting strategy for the target document, a frozen rewriter applies it, and a frozen target agent selects from the fixed candidate slate. Experiments use MIND and EB-NeRD news recommendation data, multiple target models, multiple languages, and a scientific-document transfer setting.
+
+## Main results and conditions
+
+- On 1,000 unseen MIND-English impressions with GPT-5-mini as the training target, original target selection is 17.1%, a fixed-prompt rewriter reaches 34.8%, and the RL-trained advisor reaches 98.5%.
+- The 98.5% result is not a general quality score. It is a target-selection rate under the paper's fixed-slate experimental conditions.
+- The learned advisor transfers across evaluated target agents, languages, EB-NeRD news data, and scientific-document selection, with different effect sizes.
+- Selection-only optimization can produce unsupported rewrites. The paper therefore reports a factuality and source-support trade-off using MiniCheck-based constraints.
+
+## Scope and limitations
+
+AgentBait measures observed choice shifts under controlled candidate slates. It does not establish that rewritten content is more useful, more truthful, or intrinsically preferred. Cross-model and cross-domain transfer is uneven, and factual support can deteriorate when the objective rewards selection alone.
+
+## Disambiguation
+
+In this project, “AgentBait” names the advisor-rewriter framework in “You Won't Believe This Click.” It is distinct from unrelated research that uses the same term for social-engineering attacks on web automation agents.

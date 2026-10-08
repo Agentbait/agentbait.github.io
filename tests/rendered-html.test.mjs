@@ -45,10 +45,25 @@ test("server-renders the AgentBait paper site", async () => {
 
   const html = await response.text();
   const plainText = toPlainText(html);
-  assert.match(html, /<title>You Won(?:&#x27;|')t Believe This Click: Content Rewriting for Agentic Choice<\/title>/i);
-  assert.match(html, /<meta name="description" content="AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support\."\/>/);
-  assert.match(html, /<meta name="robots" content="index, follow, max-image-preview:large"\/>/);
+  assert.match(html, /<title>AgentBait \| You Won(?:&#x27;|')t Believe This Click: Content Rewriting for Agentic Choice<\/title>/i);
+  assert.match(html, /<meta name="description" content="AgentBait is the UC Berkeley paper/);
+  assert.match(html, /<meta name="application-name" content="AgentBait"\/>/);
+  assert.match(html, /<meta name="keywords" content="AgentBait,You Won(?:&#x27;|')t Believe This Click,content rewriting,agentic choice/);
+  assert.match(html, /<meta name="robots" content="index, follow"\/>/);
+  assert.match(html, /<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"\/>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/agentbait\.github\.io\/"\/>/);
+  assert.match(html, /<meta property="og:site_name" content="AgentBait"\/>/);
+  assert.match(html, /<meta property="og:type" content="article"\/>/);
+  assert.match(html, /<meta name="citation_title" content="You Won(?:&#x27;|')t Believe This Click: Content Rewriting for Agentic Choice"\/>/);
+  assert.equal((html.match(/<meta name="citation_author"/g) || []).length, 3);
+  assert.match(html, /<meta name="citation_author" content="Tianyi Jin"\/>/);
+  assert.match(html, /<meta name="citation_publication_date" content="2026"\/>/);
+  assert.match(html, /<meta name="citation_pdf_url" content="https:\/\/agentbait\.github\.io\/agentbait-paper\.pdf"\/>/);
+  assert.match(html, /<link rel="alternate" type="application\/x-bibtex" href="https:\/\/agentbait\.github\.io\/citation\.bib"/);
+  assert.match(html, /<script id="agentbait-structured-data" type="application\/ld\+json">/);
+  assert.match(html, /"@type":"ScholarlyArticle"/);
+  assert.match(html, /"alternateName":"AgentBait"/);
+  assert.match(html, /"@type":"WebSite","@id":"https:\/\/agentbait\.github\.io\/#website"/);
   assert.match(html, /<meta name="google-site-verification" content="5XSefLo9dX0I_Szro49mP5w54fCMDDuxB3E3LViw5mU"\/>/);
   assert.ok((html.match(/GTM-WSHC2PFG/g) || []).length >= 2, "GTM container must appear in both script and noscript fallbacks");
   assert.match(html, /googletagmanager\.com\/gtm\.js\?id=/);
@@ -236,7 +251,7 @@ test("server-renders the AgentBait paper site", async () => {
   assert.doesNotMatch(html, /Paper resources and citation|Full manuscript · PDF|Implementation and evaluation|MIND source dataset|Replay Figure 1/);
   assert.match(html, /<nav aria-label="Reading navigation">[\s\S]*?arxiv-mark[\s\S]*?>Paper<\/span>[\s\S]*?<\/nav>/);
   assert.doesNotMatch(html, /href="https:\/\/github\.com\/Agentbait\/agentbait"/);
-  assert.equal((html.match(/href="https:\/\/www\.linkedin\.com\/in\/chris-jin-680537299"/g) || []).length, 1);
+  assert.equal((html.match(/href="https:\/\/www\.linkedin\.com\/in\/chris-jin-680537299"/g) || []).length, 2);
   assert.doesNotMatch(html, /github\.com\/chrischrischristianyijin\/clickbait/);
   assert.doesNotMatch(html, /<a href="#demo">Demo(?: ↓)?<\/a>/);
   assert.match(html, /href="\/agentbait-paper\.pdf"[^>]*>[\s\S]*?arxiv-mark[\s\S]*?>Paper ↗<\/span>/);
@@ -278,6 +293,20 @@ test("server-renders the AgentBait paper site", async () => {
   assert.doesNotMatch(html, /MIND \/ AGENT FEED|The main result|codex-preview|Your site is taking shape/i);
 });
 
+test("ships crawler and answer-engine discovery files", async () => {
+  const [llms, citation] = await Promise.all([
+    readFile(new URL("../public/llms.txt", import.meta.url), "utf8"),
+    readFile(new URL("../public/citation.bib", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(llms, /^# AgentBait/m);
+  assert.match(llms, /You Won't Believe This Click: Content Rewriting for Agentic Choice/);
+  assert.match(llms, /https:\/\/agentbait\.github\.io\/agentbait-paper\.pdf/);
+  assert.match(llms, /factuality and source-support trade-off/i);
+  assert.match(citation, /@article\{jin2026agentbait/);
+  assert.match(citation, /author\s*=\s*\{Jin, Tianyi and Wang, Zirui and Chan, David M\.\}/);
+});
+
 test("ships the manuscript and method figure", async () => {
   const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
   const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
@@ -292,13 +321,16 @@ test("ships the manuscript and method figure", async () => {
   assert.match(layoutSource, /verification:\s*googleSiteVerification/);
   assert.match(layoutSource, /canonical:\s*primarySiteUrl/);
   assert.match(layoutSource, /icon:\s*\[\{ url: "favicon\.png", type: "image\/png", sizes: "64x64" \}\]/);
-  assert.match(layoutSource, /const title = "You Won't Believe This Click: Content Rewriting for Agentic Choice"/);
-  assert.match(layoutSource, /const description = "AgentBait studies how rewriting the presentation of one content item can shift language-model-mediated selection, and examines the trade-off between selection and factual support\."/);
-  assert.match(layoutSource, /robots: "index, follow, max-image-preview:large"/);
+  assert.match(layoutSource, /const paperTitle = "You Won't Believe This Click: Content Rewriting for Agentic Choice"/);
+  assert.match(layoutSource, /const title = \`AgentBait \| \$\{paperTitle\}\`/);
+  assert.match(layoutSource, /const description =[\s\S]*?"AgentBait is the UC Berkeley paper/);
+  assert.match(layoutSource, /robots: \{[\s\S]*?googleBot: \{[\s\S]*?"max-image-preview": "large"/);
   assert.doesNotMatch(layoutSource, /An interactive research feature showing how one editorial rewrite/);
   assert.match(thumbnailSource, /When AI agents decide what people see,/);
   assert.match(thumbnailSource, /presentation becomes an optimization target\./);
-  assert.match(layoutSource, /const socialImage = \{[\s\S]*?url: "og\.png"[\s\S]*?width: 1200[\s\S]*?height: 630[\s\S]*?only target B rewritten and selected/);
+  assert.match(layoutSource, /const socialImage = \{[\s\S]*?url: socialImageUrl[\s\S]*?width: 1200[\s\S]*?height: 630[\s\S]*?only target B rewritten and selected/);
+  assert.match(layoutSource, /"@type": "ScholarlyArticle"/);
+  assert.match(layoutSource, /name="citation_pdf_url" content=\{paperUrl\}/);
   assert.equal((layoutSource.match(/images: \[socialImage\]/g) || []).length, 2);
   assert.match(layoutSource, /<GoogleAnalytics measurementId=\{gaMeasurementId\}/);
   assert.match(layoutSource, /const gtmId = "GTM-WSHC2PFG"/);
@@ -329,8 +361,10 @@ test("ships the manuscript and method figure", async () => {
   assert.doesNotMatch(globalStyles, /\.rewrite-abstract\s*\{[^}]*border-top/s);
   assert.doesNotMatch(globalStyles, /\.editorial-mark|\.grounded-mark/);
   assert.match(robotsSource, /userAgent:\s*"\*"[\s\S]*?allow:\s*"\/"[\s\S]*?sitemap:\s*new URL\("sitemap\.xml", primarySiteUrl\)/);
+  assert.match(robotsSource, /host:\s*primarySiteUrl/);
   assert.match(sitemapSource, /url:\s*primarySiteUrl/);
-  assert.doesNotMatch(sitemapSource, /changeFrequency|priority/);
+  assert.match(sitemapSource, /changeFrequency:\s*"monthly"/);
+  assert.match(sitemapSource, /new URL\("agentbait-paper\.pdf", primarySiteUrl\)/);
   assert.match(pageSource, /className="caption-question"/);
   assert.match(globalStyles, /\.caption-question\s*\{/);
   assert.doesNotMatch(pageSource, /constant-ribbon/);
